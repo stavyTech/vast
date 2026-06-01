@@ -683,10 +683,15 @@ select.form-control { appearance: none; cursor: pointer; }
   cursor: pointer; transition: transform .2s ease, box-shadow .2s ease;
   animation: waPulse 2.5s ease infinite;
 }
-.wa-launcher:hover { transform: scale(1.08); box-shadow: 0 10px 36px rgba(37,211,102,.6); }
+.wa-launcher:hover { transform: scale(1.08); box-shadow: 0 10px 36px rgba(37,211,102,.6);
+ }
 @keyframes waPulse {
-  0%,100% { box-shadow: 0 6px 28px rgba(37,211,102,.5), 0 0 0 0 rgba(37,211,102,.4); }
-  50%      { box-shadow: 0 6px 28px rgba(37,211,102,.5), 0 0 0 14px rgba(37,211,102,0); }
+  0%,100% {
+     box-shadow: 0 6px 28px rgba(37,211,102,.5), 0 0 0 0 rgba(37,211,102,.4); 
+    }
+  50%      { 
+    box-shadow: 0 6px 28px rgba(37,211,102,.5), 0 0 0 14px rgba(37,211,102,0); 
+  }
 }
 .wa-launcher svg { width: 32px; height: 32px; }
 .wa-launcher.open { background: #64748b; animation: none; box-shadow: 0 4px 16px rgba(0,0,0,.25); }
@@ -889,6 +894,8 @@ footer {
 /* page transition */
 .page { animation: pageEnter 0.4s ease forwards; }
 @keyframes pageEnter { from { opacity:0; transform: translateY(16px); } to { opacity:1; transform: translateY(0); } }
+
+
 </style>
 </head>
 <body>
@@ -898,8 +905,7 @@ footer {
 ============================================================ -->
 <nav id="navbar">
   <div class="nav-logo" onclick="navigate('home')">
-    <div class="nav-logo-mark">N</div>
-    <div class="nav-logo-text">Nkiri Synergies<span>Ltd</span></div>
+   <img src="img/563189-removebg-preview (1).png" alt="" style="width:200px;height:100pxpx;cursor:pointer;" onclick="goScreen('landing')">
   </div>
   <div class="nav-links">
     <a href="#" onclick="navigate('home')" data-page="home">Home</a>
@@ -930,7 +936,13 @@ footer {
      WHATSAPP CHAT WIDGET
 ════════════════════════════════════════════ -->
 <!-- Launcher -->
-<div class="wa-launcher" id="waLauncher" onclick="toggleChat()" title="Chat with us on WhatsApp">
+<div class="wa-launcher" id="waLauncher" onclick="toggleChat()" title="Chat with us on WhatsApp" style="  position: fixed; bottom: 28px; right: 28px; z-index: 900;
+  width: 60px; height: 60px; border-radius: 50%;
+  background: var(--wa-green);
+  box-shadow: 0 6px 28px rgba(37,211,102,.5), 0 0 0 0 rgba(37,211,102,.4);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: transform .2s ease, box-shadow .2s ease;
+  animation: waPulse 2.5s ease infinite;">
   <div class="wa-badge" id="waBadge">1</div>
   <svg viewBox="0 0 32 32" fill="white" xmlns="http://www.w3.org/2000/svg">
     <path d="M16 2C8.268 2 2 8.268 2 16c0 2.49.651 4.826 1.79 6.85L2 30l7.35-1.766A13.94 13.94 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm0 2c6.627 0 12 5.373 12 12s-5.373 12-12 12a11.96 11.96 0 01-5.924-1.565l-.42-.25-4.363 1.05 1.072-4.252-.275-.44A11.96 11.96 0 014 16C4 9.373 9.373 4 16 4zm-3.07 4.5a1.2 1.2 0 00-.88.35c-.303.33-1.15 1.125-1.15 2.743 0 1.618 1.176 3.185 1.34 3.41.163.225 2.312 3.53 5.607 4.952.783.337 1.394.538 1.87.69.786.25 1.5.215 2.064.13.63-.094 1.94-.793 2.214-1.559.274-.766.274-1.422.192-1.559-.082-.137-.305-.219-.638-.383-.333-.163-1.97-.972-2.275-1.082-.305-.11-.527-.164-.749.163-.222.328-.86 1.083-1.054 1.306-.192.22-.385.247-.717.083-.333-.164-1.407-.519-2.68-1.654-.99-.882-1.659-1.97-1.854-2.302-.193-.333-.02-.512.146-.678.148-.148.333-.386.5-.58.163-.19.218-.328.327-.546.11-.22.055-.41-.027-.574-.082-.163-.748-1.804-1.024-2.47-.27-.648-.546-.56-.748-.57a13.7 13.7 0 00-.638-.02 1.22 1.22 0 00-.876.351z"/>
@@ -939,7 +951,7 @@ footer {
 <div class="wa-tooltip" id="waTooltip">Chat with us 💬</div>
 
 <!-- Chat window -->
-<div class="wa-window" id="waWindow">
+<div class="wa-window" id="waWindow" style="background:var(--green-light);">
   <!-- Header -->
   <div class="wa-header">
     <div class="wa-header-top">
@@ -984,8 +996,8 @@ footer {
 
   <!-- Input row -->
   <div class="wa-input-row">
-    <input class="wa-text-input" id="waInput" placeholder="Type a message…" onkeydown="if(event.key==='Enter') sendWaMsg()">
-    <button class="wa-send" onclick="sendWaMsg()">➤</button>
+    <input class="wa-text-input" id="waInput" placeholder="Type a message…" onkeydown="if(event.key==='Enter') sendWaMsg()" >
+    <button class="wa-send" onclick="sendWaMsg()" style="color: #16a34a;">➤</button>
   </div>
 </div>
 
@@ -1229,7 +1241,7 @@ footer {
           </div>
           <div class="app-btns">
             <a href="#" class="app-btn">
-              <span class="app-btn-icon">🍎</span>
+              <span class="app-btn-icon"></span>
               <span class="app-btn-text">
                 <span class="app-btn-label">Download on the</span>
                 <span class="app-btn-store">App Store</span>
@@ -1827,7 +1839,7 @@ footer {
               </div>
             </div>
           </div>
-          <button class="btn btn-primary btn-lg" style="margin-top:1.5rem" onclick="navigate('provider-auth')">Apply as a Provider</button>
+          <button class="btn btn-primary btn-lg" style="margin-top:1.5rem" ><a href="provider-auth.html" onclick="navigate('provider-auth')">Apply as a Provider</a></button>
         </div>
       </div>
     </div>
@@ -1839,7 +1851,7 @@ footer {
         <h2>Your Skills Deserve a <span style="color:#2dd4bf">Bigger Stage</span></h2>
         <p>Join the fastest-growing service marketplace in Africa today.</p>
         <div class="cta-buttons">
-          <button class="btn btn-primary btn-lg" onclick="navigate('provider-auth')">Apply Now — It's Free</button>
+          <button class="btn btn-primary btn-lg" onclick="navigate('provider-auth')"> <a href="provider-auth.html">Apply Now — It's Free</a></button>
           <button class="btn btn-outline btn-lg" onclick="navigate('faq')">Read FAQs First</button>
         </div>
       </div>
@@ -2090,15 +2102,16 @@ footer {
 </div>
 
 <!-- ============================================================
-     FOOTER (shared)
+     FOOTER 
 ============================================================ -->
 <footer id="site-footer">
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
         <div class="nav-logo">
+           <img src="img/563189-removebg-preview (1).png" alt="" style="width:200px;height:70px;cursor:pointer;" onclick="goScreen('index.html')">
           <!-- <div class="nav-logo-mark"><img src="img/563189-removebg-preview (1).png" alt=""></div> -->
-          <div class="nav-logo-text" style="color:white"><img src="img/563189-removebg-preview (1).png" alt="" style="width: 100px;;"><span style="color:rgba(255,255,255,0.4)," ></span></div>
+          <!-- <div class="nav-logo-text" style="color:white"> <img src="img/563189-removebg-preview (1).png" alt="" style="width:200px;height:150px;cursor:pointer;" onclick="goScreen('index.html')"><span style="color:rgba(255,255,255,0.4)," ></span></div> -->
         </div>
         <p>Empowering Innovation, Enhancing Productivity. Africa's leading service integration platform connecting skilled professionals with businesses and individuals.</p>
         <div class="social-links">
