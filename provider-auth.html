@@ -1,0 +1,2128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nkiri Synergies – Service Provider Portal</title>
+<meta name="description" content="Join Africa's fastest-growing service platform. Register or log in as a Service Provider on Nkiri Synergies.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Bricolage+Grotesque:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ─────────────────────────────────────────────
+   TOKENS
+───────────────────────────────────────────── */
+:root {
+  --ink:      #0b1120;
+  --ink-2:    #1e293b;
+  --teal:     #0d9488;
+  --teal-l:   #14b8a6;
+  --teal-glow:rgba(13,148,136,.35);
+  --green:    #16a34a;
+  --amber:    #d97706;
+  --red:      #dc2626;
+  --slate:    #475569;
+  --mist:     #f1f5f9;
+  --border:   #e2e8f0;
+  --white:    #ffffff;
+  --wa-green: #25d366;
+  --wa-dark:  #075e54;
+
+  --f-display: 'Clash Display', sans-serif;
+  --f-body:    'Bricolage Grotesque', sans-serif;
+
+  --r:    12px;
+  --r-lg: 20px;
+  --r-xl: 28px;
+  --sh:   0 4px 24px rgba(11,17,32,.09);
+  --sh-lg:0 16px 56px rgba(11,17,32,.16);
+  --tr:   all .25s cubic-bezier(.4,0,.2,1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--f-body);
+  background: #f8fafc;
+  color: var(--ink-2);
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+a { text-decoration: none; color: inherit; }
+button { font-family: var(--f-body); cursor: pointer; border: none; background: none; }
+input, select, textarea { font-family: var(--f-body); }
+
+/* ─────────────────────────────────────────────
+   SCREEN ROUTER
+───────────────────────────────────────────── */
+.screen { display: none; min-height: 100vh; }
+.screen.active { display: flex; }
+
+/* ─────────────────────────────────────────────
+   SHARED LAYOUT — SPLIT PANEL
+───────────────────────────────────────────── */
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* ── LEFT BRAND PANEL ── */
+.brand-panel {
+  background: var(--ink);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 3rem;
+}
+
+/* Animated mesh background */
+.brand-panel::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 30%, rgba(13,148,136,.22) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 70% at 80% 80%, rgba(22,163,74,.14) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 60% 10%, rgba(13,148,136,.1) 0%, transparent 50%);
+}
+
+.brand-grid {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Floating orbs */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: .35;
+  animation: drift 8s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+.orb-1 { width:320px; height:320px; background: var(--teal);  top:-80px; left:-80px; animation-delay:0s; }
+.orb-2 { width:200px; height:200px; background: var(--green); bottom:40px; right:-60px; animation-delay:-3s; }
+@keyframes drift {
+  from { transform: translate(0,0) scale(1); }
+  to   { transform: translate(30px,20px) scale(1.1); }
+}
+
+.brand-top { position: relative; z-index: 2; }
+.brand-logo {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin-bottom: 2.5rem;
+}
+.brand-logo-mark {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: linear-gradient(135deg, var(--teal), var(--green));
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--f-display); font-weight: 700; font-size: 20px; color: white;
+  box-shadow: 0 0 0 4px rgba(13,148,136,.2);
+}
+.brand-logo-name {
+  font-family: var(--f-display);
+  font-size: 17px; font-weight: 600; color: white; line-height: 1.2;
+}
+.brand-logo-name span { display: block; font-size: 10px; font-weight: 400; color: rgba(255,255,255,.4); letter-spacing: .12em; text-transform: uppercase; }
+
+.brand-heading {
+  font-family: var(--f-display);
+  font-size: clamp(2rem, 3.5vw, 2.8rem);
+  font-weight: 700; color: white; line-height: 1.15;
+  margin-bottom: 1.1rem;
+}
+.brand-heading em {
+  font-style: normal;
+  background: linear-gradient(90deg, #5eead4, #86efac);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+.brand-sub {
+  font-size: .95rem; color: rgba(255,255,255,.55);
+  line-height: 1.75; max-width: 340px; margin-bottom: 2.5rem;
+}
+
+/* Perk pills */
+.perk-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 2.5rem; }
+.perk {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 18px;
+  background: rgba(255,255,255,.055);
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 14px;
+  backdrop-filter: blur(8px);
+  transition: var(--tr);
+}
+.perk:hover { background: rgba(255,255,255,.09); transform: translateX(4px); }
+.perk-icon {
+  width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 19px;
+}
+.perk-text h4 { font-size: 13.5px; font-weight: 600; color: white; margin-bottom: 2px; }
+.perk-text p  { font-size: 12px; color: rgba(255,255,255,.45); }
+
+/* Stats row */
+.brand-stats {
+  display: flex; gap: 0;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 16px; overflow: hidden;
+}
+.bs { flex: 1; padding: 18px; text-align: center; border-right: 1px solid rgba(255,255,255,.09); }
+.bs:last-child { border-right: none; }
+.bs-num { font-family: var(--f-display); font-size: 1.6rem; font-weight: 700; color: white; line-height: 1; }
+.bs-lbl { font-size: 11px; color: rgba(255,255,255,.4); margin-top: 4px; }
+
+/* Trust row */
+.brand-trust {
+  position: relative; z-index: 2;
+  display: flex; align-items: center; gap: 12px;
+  font-size: 12px; color: rgba(255,255,255,.45);
+}
+.trust-dots { display: flex; }
+.trust-dots span {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 2px solid var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: white;
+  margin-left: -7px;
+}
+.trust-dots span:first-child { margin-left: 0; }
+.trust-text strong { color: rgba(255,255,255,.75); }
+
+/* ── RIGHT FORM PANEL ── */
+.form-panel {
+  background: white;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: clamp(2rem, 5vw, 4rem) clamp(2rem, 6vw, 5rem);
+  overflow-y: auto;
+}
+
+.form-shell { max-width: 480px; width: 100%; margin: 0 auto; }
+
+/* Back nav */
+.back-nav {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: 500; color: var(--slate);
+  cursor: pointer; transition: var(--tr); margin-bottom: 2rem;
+  padding: 6px 0;
+}
+.back-nav:hover { color: var(--ink); }
+.back-nav svg { transition: var(--tr); }
+.back-nav:hover svg { transform: translateX(-3px); }
+
+/* Form header */
+.form-header { margin-bottom: 1.75rem; }
+.form-header h2 {
+  font-family: var(--f-display);
+  font-size: clamp(1.6rem, 3vw, 2rem);
+  font-weight: 700; color: var(--ink); margin-bottom: .35rem; line-height: 1.2;
+}
+.form-header p { font-size: 14px; color: var(--slate); }
+
+/* Step progress */
+.step-track {
+  display: flex; align-items: center; gap: 0;
+  margin-bottom: 1.75rem; position: relative;
+}
+.step-node {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; flex-shrink: 0;
+  transition: var(--tr); position: relative; z-index: 1;
+}
+.step-node.done    { background: var(--teal); color: white; }
+.step-node.current { background: var(--ink);  color: white; box-shadow: 0 0 0 4px rgba(11,17,32,.12); }
+.step-node.future  { background: var(--mist); color: var(--slate); }
+.step-bar {
+  flex: 1; height: 2px; background: var(--border);
+  position: relative; margin: 0 4px;
+}
+.step-bar.filled::after {
+  content: ''; position: absolute; inset: 0;
+  background: var(--teal);
+  animation: fillBar .4s ease forwards;
+}
+@keyframes fillBar { from{ width:0 } to{ width:100% } }
+.step-label {
+  position: absolute; top: 40px; left: 50%; transform: translateX(-50%);
+  font-size: 10px; color: var(--slate); white-space: nowrap; font-weight: 500;
+}
+
+/* Social buttons */
+.social-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1.25rem; }
+.social-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 11px 16px; border: 2px solid var(--border); border-radius: var(--r);
+  font-size: 13.5px; font-weight: 600; color: var(--ink-2);
+  transition: var(--tr); background: white;
+}
+.social-btn:hover { border-color: var(--teal); color: var(--teal); background: rgba(13,148,136,.04); transform: translateY(-1px); }
+
+/* Divider */
+.or-line {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 12px; color: #94a3b8; margin-bottom: 1.25rem; font-weight: 500;
+}
+.or-line::before, .or-line::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* Form fields */
+.f-group { margin-bottom: 1rem; }
+.f-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.f-label {
+  display: block; font-size: 12.5px; font-weight: 600;
+  color: var(--ink-2); margin-bottom: 6px;
+}
+.f-label sup { color: var(--red); }
+.f-input, .f-select, .f-textarea {
+  width: 100%; padding: 11px 14px;
+  border: 2px solid var(--border); border-radius: var(--r);
+  font-size: 14px; color: var(--ink); outline: none;
+  background: #fafbfc; transition: var(--tr);
+  font-family: var(--f-body);
+}
+.f-input:focus, .f-select:focus, .f-textarea:focus {
+  border-color: var(--teal); background: white;
+  box-shadow: 0 0 0 3px rgba(13,148,136,.12);
+}
+.f-input.err { border-color: var(--red); box-shadow: 0 0 0 3px rgba(220,38,38,.1); }
+.f-textarea { resize: vertical; min-height: 88px; }
+.f-select { appearance: none; cursor: pointer; }
+
+.f-pw-wrap { position: relative; }
+.f-pw-wrap .f-input { padding-right: 44px; }
+.f-pw-eye {
+  position: absolute; right: 13px; top: 50%; transform: translateY(-50%);
+  cursor: pointer; color: #94a3b8; font-size: 17px; transition: var(--tr);
+  background: none; border: none; line-height: 1;
+}
+.f-pw-eye:hover { color: var(--ink); }
+
+.f-error { font-size: 11.5px; color: var(--red); margin-top: 5px; display: none; font-weight: 500; }
+
+/* Password strength */
+.pw-bar { height: 4px; border-radius: 2px; background: var(--mist); margin-top: 8px; overflow: hidden; }
+.pw-fill { height: 100%; border-radius: 2px; width: 0; transition: width .4s ease, background .4s ease; }
+.pw-hint { font-size: 11px; margin-top: 5px; font-weight: 600; }
+
+/* Checkbox */
+.f-check {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 13px; color: var(--slate); cursor: pointer;
+}
+.f-check input[type=checkbox] {
+  width: 17px; height: 17px; margin-top: 1px;
+  accent-color: var(--teal); cursor: pointer; flex-shrink: 0;
+}
+.f-check a { color: var(--teal); font-weight: 600; }
+
+/* Phone prefix */
+.phone-wrap { position: relative; }
+.phone-prefix {
+  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+  font-size: 13.5px; font-weight: 600; color: var(--slate); pointer-events: none;
+}
+.phone-wrap .f-input { padding-left: 52px; }
+
+/* Tag input (skills) */
+.tag-cloud { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 8px; }
+.skill-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 12px; border-radius: 50px; font-size: 12.5px; font-weight: 500;
+  background: rgba(13,148,136,.09); color: var(--teal); border: 1.5px solid rgba(13,148,136,.2);
+  cursor: pointer; transition: var(--tr);
+}
+.skill-tag:hover { background: rgba(13,148,136,.15); }
+.skill-tag.selected { background: var(--teal); color: white; border-color: var(--teal); }
+.skill-tag.selected::before { content: '✓ '; }
+
+/* File upload */
+.file-zone {
+  border: 2px dashed var(--border); border-radius: var(--r-lg);
+  padding: 2rem; text-align: center; cursor: pointer;
+  transition: var(--tr); background: #fafbfc;
+}
+.file-zone:hover { border-color: var(--teal); background: rgba(13,148,136,.03); }
+.file-zone.dragging { border-color: var(--teal); background: rgba(13,148,136,.06); }
+.file-zone-icon { font-size: 2.2rem; margin-bottom: .5rem; }
+.file-zone h4 { font-size: 13.5px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+.file-zone p  { font-size: 12px; color: var(--slate); }
+.file-zone input { display: none; }
+.file-uploaded { display: none; align-items: center; gap: 10px; padding: 12px 16px; background: rgba(13,148,136,.07); border-radius: var(--r); border: 1px solid rgba(13,148,136,.2); margin-top: 8px; }
+.file-uploaded.show { display: flex; }
+.file-uploaded span { font-size: 13px; font-weight: 500; color: var(--teal); flex: 1; }
+
+/* Submit button */
+.f-submit {
+  width: 100%; padding: 14px;
+  border-radius: 50px; font-family: var(--f-display);
+  font-size: 15.5px; font-weight: 600; letter-spacing: .02em;
+  background: linear-gradient(135deg, var(--ink) 0%, #1e3a5f 100%);
+  color: white; box-shadow: 0 4px 20px rgba(11,17,32,.25);
+  transition: var(--tr); margin-top: .25rem;
+  position: relative; overflow: hidden;
+}
+.f-submit::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, var(--teal), var(--green));
+  opacity: 0; transition: opacity .3s ease;
+}
+.f-submit:hover::before { opacity: 1; }
+.f-submit span { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.f-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(13,148,136,.35); }
+.f-submit:disabled { opacity: .65; cursor: not-allowed; transform: none; }
+
+/* Secondary button */
+.f-btn-back {
+  padding: 13px 22px; border-radius: 50px; font-family: var(--f-display);
+  font-size: 14px; font-weight: 600; border: 2px solid var(--border);
+  color: var(--slate); background: white; transition: var(--tr);
+}
+.f-btn-back:hover { border-color: var(--ink); color: var(--ink); }
+
+.btn-row { display: flex; gap: 10px; margin-top: .25rem; }
+.btn-row .f-submit { flex: 1; }
+
+/* Switch link */
+.f-switch { text-align: center; font-size: 13px; color: var(--slate); margin-top: 1.25rem; }
+.f-switch a { color: var(--teal); font-weight: 700; cursor: pointer; }
+
+/* Alert box */
+.f-alert {
+  padding: 12px 16px; border-radius: var(--r); font-size: 13.5px; font-weight: 500;
+  display: flex; align-items: center; gap: 10px; margin-bottom: 1rem;
+  border: 1px solid; display: none;
+}
+.f-alert.err { background: rgba(220,38,38,.06); color: #b91c1c; border-color: rgba(220,38,38,.2); }
+.f-alert.ok  { background: rgba(13,148,136,.07); color: #0f766e; border-color: rgba(13,148,136,.25); }
+.f-alert.show { display: flex; }
+
+/* ─────────────────────────────────────────────
+   STEP PANELS
+───────────────────────────────────────────── */
+.step-panel { display: none; animation: fadeUp .35s ease; }
+.step-panel.active { display: block; }
+@keyframes fadeUp { from{ opacity:0; transform:translateY(12px) } to{ opacity:1; transform:translateY(0) } }
+
+/* Category grid */
+.cat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.cat-card {
+  border: 2px solid var(--border); border-radius: var(--r-lg);
+  padding: 16px 14px; cursor: pointer; transition: var(--tr);
+  text-align: center; background: white;
+  position: relative; overflow: hidden;
+}
+.cat-card::after {
+  content: ''; position: absolute;
+  bottom: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--teal), var(--green));
+  transform: scaleX(0); transform-origin: left; transition: transform .3s ease;
+}
+.cat-card:hover { border-color: var(--teal); transform: translateY(-2px); box-shadow: var(--sh); }
+.cat-card:hover::after { transform: scaleX(1); }
+.cat-card.sel { border-color: var(--teal); background: rgba(13,148,136,.04); box-shadow: 0 0 0 3px rgba(13,148,136,.12); }
+.cat-card.sel::after { transform: scaleX(1); }
+.cat-check {
+  position: absolute; top: 8px; right: 8px;
+  width: 20px; height: 20px; border-radius: 50%; background: var(--teal);
+  color: white; font-size: 10px; display: none;
+  align-items: center; justify-content: center; font-weight: 700;
+}
+.cat-card.sel .cat-check { display: flex; }
+.cat-icon { font-size: 1.75rem; margin-bottom: 8px; }
+.cat-name { font-size: 13px; font-weight: 600; color: var(--ink); }
+
+/* Success screen */
+.success-wrap {
+  text-align: center; padding: 2rem 0;
+}
+.success-ring {
+  width: 90px; height: 90px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--teal), var(--green));
+  margin: 0 auto 1.5rem;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.5rem;
+  animation: popBounce .6s cubic-bezier(.34,1.56,.64,1);
+  box-shadow: 0 0 0 16px rgba(13,148,136,.1), 0 0 0 32px rgba(13,148,136,.05);
+}
+@keyframes popBounce { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
+.success-wrap h2 { font-family: var(--f-display); font-size: 1.8rem; color: var(--ink); margin-bottom: .5rem; }
+.success-wrap p  { font-size: 14px; color: var(--slate); max-width: 340px; margin: 0 auto .4rem; }
+.success-ref {
+  display: inline-block; padding: 8px 20px; border-radius: 50px;
+  background: var(--mist); font-family: var(--f-display);
+  font-size: 13px; color: var(--slate); letter-spacing: .08em;
+  margin: 1rem 0 1.75rem;
+}
+
+/* ─────────────────────────────────────────────
+   NAVBAR (minimal)
+───────────────────────────────────────────── */
+.top-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 800;
+  height: 58px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2rem;
+  background: rgba(11,17,32,.97); backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+.tb-logo { display: flex; align-items: center; gap: 9px; cursor: pointer; }
+.tb-logo-mark {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: linear-gradient(135deg, var(--teal), var(--green));
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--f-display); font-weight: 700; font-size: 15px; color: white;
+}
+.tb-logo-name { font-family: var(--f-display); font-size: 15px; font-weight: 600; color: white; }
+.tb-links { display: flex; align-items: center; gap: 6px; }
+.tb-link {
+  font-size: 13px; font-weight: 500; color: rgba(255,255,255,.65);
+  padding: 6px 12px; border-radius: 8px; cursor: pointer; transition: var(--tr);
+}
+.tb-link:hover { color: white; background: rgba(255,255,255,.08); }
+.tb-link.active { color: white; background: rgba(255,255,255,.1); }
+.tb-cta {
+  padding: 7px 18px; border-radius: 50px;
+  background: linear-gradient(135deg, var(--teal), var(--green));
+  font-family: var(--f-display); font-size: 13px; font-weight: 600; color: white;
+  transition: var(--tr); cursor: pointer;
+  box-shadow: 0 2px 12px rgba(13,148,136,.35);
+}
+.tb-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 18px rgba(13,148,136,.5); }
+
+/* ─────────────────────────────────────────────
+   LOADING SPINNER (form submit)
+───────────────────────────────────────────── */
+.spin {
+  display: inline-block; width: 18px; height: 18px; border-radius: 50%;
+  border: 2.5px solid rgba(255,255,255,.3); border-top-color: white;
+  animation: spin .7s linear infinite;
+}
+@keyframes spin { to{ transform: rotate(360deg) } }
+
+/* ─────────────────────────────────────────────
+   WHATSAPP CHAT WIDGET
+───────────────────────────────────────────── */
+/* Launcher button */
+.wa-launcher {
+  position: fixed; bottom: 28px; right: 28px; z-index: 900;
+  width: 60px; height: 60px; border-radius: 50%;
+  background: var(--wa-green);
+  box-shadow: 0 6px 28px rgba(37,211,102,.5), 0 0 0 0 rgba(37,211,102,.4);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: transform .2s ease, box-shadow .2s ease;
+  animation: waPulse 2.5s ease infinite;
+}
+.wa-launcher:hover { transform: scale(1.08); box-shadow: 0 10px 36px rgba(37,211,102,.6); }
+@keyframes waPulse {
+  0%,100% { box-shadow: 0 6px 28px rgba(37,211,102,.5), 0 0 0 0 rgba(37,211,102,.4); }
+  50%      { box-shadow: 0 6px 28px rgba(37,211,102,.5), 0 0 0 14px rgba(37,211,102,0); }
+}
+.wa-launcher svg { width: 32px; height: 32px; }
+.wa-launcher.open { background: #64748b; animation: none; box-shadow: 0 4px 16px rgba(0,0,0,.25); }
+
+/* Tooltip badge */
+.wa-badge {
+  position: absolute; top: -6px; right: -4px;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: #ef4444; border: 2px solid white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: white;
+  animation: badgePop .4s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes badgePop { from{transform:scale(0)} to{transform:scale(1)} }
+
+/* Label tooltip */
+.wa-tooltip {
+  position: absolute; right: 72px; top: 50%; transform: translateY(-50%);
+  background: var(--ink); color: white;
+  padding: 7px 14px; border-radius: 8px; white-space: nowrap;
+  font-size: 13px; font-weight: 500;
+  box-shadow: var(--sh);
+  opacity: 1; transition: opacity .2s ease;
+  pointer-events: none;
+}
+.wa-tooltip::after {
+  content: ''; position: absolute; right: -6px; top: 50%; transform: translateY(-50%);
+  border: 6px solid transparent; border-right: none; border-left-color: var(--ink);
+}
+.wa-launcher.open ~ .wa-tooltip { display: none; }
+
+/* Chat window */
+.wa-window {
+  position: fixed; bottom: 102px; right: 28px; z-index: 899;
+  width: 360px; border-radius: var(--r-xl);
+  box-shadow: 0 24px 72px rgba(11,17,32,.22), 0 4px 16px rgba(11,17,32,.12);
+  overflow: hidden; background: white;
+  transform: scale(.85) translateY(20px);
+  transform-origin: bottom right;
+  opacity: 0; pointer-events: none;
+  transition: transform .35s cubic-bezier(.34,1.3,.64,1), opacity .3s ease;
+}
+.wa-window.show {
+  transform: scale(1) translateY(0);
+  opacity: 1; pointer-events: auto;
+}
+
+/* Chat header */
+.wa-header {
+  background: var(--wa-dark);
+  padding: 18px 18px 14px;
+  position: relative;
+}
+.wa-header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.wa-header-logo { display: flex; align-items: center; gap: 10px; }
+.wa-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--teal), var(--green));
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--f-display); font-weight: 700; font-size: 18px; color: white;
+  flex-shrink: 0; border: 2px solid rgba(255,255,255,.2);
+}
+.wa-header-info h3 { font-size: 15px; font-weight: 700; color: white; line-height: 1.2; }
+.wa-header-info p  { font-size: 12px; color: rgba(255,255,255,.65); display: flex; align-items: center; gap: 5px; }
+.wa-online-dot { width: 7px; height: 7px; border-radius: 50%; background: #4ade80; display: inline-block; }
+.wa-close {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(255,255,255,.12); color: white;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 16px; transition: var(--tr); flex-shrink: 0;
+}
+.wa-close:hover { background: rgba(255,255,255,.22); }
+
+/* Welcome bubble */
+.wa-welcome {
+  background: rgba(255,255,255,.12); border-radius: 14px; padding: 12px 14px;
+}
+.wa-welcome p { font-size: 13px; color: rgba(255,255,255,.9); line-height: 1.6; }
+
+/* Chat body */
+.wa-body { padding: 16px; background: #e5ddd5; min-height: 220px; max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+.wa-body::-webkit-scrollbar { width: 4px; }
+.wa-body::-webkit-scrollbar-thumb { background: rgba(0,0,0,.2); border-radius: 2px; }
+
+/* Bubbles */
+.wa-bubble-wrap { display: flex; flex-direction: column; }
+.wa-bubble-wrap.me { align-items: flex-end; }
+.wa-bubble-wrap.them { align-items: flex-start; }
+
+.wa-bubble {
+  max-width: 78%; padding: 9px 13px; border-radius: 12px;
+  font-size: 13.5px; line-height: 1.55; position: relative;
+  box-shadow: 0 1px 2px rgba(0,0,0,.15);
+}
+.wa-bubble.them { background: white; color: var(--ink); border-radius: 0 12px 12px 12px; }
+.wa-bubble.me   { background: #dcf8c6; color: var(--ink); border-radius: 12px 0 12px 12px; }
+.wa-bubble-time { font-size: 10.5px; color: #94a3b8; margin-top: 3px; display: flex; align-items: center; gap: 4px; }
+.wa-bubble-time.me { justify-content: flex-end; }
+.wa-check { color: #53bdeb; font-size: 12px; }
+
+/* Quick replies */
+.wa-quick { display: flex; flex-wrap: wrap; gap: 7px; padding: 0 16px 12px; background: #e5ddd5; }
+.wa-qr {
+  padding: 7px 14px; border-radius: 20px; font-size: 12.5px; font-weight: 600;
+  background: white; color: var(--wa-dark); border: 1.5px solid rgba(7,94,84,.2);
+  cursor: pointer; transition: var(--tr);
+}
+.wa-qr:hover { background: var(--wa-dark); color: white; border-color: var(--wa-dark); }
+
+/* Input bar */
+.wa-input-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 14px;
+  background: #f0f2f5; border-top: 1px solid #d1d5db;
+}
+.wa-text-input {
+  flex: 1; padding: 10px 14px; border-radius: 22px;
+  border: none; background: white; font-size: 13.5px;
+  outline: none; font-family: var(--f-body); color: var(--ink);
+  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+}
+.wa-text-input::placeholder { color: #94a3b8; }
+.wa-send {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--wa-green); color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; cursor: pointer; transition: var(--tr);
+  flex-shrink: 0; border: none;
+}
+.wa-send:hover { background: var(--wa-dark); transform: scale(1.08); }
+
+/* Open WhatsApp button */
+.wa-open-btn {
+  width: 100%; padding: 13px; background: var(--wa-green);
+  color: white; font-family: var(--f-display); font-size: 14.5px; font-weight: 600;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  cursor: pointer; transition: var(--tr); border: none;
+}
+.wa-open-btn:hover { background: var(--wa-dark); }
+
+/* Typing indicator */
+.wa-typing { display: none; align-items: center; gap: 4px; padding: 2px 6px; }
+.wa-typing.show { display: flex; }
+.wa-dot-typing span {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #94a3b8; display: inline-block;
+  animation: typDot 1.2s ease infinite;
+}
+.wa-dot-typing span:nth-child(2) { animation-delay: .2s; }
+.wa-dot-typing span:nth-child(3) { animation-delay: .4s; }
+@keyframes typDot { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
+
+/* ─────────────────────────────────────────────
+   DASHBOARD
+───────────────────────────────────────────── */
+#screen-dashboard {
+  display: none;
+  min-height: 100vh;
+  background: #f0f4f8;
+  flex-direction: column;
+}
+#screen-dashboard.active { display: block; }
+
+/* Top nav bar (dashboard) */
+.dash-topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 600;
+  height: 64px;
+  background: var(--ink);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 1.5rem 0 0;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+  box-shadow: 0 2px 16px rgba(11,17,32,.25);
+}
+.dash-sidebar-toggle {
+  width: 64px; height: 64px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: var(--tr); flex-shrink: 0;
+}
+.dash-sidebar-toggle:hover { background: rgba(255,255,255,.08); }
+.dash-sidebar-toggle svg { width: 22px; height: 22px; stroke: rgba(255,255,255,.7); }
+.dash-topbar-logo {
+  display: flex; align-items: center; gap: 9px; margin-right: auto;
+}
+.dash-topbar-logo-mark {
+  width: 34px; height: 34px; border-radius: 8px;
+  background: linear-gradient(135deg,var(--teal),var(--green));
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--f-display); font-weight: 700; font-size: 15px; color: white;
+}
+.dash-topbar-logo-name { font-family: var(--f-display); font-size: 15px; font-weight: 600; color: white; }
+.dash-topbar-right { display: flex; align-items: center; gap: 10px; }
+.dash-notif-btn {
+  position: relative; width: 38px; height: 38px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255,255,255,.07); cursor: pointer; transition: var(--tr);
+}
+.dash-notif-btn:hover { background: rgba(255,255,255,.14); }
+.dash-notif-btn svg { width: 19px; height: 19px; stroke: rgba(255,255,255,.75); }
+.notif-dot {
+  position: absolute; top: 6px; right: 6px;
+  width: 9px; height: 9px; border-radius: 50%;
+  background: #f97316; border: 2px solid var(--ink);
+}
+.dash-topbar-profile {
+  display: flex; align-items: center; gap: 9px; cursor: pointer;
+  padding: 5px 10px; border-radius: 50px; transition: var(--tr);
+}
+.dash-topbar-profile:hover { background: rgba(255,255,255,.07); }
+.dash-topbar-avatar {
+  width: 36px; height: 36px; border-radius: 50%; overflow: hidden;
+  border: 2px solid rgba(255,255,255,.2); flex-shrink: 0;
+  background: linear-gradient(135deg,var(--teal),var(--green));
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--f-display); font-weight: 700; font-size: 14px; color: white;
+}
+.dash-topbar-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.dash-topbar-name { font-size: 13px; font-weight: 600; color: white; }
+.dash-topbar-role { font-size: 11px; color: rgba(255,255,255,.4); }
+
+/* Body layout */
+.dash-body {
+  display: flex;
+  padding-top: 64px;
+  min-height: 100vh;
+}
+
+/* ── SIDEBAR ── */
+.dash-sidebar {
+  width: 256px;
+  background: var(--ink);
+  position: fixed; left: 0; top: 64px; bottom: 0;
+  display: flex; flex-direction: column;
+  overflow-y: auto; overflow-x: hidden;
+  transition: width .3s cubic-bezier(.4,0,.2,1), transform .3s cubic-bezier(.4,0,.2,1);
+  z-index: 500;
+  border-right: 1px solid rgba(255,255,255,.06);
+}
+.dash-sidebar.collapsed { width: 64px; }
+.dash-sidebar::-webkit-scrollbar { width: 3px; }
+.dash-sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,.12); border-radius: 2px; }
+
+/* Provider mini-card inside sidebar */
+.sb-profile-card {
+  padding: 1.25rem 1rem;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+  display: flex; align-items: center; gap: 11px;
+  transition: var(--tr); overflow: hidden;
+}
+.sb-avatar {
+  width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
+  overflow: hidden; border: 2px solid rgba(255,255,255,.18);
+  background: linear-gradient(135deg,var(--teal),var(--green));
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--f-display); font-weight: 700; font-size: 16px; color: white;
+  cursor: pointer; transition: var(--tr);
+}
+.sb-avatar:hover { border-color: var(--teal); transform: scale(1.05); }
+.sb-avatar img { width: 100%; height: 100%; object-fit: cover; display: none; }
+.sb-info { flex: 1; min-width: 0; transition: opacity .2s ease; }
+.sb-name { font-size: 13.5px; font-weight: 700; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sb-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: rgba(13,148,136,.2); color: var(--teal-l);
+  font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 50px; margin-top: 3px;
+}
+.dash-sidebar.collapsed .sb-info { opacity: 0; pointer-events: none; }
+
+/* Nav items */
+.sb-section-label {
+  padding: .7rem 1rem .3rem;
+  font-size: 10px; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: rgba(255,255,255,.25);
+  white-space: nowrap; overflow: hidden;
+  transition: opacity .2s ease;
+}
+.dash-sidebar.collapsed .sb-section-label { opacity: 0; }
+
+.sb-nav-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 16px; cursor: pointer; transition: var(--tr);
+  border-left: 3px solid transparent; white-space: nowrap;
+  position: relative;
+}
+.sb-nav-item:hover { background: rgba(255,255,255,.06); }
+.sb-nav-item.active {
+  background: rgba(13,148,136,.12);
+  border-left-color: var(--teal);
+}
+.sb-icon {
+  width: 32px; height: 32px; border-radius: 8px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 17px;
+  transition: var(--tr);
+}
+.sb-nav-item.active .sb-icon { background: rgba(13,148,136,.2); }
+.sb-label { font-size: 13.5px; color: rgba(255,255,255,.65); font-weight: 500; transition: opacity .2s ease; }
+.sb-nav-item.active .sb-label { color: white; font-weight: 600; }
+.dash-sidebar.collapsed .sb-label { opacity: 0; pointer-events: none; }
+.sb-chip {
+  margin-left: auto; padding: 2px 8px; border-radius: 50px;
+  font-size: 10.5px; font-weight: 700; flex-shrink: 0;
+  transition: opacity .2s ease;
+}
+.dash-sidebar.collapsed .sb-chip { opacity: 0; }
+.chip-green { background: rgba(22,163,74,.2); color: #86efac; }
+.chip-amber { background: rgba(217,119,6,.2); color: #fcd34d; }
+.chip-red   { background: rgba(220,38,38,.2); color: #fca5a5; }
+
+/* Tooltip for collapsed state */
+.sb-nav-item::after {
+  content: attr(data-tip);
+  position: absolute; left: 70px; top: 50%; transform: translateY(-50%);
+  background: rgba(11,17,32,.95); color: white;
+  padding: 5px 10px; border-radius: 7px; font-size: 12px; font-weight: 600;
+  white-space: nowrap; pointer-events: none;
+  opacity: 0; transition: opacity .15s ease; z-index: 999;
+}
+.dash-sidebar.collapsed .sb-nav-item:hover::after { opacity: 1; }
+
+/* Logout at bottom */
+.sb-bottom {
+  margin-top: auto; padding: .75rem 0;
+  border-top: 1px solid rgba(255,255,255,.07);
+}
+
+/* ── MAIN CONTENT ── */
+.dash-main {
+  flex: 1;
+  margin-left: 256px;
+  padding: 2rem;
+  transition: margin-left .3s cubic-bezier(.4,0,.2,1);
+  min-width: 0;
+}
+.dash-sidebar.collapsed ~ .dash-main,
+.dash-body.collapsed .dash-main { margin-left: 64px; }
+
+/* Page header */
+.dash-page-header {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 1.75rem; flex-wrap: wrap; gap: 1rem;
+}
+.dash-page-header h1 {
+  font-family: var(--f-display); font-size: 1.6rem; font-weight: 700;
+  color: var(--ink); margin-bottom: 3px;
+}
+.dash-page-header p { font-size: 13.5px; color: var(--slate); }
+.dash-header-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.dash-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 10px 20px; border-radius: 50px; font-family: var(--f-display);
+  font-size: 13px; font-weight: 600; cursor: pointer; transition: var(--tr); border: none;
+}
+.dash-btn-primary {
+  background: linear-gradient(135deg,var(--teal),var(--green)); color: white;
+  box-shadow: 0 3px 14px rgba(13,148,136,.3);
+}
+.dash-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(13,148,136,.45); }
+.dash-btn-ghost { background: white; color: var(--slate); border: 1.5px solid var(--border); }
+.dash-btn-ghost:hover { border-color: var(--teal); color: var(--teal); }
+
+/* ── STAT CARDS ── */
+.dash-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.25rem; margin-bottom: 1.75rem; }
+.stat-card {
+  background: white; border-radius: var(--r-lg); padding: 1.5rem;
+  box-shadow: var(--sh); border: 1px solid var(--border);
+  position: relative; overflow: hidden; transition: var(--tr);
+}
+.stat-card:hover { transform: translateY(-3px); box-shadow: var(--sh-lg); }
+.stat-card::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+}
+.stat-card-wallet::after { background: linear-gradient(90deg,var(--teal),var(--green)); }
+.stat-card-jobs::after   { background: linear-gradient(90deg,#3b82f6,#8b5cf6); }
+.stat-card-rating::after { background: linear-gradient(90deg,#f59e0b,#ef4444); }
+.stat-card-clients::after{ background: linear-gradient(90deg,#06b6d4,#0d9488); }
+.stat-icon {
+  width: 46px; height: 46px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center; font-size: 22px;
+  margin-bottom: 1rem;
+}
+.si-teal   { background: rgba(13,148,136,.1); }
+.si-blue   { background: rgba(59,130,246,.1); }
+.si-amber  { background: rgba(245,158,11,.1); }
+.si-cyan   { background: rgba(6,182,212,.1); }
+.stat-label { font-size: 12px; color: var(--slate); font-weight: 500; margin-bottom: 6px; }
+.stat-value { font-family: var(--f-display); font-size: 1.9rem; font-weight: 700; color: var(--ink); line-height: 1; margin-bottom: 8px; }
+.stat-change { font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 5px; }
+.stat-change.up   { color: var(--green); }
+.stat-change.down { color: var(--red); }
+.stat-change.neutral { color: var(--slate); }
+
+/* ── WALLET CARD ── */
+.wallet-card {
+  background: linear-gradient(135deg, #0b1120 0%, #0d3a2e 50%, #0b2a1a 100%);
+  border-radius: var(--r-xl); padding: 2rem;
+  position: relative; overflow: hidden; margin-bottom: 1.75rem;
+  box-shadow: 0 12px 40px rgba(11,17,32,.25);
+}
+.wallet-card::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 70% at 80% 20%, rgba(13,148,136,.22) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 50% at 10% 80%, rgba(22,163,74,.14) 0%, transparent 50%);
+}
+.wallet-card-grid {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
+  background-size: 32px 32px;
+}
+.wallet-inner { position: relative; z-index: 2; }
+.wallet-row { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1.5rem; }
+.wallet-balance-block {}
+.wallet-label { font-size: 12px; color: rgba(255,255,255,.5); font-weight: 500; margin-bottom: 6px; letter-spacing: .05em; text-transform: uppercase; }
+.wallet-amount { font-family: var(--f-display); font-size: clamp(2rem,4vw,2.8rem); font-weight: 700; color: white; line-height: 1.1; margin-bottom: 8px; }
+.wallet-change { display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px; font-weight: 600; color: #86efac; background: rgba(22,163,74,.18); padding: 3px 10px; border-radius: 50px; }
+.wallet-actions { display: flex; gap: 10px; align-items: center; }
+.wallet-btn {
+  display: flex; align-items: center; gap: 7px;
+  padding: 11px 20px; border-radius: 50px; cursor: pointer; transition: var(--tr);
+  font-family: var(--f-display); font-size: 13.5px; font-weight: 600; border: none;
+}
+.wallet-btn-primary { background: white; color: var(--ink); box-shadow: 0 3px 14px rgba(0,0,0,.2); }
+.wallet-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.3); }
+.wallet-btn-outline { background: rgba(255,255,255,.1); color: white; border: 1.5px solid rgba(255,255,255,.2); }
+.wallet-btn-outline:hover { background: rgba(255,255,255,.18); }
+.wallet-meta { display: flex; gap: 1.5rem; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,.1); flex-wrap: wrap; }
+.wallet-meta-item .wallet-label { margin-bottom: 3px; }
+.wallet-meta-value { font-family: var(--f-display); font-size: 1.1rem; font-weight: 700; color: white; }
+
+/* ── GRID 2-COL ── */
+.dash-grid-2 { display: grid; grid-template-columns: 1.4fr 1fr; gap: 1.5rem; margin-bottom: 1.75rem; }
+.dash-grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; margin-bottom: 1.75rem; }
+
+/* ── CARD SHELL ── */
+.dash-card {
+  background: white; border-radius: var(--r-lg);
+  box-shadow: var(--sh); border: 1px solid var(--border); overflow: hidden;
+}
+.dash-card-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border);
+}
+.dash-card-header h3 { font-family: var(--f-display); font-size: 15px; font-weight: 700; color: var(--ink); }
+.dash-card-link { font-size: 13px; color: var(--teal); font-weight: 600; cursor: pointer; }
+.dash-card-link:hover { text-decoration: underline; }
+
+/* Jobs list */
+.job-item {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1rem 1.5rem; border-bottom: 1px solid var(--border);
+  transition: var(--tr);
+}
+.job-item:last-child { border-bottom: none; }
+.job-item:hover { background: #fafbfc; }
+.job-icon {
+  width: 42px; height: 42px; border-radius: 11px;
+  display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;
+}
+.job-info { flex: 1; min-width: 0; }
+.job-title { font-size: 13.5px; font-weight: 600; color: var(--ink); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.job-meta  { font-size: 12px; color: var(--slate); }
+.job-right { text-align: right; flex-shrink: 0; }
+.job-amount { font-family: var(--f-display); font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+.status-pill {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 10px; border-radius: 50px; font-size: 11px; font-weight: 700;
+}
+.sp-done     { background: rgba(22,163,74,.1);    color: var(--green); }
+.sp-progress { background: rgba(59,130,246,.1);    color: #2563eb; }
+.sp-pending  { background: rgba(217,119,6,.1);     color: var(--amber); }
+.sp-new      { background: rgba(13,148,136,.1);    color: var(--teal); }
+
+/* Rating breakdown */
+.rating-big { text-align: center; padding: 1.5rem; border-right: 1px solid var(--border); }
+.rating-num { font-family: var(--f-display); font-size: 3.5rem; font-weight: 700; color: var(--ink); line-height: 1; }
+.rating-stars { font-size: 1.2rem; margin: 6px 0; }
+.rating-count { font-size: 12px; color: var(--slate); }
+.rating-bars { padding: 1rem 1.5rem; display: flex; flex-direction: column; gap: 8px; }
+.rb-row { display: flex; align-items: center; gap: 10px; font-size: 12.5px; }
+.rb-label { width: 20px; color: var(--slate); flex-shrink: 0; text-align: right; }
+.rb-bar-track { flex: 1; height: 7px; background: var(--mist); border-radius: 4px; overflow: hidden; }
+.rb-bar-fill  { height: 100%; background: linear-gradient(90deg,var(--teal),var(--green)); border-radius: 4px; }
+.rb-pct { width: 32px; color: var(--slate); font-size: 11px; flex-shrink: 0; }
+
+/* Activity timeline */
+.timeline-item {
+  display: flex; gap: 1rem; padding: .75rem 1.5rem;
+}
+.tl-dot-col { display: flex; flex-direction: column; align-items: center; }
+.tl-dot {
+  width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; margin-top: 4px;
+}
+.tl-line { flex: 1; width: 2px; background: var(--border); margin-top: 4px; }
+.timeline-item:last-child .tl-line { display: none; }
+.tl-content { flex: 1; padding-bottom: .75rem; }
+.tl-title { font-size: 13.5px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+.tl-sub   { font-size: 12px; color: var(--slate); margin-bottom: 4px; }
+.tl-time  { font-size: 11px; color: #94a3b8; }
+
+/* ── PROFILE PANEL ── */
+.profile-header {
+  background: linear-gradient(135deg, var(--ink) 0%, #0d3a2e 100%);
+  padding: 2rem; position: relative; overflow: hidden; border-radius: var(--r-lg) var(--r-lg) 0 0;
+}
+.profile-header::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 80% 40%, rgba(13,148,136,.2) 0%, transparent 55%);
+}
+.profile-header-inner { position: relative; z-index: 2; display: flex; align-items: flex-end; gap: 1.5rem; flex-wrap: wrap; }
+.profile-avatar-wrap { position: relative; flex-shrink: 0; }
+.profile-avatar {
+  width: 96px; height: 96px; border-radius: 50%;
+  border: 4px solid rgba(255,255,255,.25); overflow: hidden;
+  background: linear-gradient(135deg,var(--teal),var(--green));
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--f-display); font-weight: 700; font-size: 2.2rem; color: white;
+}
+.profile-avatar img { width: 100%; height: 100%; object-fit: cover; display: none; }
+.profile-avatar-edit {
+  position: absolute; bottom: 0; right: 0;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--teal); color: white; border: 2px solid white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; cursor: pointer; transition: var(--tr);
+}
+.profile-avatar-edit:hover { background: var(--green); transform: scale(1.1); }
+.profile-header-info h2 { font-family: var(--f-display); font-size: 1.5rem; font-weight: 700; color: white; margin-bottom: 4px; }
+.profile-header-info p  { font-size: 13px; color: rgba(255,255,255,.6); margin-bottom: 8px; }
+.profile-tags { display: flex; gap: 7px; flex-wrap: wrap; }
+.profile-tag {
+  padding: 4px 12px; border-radius: 50px; font-size: 12px; font-weight: 600;
+  background: rgba(255,255,255,.1); color: rgba(255,255,255,.8); border: 1px solid rgba(255,255,255,.15);
+}
+.profile-body { padding: 1.75rem; }
+.profile-section-title {
+  font-family: var(--f-display); font-size: 14px; font-weight: 700; color: var(--ink);
+  margin-bottom: 1rem; padding-bottom: 8px; border-bottom: 2px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.profile-edit-btn {
+  font-size: 12px; color: var(--teal); font-weight: 600; cursor: pointer; background: none; border: none;
+}
+.profile-edit-btn:hover { text-decoration: underline; }
+.profile-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+.profile-field-label { font-size: 11.5px; color: var(--slate); font-weight: 500; margin-bottom: 3px; }
+.profile-field-value { font-size: 14px; font-weight: 600; color: var(--ink); }
+.bio-text { font-size: 13.5px; color: var(--slate); line-height: 1.7; margin-bottom: 1rem; }
+.skill-list { display: flex; flex-wrap: wrap; gap: 7px; }
+.skill-pill {
+  padding: 5px 13px; border-radius: 50px; font-size: 12.5px; font-weight: 500;
+  background: rgba(13,148,136,.09); color: var(--teal); border: 1.5px solid rgba(13,148,136,.2);
+}
+
+/* ── WITHDRAW MODAL ── */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; z-index: 1000;
+  background: rgba(11,17,32,.7); backdrop-filter: blur(6px);
+  align-items: center; justify-content: center; padding: 1rem;
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+  background: white; border-radius: var(--r-xl); width: 100%; max-width: 440px;
+  box-shadow: 0 24px 72px rgba(11,17,32,.3);
+  animation: modalPop .35s cubic-bezier(.34,1.3,.64,1);
+}
+@keyframes modalPop { from{transform:scale(.85);opacity:0} to{transform:scale(1);opacity:1} }
+.modal-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border);
+}
+.modal-header h3 { font-family: var(--f-display); font-size: 17px; font-weight: 700; color: var(--ink); }
+.modal-close-btn {
+  width: 32px; height: 32px; border-radius: 50%; background: var(--mist);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 16px; color: var(--slate); transition: var(--tr);
+}
+.modal-close-btn:hover { background: var(--border); }
+.modal-body { padding: 1.5rem; }
+.modal-footer { padding: 1rem 1.5rem; border-top: 1px solid var(--border); display: flex; gap: 10px; justify-content: flex-end; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1100px) {
+  .dash-stats { grid-template-columns: repeat(2,1fr); }
+  .dash-grid-2 { grid-template-columns: 1fr; }
+}
+@media (max-width: 900px) {
+  .dash-sidebar { transform: translateX(-100%); width: 256px !important; }
+  .dash-sidebar.mobile-open { transform: translateX(0); }
+  .dash-main { margin-left: 0 !important; }
+  .dash-grid-3 { grid-template-columns: 1fr 1fr; }
+  .profile-field-row { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .dash-stats { grid-template-columns: 1fr; }
+  .dash-grid-3 { grid-template-columns: 1fr; }
+  .wallet-row { flex-direction: column; }
+  .wallet-actions { width: 100%; }
+  .wallet-btn { flex: 1; justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════
+     TOP BAR
+════════════════════════════════════════════ -->
+<nav class="top-bar">
+  <img src="img/563189-removebg-preview (1).png" alt="">
+  <!-- <div class="tb-logo" onclick="goScreen('landing')"> -->
+    <!-- <div class="tb-logo-mark"><img src="img/563189-removebg-preview (1).png" alt="" style="color: whhite;"></div> -->
+    <!-- <span class="tb-logo-name">Nkiri Synergies</span> -->
+  <!-- </div> -->
+  <div class="tb-links">
+    <span class="tb-link active" onclick="goScreen('landing')">Home</span>
+    <span class="tb-link" onclick="goScreen('register')">Register</span>
+    <span class="tb-link" onclick="goScreen('login')">Sign In</span>
+  </div>
+  <button class="tb-cta" onclick="goScreen('register')">Join as Provider</button>
+</nav>
+
+<!-- ════════════════════════════════════════════
+     SCREEN: LANDING (portal home)
+════════════════════════════════════════════ -->
+<div class="screen active" id="screen-landing" style="flex-direction:column;align-items:center;justify-content:center;background:var(--ink);min-height:100vh;padding-top:58px;position:relative;overflow:hidden;">
+
+  <!-- Background effects -->
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 25% 50%,rgba(13,148,136,.2) 0%,transparent 60%),radial-gradient(ellipse 55% 65% at 78% 60%,rgba(22,163,74,.13) 0%,transparent 55%);"></div>
+  <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:52px 52px;"></div>
+
+  <div style="position:relative;z-index:2;text-align:center;max-width:720px;padding:2rem;display:flex;flex-direction:column;align-items:center;">
+    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(13,148,136,.15);border:1px solid rgba(13,148,136,.3);color:#5eead4;padding:7px 18px;border-radius:50px;font-size:12.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.75rem;">
+      <span style="width:7px;height:7px;border-radius:50%;background:#5eead4;display:inline-block;animation:waPulse2 2s infinite;"></span>
+      Service Provider Portal
+    </div>
+    <style>@keyframes waPulse2{0%,100%{opacity:1}50%{opacity:.4}}</style>
+
+    <h1 style="font-family:var(--f-display);font-size:clamp(2.4rem,6vw,4rem);font-weight:700;color:white;line-height:1.12;margin-bottom:1.1rem;">
+      Grow Your Business<br>with <em style="font-style:normal;background:linear-gradient(90deg,#5eead4,#86efac);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Nkiri Synergies</em>
+    </h1>
+    <p style="font-size:1.05rem;color:rgba(255,255,255,.6);line-height:1.75;max-width:560px;margin-bottom:2.5rem;">
+      Join 10,000+ skilled professionals earning more, reaching bigger clients, and managing projects seamlessly — all on one platform built for Africa.
+    </p>
+
+    <!-- Two big CTAs -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%;max-width:480px;margin-bottom:3rem;">
+      <button onclick="goScreen('register')" style="padding:18px 20px;border-radius:18px;background:linear-gradient(135deg,var(--teal),var(--green));color:white;font-family:var(--f-display);font-size:16px;font-weight:700;border:none;cursor:pointer;box-shadow:0 6px 24px rgba(13,148,136,.4);transition:var(--tr);" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 10px 32px rgba(13,148,136,.55)'" onmouseout="this.style.transform='';this.style.boxShadow='0 6px 24px rgba(13,148,136,.4)'">
+        🚀 Create Account
+        <span style="display:block;font-size:12px;font-weight:400;opacity:.8;margin-top:3px;">Register as Provider</span>
+      </button>
+      <button onclick="goScreen('login')" style="padding:18px 20px;border-radius:18px;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.18);color:white;font-family:var(--f-display);font-size:16px;font-weight:700;cursor:pointer;transition:var(--tr);" onmouseover="this.style.background='rgba(255,255,255,.13)'" onmouseout="this.style.background='rgba(255,255,255,.08)'">
+        🔑 Sign In
+        <span style="display:block;font-size:12px;font-weight:400;opacity:.65;margin-top:3px;">Access your dashboard</span>
+      </button>
+    </div>
+
+    <!-- Perks row -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;max-width:560px;">
+      <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px 12px;text-align:center;">
+        <div style="font-size:1.6rem;margin-bottom:8px;">💰</div>
+        <div style="font-family:var(--f-display);font-size:1.4rem;font-weight:700;color:white;">3×</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.45);margin-top:3px;">More Earnings</div>
+      </div>
+      <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px 12px;text-align:center;">
+        <div style="font-size:1.6rem;margin-bottom:8px;">👥</div>
+        <div style="font-family:var(--f-display);font-size:1.4rem;font-weight:700;color:white;">50K+</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.45);margin-top:3px;">Active Clients</div>
+      </div>
+      <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px 12px;text-align:center;">
+        <div style="font-size:1.6rem;margin-bottom:8px;">⭐</div>
+        <div style="font-family:var(--f-display);font-size:1.4rem;font-weight:700;color:white;">4.9</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.45);margin-top:3px;">Platform Rating</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SCREEN: REGISTER (3-step)
+════════════════════════════════════════════ -->
+<div class="screen" id="screen-register" style="padding-top:58px;">
+  <div class="split">
+
+    <!-- Brand left -->
+    <div class="brand-panel">
+      <div class="brand-grid"></div>
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+
+      <div class="brand-top">
+        <div class="brand-logo">
+          <div class="brand-logo-mark">N</div>
+          <div class="brand-logo-name">Nkiri Synergies<span>Service Provider Portal</span></div>
+        </div>
+        <h2 class="brand-heading">Start earning more.<br>Build your <em>reputation.</em></h2>
+        <p class="brand-sub">Join thousands of professionals across Nigeria who use Nkiri to win new clients, manage projects, and receive secure payments — all in one place.</p>
+
+        <div class="perk-list">
+          <div class="perk">
+            <div class="perk-icon" style="background:rgba(13,148,136,.18);">💰</div>
+            <div class="perk-text"><h4>Earn 3× More</h4><p>Access premium clients willing to pay competitive rates</p></div>
+          </div>
+          <div class="perk">
+            <div class="perk-icon" style="background:rgba(22,163,74,.18);">🔒</div>
+            <div class="perk-text"><h4>Guaranteed Payments</h4><p>Secure payouts via Paystack & Flutterwave — no chasing clients</p></div>
+          </div>
+          <div class="perk">
+            <div class="perk-icon" style="background:rgba(245,158,11,.15);">📱</div>
+            <div class="perk-text"><h4>Vast App Access</h4><p>Manage your entire business from your smartphone</p></div>
+          </div>
+          <div class="perk">
+            <div class="perk-icon" style="background:rgba(139,92,246,.18);">⭐</div>
+            <div class="perk-text"><h4>Build Your Brand</h4><p>Collect reviews, grow your profile, unlock top-tier opportunities</p></div>
+          </div>
+        </div>
+
+        <div class="brand-stats">
+          <div class="bs"><div class="bs-num">10K+</div><div class="bs-lbl">Providers</div></div>
+          <div class="bs"><div class="bs-num">₦2B+</div><div class="bs-lbl">Paid Out</div></div>
+          <div class="bs"><div class="bs-num">48h</div><div class="bs-lbl">Approval</div></div>
+        </div>
+      </div>
+
+      <div class="brand-trust">
+        <div class="trust-dots">
+          <span style="background:linear-gradient(135deg,#0d9488,#16a34a)">A</span>
+          <span style="background:linear-gradient(135deg,#1a56db,#0d9488)">C</span>
+          <span style="background:linear-gradient(135deg,#f59e0b,#ef4444)">F</span>
+          <span style="background:linear-gradient(135deg,#8b5cf6,#ec4899)">K</span>
+        </div>
+        <span class="trust-text">Approved within <strong>48 hours</strong> · Free to join</span>
+      </div>
+    </div>
+
+    <!-- Form right -->
+    <div class="form-panel">
+      <div class="form-shell">
+
+        <div class="back-nav" onclick="goScreen('landing')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+          Back to Portal
+        </div>
+
+        <!-- Step tracker -->
+        <div class="step-track" id="regTrack">
+          <div class="step-node current" id="rn1">1<span class="step-label">Account</span></div>
+          <div class="step-bar" id="rb1"></div>
+          <div class="step-node future"  id="rn2">2<span class="step-label">Profile</span></div>
+          <div class="step-bar" id="rb2"></div>
+          <div class="step-node future"  id="rn3">3<span class="step-label">Services</span></div>
+          <div class="step-bar" id="rb3"></div>
+          <div class="step-node future"  id="rn4">4<span class="step-label">Documents</span></div>
+        </div>
+
+        <!-- Alert -->
+        <div class="f-alert err" id="regAlert">⚠️ Please fix the highlighted fields.</div>
+
+        <!-- ── STEP 1: Account credentials ── -->
+        <div class="step-panel active" id="rStep1">
+          <div class="form-header">
+            <h2>Create your account</h2>
+            <p>Step 1 of 4 · Set up your login credentials</p>
+          </div>
+
+          <div class="social-row">
+            <button class="social-btn" onclick="socialReg('Google')">
+              <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#34A853" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#EA4335" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.29-8.16 2.29-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+              Google
+            </button>
+            <button class="social-btn" onclick="socialReg('Facebook')">
+              <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#1877F2" d="M48 24C48 10.74 37.26 0 24 0S0 10.74 0 24c0 11.98 8.77 21.91 20.25 23.71V30.94h-6.09V24h6.09v-5.29c0-6.01 3.58-9.33 9.06-9.33 2.63 0 5.37.47 5.37.47v5.9H31.6c-2.98 0-3.91 1.85-3.91 3.74V24h6.65l-1.06 6.94H27.7v16.77C39.23 45.91 48 35.98 48 24z"/></svg>
+              Facebook
+            </button>
+          </div>
+          <div class="or-line">or register with email</div>
+
+          <div class="f-row">
+            <div class="f-group">
+              <label class="f-label">First Name <sup>*</sup></label>
+              <input class="f-input" id="r_fname" type="text" placeholder="Amara">
+              <div class="f-error" id="r_fname_e">Required.</div>
+            </div>
+            <div class="f-group">
+              <label class="f-label">Last Name <sup>*</sup></label>
+              <input class="f-input" id="r_lname" type="text" placeholder="Okafor">
+              <div class="f-error" id="r_lname_e">Required.</div>
+            </div>
+          </div>
+          <div class="f-group">
+            <label class="f-label">Email Address <sup>*</sup></label>
+            <input class="f-input" id="r_email" type="email" placeholder="you@example.com">
+            <div class="f-error" id="r_email_e">Enter a valid email.</div>
+          </div>
+          <div class="f-group">
+            <label class="f-label">Phone Number <sup>*</sup></label>
+            <div class="phone-wrap">
+              <span class="phone-prefix">+234</span>
+              <input class="f-input" id="r_phone" type="tel" placeholder="812 345 6789">
+            </div>
+            <div class="f-error" id="r_phone_e">Enter a valid number.</div>
+          </div>
+          <div class="f-group">
+            <label class="f-label">Password <sup>*</sup></label>
+            <div class="f-pw-wrap">
+              <input class="f-input" id="r_pw" type="password" placeholder="Create a strong password" oninput="pwStrength(this.value)">
+              <button class="f-pw-eye" onclick="togglePw('r_pw',this)" tabindex="-1">👁</button>
+            </div>
+            <div class="pw-bar"><div class="pw-fill" id="pwFill"></div></div>
+            <div class="pw-hint" id="pwHint" style="color:var(--slate)">Enter a password</div>
+            <div class="f-error" id="r_pw_e">Minimum 8 characters.</div>
+          </div>
+          <div class="f-group">
+            <label class="f-label">Confirm Password <sup>*</sup></label>
+            <div class="f-pw-wrap">
+              <input class="f-input" id="r_pw2" type="password" placeholder="Repeat your password">
+              <button class="f-pw-eye" onclick="togglePw('r_pw2',this)" tabindex="-1">👁</button>
+            </div>
+            <div class="f-error" id="r_pw2_e">Passwords do not match.</div>
+          </div>
+
+          <button class="f-submit" onclick="regStep(2)"><span>Continue — Step 2 of 4 →</span></button>
+          <p class="f-switch">Already have an account? <a onclick="goScreen('login')">Sign in here</a></p>
+        </div>
+
+        <!-- ── STEP 2: Personal profile ── -->
+        <div class="step-panel" id="rStep2">
+          <div class="form-header">
+            <h2>Personal Profile</h2>
+            <p>Step 2 of 4 · Tell clients about yourself</p>
+          </div>
+
+          <div class="f-group">
+            <label class="f-label">Display / Business Name <sup>*</sup></label>
+            <input class="f-input" id="r_biz" type="text" placeholder="e.g. Amara's Cleaning Co. or Chidi Dev">
+            <div class="f-error" id="r_biz_e">Required.</div>
+          </div>
+          <div class="f-row">
+            <div class="f-group">
+              <label class="f-label">State <sup>*</sup></label>
+              <select class="f-select" id="r_state">
+                <option value="">Select state</option>
+                <option>Lagos</option><option>Abuja (FCT)</option><option>Rivers</option>
+                <option>Kano</option><option>Oyo</option><option>Anambra</option>
+                <option>Delta</option><option>Enugu</option><option>Kaduna</option>
+                <option>Ogun</option><option>Ondo</option><option>Other</option>
+              </select>
+              <div class="f-error" id="r_state_e">Required.</div>
+            </div>
+            <div class="f-group">
+              <label class="f-label">City / LGA <sup>*</sup></label>
+              <input class="f-input" id="r_city" type="text" placeholder="e.g. Lekki, Ikeja">
+              <div class="f-error" id="r_city_e">Required.</div>
+            </div>
+          </div>
+          <div class="f-group">
+            <label class="f-label">Years of Experience <sup>*</sup></label>
+            <select class="f-select" id="r_exp">
+              <option value="">Select experience level</option>
+              <option>Less than 1 year</option>
+              <option>1–2 years</option>
+              <option>3–5 years</option>
+              <option>5–10 years</option>
+              <option>10+ years</option>
+            </select>
+            <div class="f-error" id="r_exp_e">Required.</div>
+          </div>
+          <div class="f-group">
+            <label class="f-label">Professional Bio <sup>*</sup></label>
+            <textarea class="f-textarea" id="r_bio" placeholder="Briefly describe your skills, experience, and what makes you stand out (min. 50 characters)…" maxlength="500"></textarea>
+            <div style="text-align:right;font-size:11px;color:var(--slate);margin-top:4px" id="bioCount">0 / 500</div>
+            <div class="f-error" id="r_bio_e">Minimum 50 characters.</div>
+          </div>
+          <div class="f-group">
+            <label class="f-label">WhatsApp Number (for client contact)</label>
+            <div class="phone-wrap">
+              <span class="phone-prefix">+234</span>
+              <input class="f-input" id="r_wa" type="tel" placeholder="812 345 6789">
+            </div>
+          </div>
+
+          <div class="btn-row">
+            <button class="f-btn-back" onclick="regStep(1)">← Back</button>
+            <button class="f-submit" onclick="regStep(3)"><span>Continue → Step 3</span></button>
+          </div>
+        </div>
+
+        <!-- ── STEP 3: Service categories ── -->
+        <div class="step-panel" id="rStep3">
+          <div class="form-header">
+            <h2>Your Services</h2>
+            <p>Step 3 of 4 · Select all that apply (min. 1)</p>
+          </div>
+
+          <div class="cat-grid" style="margin-bottom:1.25rem">
+            <div class="cat-card" data-cat="Cleaning Services" onclick="toggleCat(this)">
+              <div class="cat-check">✓</div>
+              <div class="cat-icon">🧹</div>
+              <div class="cat-name">Cleaning Services</div>
+            </div>
+            <div class="cat-card" data-cat="Logistics & Delivery" onclick="toggleCat(this)">
+              <div class="cat-check">✓</div>
+              <div class="cat-icon">🚚</div>
+              <div class="cat-name">Logistics & Delivery</div>
+            </div>
+            <div class="cat-card" data-cat="App Development" onclick="toggleCat(this)">
+              <div class="cat-check">✓</div>
+              <div class="cat-icon">💻</div>
+              <div class="cat-name">App Development</div>
+            </div>
+            <div class="cat-card" data-cat="E-commerce Solutions" onclick="toggleCat(this)">
+              <div class="cat-check">✓</div>
+              <div class="cat-icon">🛒</div>
+              <div class="cat-name">E-commerce</div>
+            </div>
+            <div class="cat-card" data-cat="Project Management" onclick="toggleCat(this)">
+              <div class="cat-check">✓</div>
+              <div class="cat-icon">📊</div>
+              <div class="cat-name">Project Management</div>
+            </div>
+            <div class="cat-card" data-cat="Quality Assurance" onclick="toggleCat(this)">
+              <div class="cat-check">✓</div>
+              <div class="cat-icon">✅</div>
+              <div class="cat-name">Quality Assurance</div>
+            </div>
+            <div class="cat-card" data-cat="Photography & Video" onclick="toggleCat(this)">
+              <div class="cat-check">✓</div>
+              <div class="cat-icon">📸</div>
+              <div class="cat-name">Photography & Video</div>
+            </div>
+            <div class="cat-card" data-cat="Security Services" onclick="toggleCat(this)">
+              <div class="cat-check">✓</div>
+              <div class="cat-icon">🛡️</div>
+              <div class="cat-name">Security Services</div>
+            </div>
+          </div>
+          <div class="f-error" id="r_cat_e" style="margin-bottom:10px">Select at least one service category.</div>
+
+          <div class="f-group">
+            <label class="f-label">Hourly Rate / Starting Price (₦)</label>
+            <input class="f-input" id="r_rate" type="number" placeholder="e.g. 5000" min="0">
+          </div>
+
+          <div class="f-group">
+            <label class="f-label">Key Skills / Keywords</label>
+            <div class="tag-cloud" id="skillTags">
+              <div class="skill-tag" onclick="this.classList.toggle('selected')">Deep Cleaning</div>
+              <div class="skill-tag" onclick="this.classList.toggle('selected')">React Native</div>
+              <div class="skill-tag" onclick="this.classList.toggle('selected')">Node.js</div>
+              <div class="skill-tag" onclick="this.classList.toggle('selected')">Same-day Delivery</div>
+              <div class="skill-tag" onclick="this.classList.toggle('selected')">Shopify</div>
+              <div class="skill-tag" onclick="this.classList.toggle('selected')">Agile / Scrum</div>
+              <div class="skill-tag" onclick="this.classList.toggle('selected')">ISO Audit</div>
+              <div class="skill-tag" onclick="this.classList.toggle('selected')">Cold Chain Logistics</div>
+              <div class="skill-tag" onclick="this.classList.toggle('selected')">Flutter</div>
+              <div class="skill-tag" onclick="this.classList.toggle('selected')">WooCommerce</div>
+            </div>
+          </div>
+
+          <div class="btn-row">
+            <button class="f-btn-back" onclick="regStep(2)">← Back</button>
+            <button class="f-submit" onclick="regStep(4)"><span>Continue → Documents</span></button>
+          </div>
+        </div>
+
+        <!-- ── STEP 4: Documents + final ── -->
+        <div class="step-panel" id="rStep4">
+          <div class="form-header">
+            <h2>Verification Documents</h2>
+            <p>Step 4 of 4 · Required for account approval</p>
+          </div>
+
+          <div class="f-group">
+            <label class="f-label">Government-Issued ID <sup>*</sup></label>
+            <div class="file-zone" id="idZone" onclick="document.getElementById('idFile').click()" ondragover="dragOver(event,this)" ondragleave="dragLeave(this)" ondrop="dropFile(event,this,'idFile','idUploaded','idName')">
+              <input type="file" id="idFile" accept=".jpg,.jpeg,.png,.pdf" onchange="fileChosen(this,'idUploaded','idName')">
+              <div class="file-zone-icon">🪪</div>
+              <h4>Drag & drop or click to upload</h4>
+              <p>NIN, Driver's Licence, International Passport · Max 5MB</p>
+            </div>
+            <div class="file-uploaded" id="idUploaded">
+              <span>📄 <span id="idName"></span></span>
+              <span style="color:var(--teal);font-size:13px;font-weight:700">✓ Uploaded</span>
+            </div>
+          </div>
+
+          <div class="f-group">
+            <label class="f-label">Proof of Skills / Certification</label>
+            <div class="file-zone" onclick="document.getElementById('certFile').click()" ondragover="dragOver(event,this)" ondragleave="dragLeave(this)" ondrop="dropFile(event,this,'certFile','certUploaded','certName')">
+              <input type="file" id="certFile" accept=".jpg,.jpeg,.png,.pdf" onchange="fileChosen(this,'certUploaded','certName')">
+              <div class="file-zone-icon">📜</div>
+              <h4>Optional — Certificate, portfolio, CV</h4>
+              <p>PDF, JPG, PNG · Max 10MB</p>
+            </div>
+            <div class="file-uploaded" id="certUploaded">
+              <span>📄 <span id="certName"></span></span>
+              <span style="color:var(--teal);font-size:13px;font-weight:700">✓ Uploaded</span>
+            </div>
+          </div>
+
+          <div class="f-group">
+            <label class="f-label">NIN (National Identification Number) <sup>*</sup></label>
+            <input class="f-input" id="r_nin" type="text" placeholder="12345678901" maxlength="11">
+            <div class="f-error" id="r_nin_e">Enter an 11-digit NIN.</div>
+          </div>
+
+          <div class="f-group">
+            <label class="f-label">Bank Account Number <sup>*</sup></label>
+            <input class="f-input" id="r_bank_acc" type="text" placeholder="0123456789" maxlength="10">
+            <div class="f-error" id="r_bank_acc_e">Enter a 10-digit account number.</div>
+          </div>
+          <div class="f-group">
+            <label class="f-label">Bank Name <sup>*</sup></label>
+            <select class="f-select" id="r_bank_name">
+              <option value="">Select your bank</option>
+              <option>Guaranty Trust Bank (GTB)</option>
+              <option>Zenith Bank</option>
+              <option>Access Bank</option>
+              <option>United Bank for Africa (UBA)</option>
+              <option>First Bank of Nigeria</option>
+              <option>Fidelity Bank</option>
+              <option>Stanbic IBTC Bank</option>
+              <option>Ecobank Nigeria</option>
+              <option>Opay / Palmpay / Kuda</option>
+            </select>
+            <div class="f-error" id="r_bank_name_e">Required.</div>
+          </div>
+
+          <div class="f-group" style="margin-top:.75rem">
+            <label class="f-check">
+              <input type="checkbox" id="r_agree">
+              I agree to the <a href="#" style="color:var(--teal);font-weight:600">Terms of Service</a> and <a href="#" style="color:var(--teal);font-weight:600">Privacy Policy</a>. I confirm all information provided is accurate.
+            </label>
+          </div>
+
+          <div class="btn-row" style="margin-top:1.25rem">
+            <button class="f-btn-back" onclick="regStep(3)">← Back</button>
+            <button class="f-submit" id="regFinalBtn" onclick="submitRegister()"><span>🎉 Create My Account</span></button>
+          </div>
+          <p class="f-switch">Already registered? <a onclick="goScreen('login')">Sign in</a></p>
+        </div>
+
+        <!-- ── SUCCESS ── -->
+        <div class="step-panel" id="rSuccess">
+          <div class="success-wrap">
+            <div class="success-ring">🎊</div>
+            <h2>Welcome to Nkiri!</h2>
+            <p>Your provider account has been created successfully. Our team will review your documents and approve your profile within <strong>48 hours</strong>.</p>
+            <p style="margin-top:.5rem">You'll receive a confirmation email at <strong id="successEmail"></strong></p>
+            <div class="success-ref" id="successRef">PRV-2025-000000</div>
+            <button class="f-submit" onclick="goScreen('login')" style="max-width:280px;margin:0 auto"><span>Proceed to Sign In →</span></button>
+          </div>
+        </div>
+
+      </div><!-- /form-shell -->
+    </div><!-- /form-panel -->
+  </div><!-- /split -->
+</div>
+
+<!-- ════════════════════════════════════════════
+     SCREEN: LOGIN
+════════════════════════════════════════════ -->
+<div class="screen" id="screen-login" style="padding-top:58px;">
+  <div class="split">
+
+    <!-- Brand left -->
+    <div class="brand-panel">
+      <div class="brand-grid"></div>
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+
+      <div class="brand-top">
+        <div class="brand-logo">
+          <div class="brand-logo-mark">N</div>
+          <div class="brand-logo-name">Nkiri Synergies<span>Service Provider Portal</span></div>
+        </div>
+        <h2 class="brand-heading">Welcome back.<br>Your clients are <em>waiting.</em></h2>
+        <p class="brand-sub">Sign in to manage your bookings, respond to new requests, track your earnings, and keep building your reputation on Africa's leading service platform.</p>
+
+        <div class="perk-list">
+          <div class="perk">
+            <div class="perk-icon" style="background:rgba(13,148,136,.18);">📬</div>
+            <div class="perk-text"><h4>New Requests Today</h4><p>Clients in your area are actively looking for providers</p></div>
+          </div>
+          <div class="perk">
+            <div class="perk-icon" style="background:rgba(245,158,11,.15);">💳</div>
+            <div class="perk-text"><h4>Pending Payouts</h4><p>Approve completed jobs and release your earnings instantly</p></div>
+          </div>
+          <div class="perk">
+            <div class="perk-icon" style="background:rgba(139,92,246,.18);">⭐</div>
+            <div class="perk-text"><h4>New Reviews</h4><p>Clients have left feedback on your recent services</p></div>
+          </div>
+        </div>
+
+        <div class="brand-stats">
+          <div class="bs"><div class="bs-num">4.9⭐</div><div class="bs-lbl">Avg Rating</div></div>
+          <div class="bs"><div class="bs-num">24h</div><div class="bs-lbl">Avg Response</div></div>
+          <div class="bs"><div class="bs-num">98%</div><div class="bs-lbl">Satisfaction</div></div>
+        </div>
+      </div>
+
+      <div class="brand-trust">
+        <div class="trust-dots">
+          <span style="background:linear-gradient(135deg,#0d9488,#16a34a)">B</span>
+          <span style="background:linear-gradient(135deg,#f59e0b,#ef4444)">K</span>
+          <span style="background:linear-gradient(135deg,#8b5cf6,#ec4899)">T</span>
+        </div>
+        <span class="trust-text"><strong>3 new requests</strong> matching your profile today</span>
+      </div>
+    </div>
+
+    <!-- Form right -->
+    <div class="form-panel">
+      <div class="form-shell">
+
+        <div class="back-nav" onclick="goScreen('landing')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+          Back to Portal
+        </div>
+
+        <div class="form-header">
+          <h2>Provider Sign In</h2>
+          <p>Access your Nkiri provider dashboard</p>
+        </div>
+
+        <div class="f-alert err" id="loginAlert" style="display:none">⚠️ <span id="loginAlertMsg">Invalid email or password. Please try again.</span></div>
+        <div class="f-alert ok"  id="loginOk"    style="display:none">✅ Signed in successfully! Redirecting…</div>
+
+        <!-- Social -->
+        <div class="social-row">
+          <button class="social-btn" onclick="socialLogin('Google')">
+            <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#34A853" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#EA4335" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.29-8.16 2.29-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+            Google
+          </button>
+          <button class="social-btn" onclick="socialLogin('Facebook')">
+            <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#1877F2" d="M48 24C48 10.74 37.26 0 24 0S0 10.74 0 24c0 11.98 8.77 21.91 20.25 23.71V30.94h-6.09V24h6.09v-5.29c0-6.01 3.58-9.33 9.06-9.33 2.63 0 5.37.47 5.37.47v5.9H31.6c-2.98 0-3.91 1.85-3.91 3.74V24h6.65l-1.06 6.94H27.7v16.77C39.23 45.91 48 35.98 48 24z"/></svg>
+            Facebook
+          </button>
+        </div>
+        <div class="or-line">or sign in with email</div>
+
+        <!-- Login form -->
+        <div id="loginFormBody">
+          <div class="f-group">
+            <label class="f-label">Email Address <sup>*</sup></label>
+            <input class="f-input" id="l_email" type="email" placeholder="your@email.com" onkeydown="if(event.key==='Enter') submitLogin()">
+            <div class="f-error" id="l_email_e">Enter a valid email address.</div>
+          </div>
+          <div class="f-group">
+            <label class="f-label">Password <sup>*</sup></label>
+            <div class="f-pw-wrap">
+              <input class="f-input" id="l_pw" type="password" placeholder="Your password" onkeydown="if(event.key==='Enter') submitLogin()">
+              <button class="f-pw-eye" onclick="togglePw('l_pw',this)" tabindex="-1">👁</button>
+            </div>
+            <div class="f-error" id="l_pw_e">Enter your password.</div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem">
+            <label class="f-check" style="font-size:13px">
+              <input type="checkbox" id="l_remember"> Remember me
+            </label>
+            <a href="#" style="font-size:13px;color:var(--teal);font-weight:600;" onclick="showForgot()">Forgot password?</a>
+          </div>
+          <button class="f-submit" id="loginBtn" onclick="submitLogin()"><span>Sign In →</span></button>
+          <p class="f-switch">New provider? <a onclick="goScreen('register')">Create a free account</a></p>
+        </div>
+
+        <!-- Forgot password (inline) -->
+        <div id="forgotForm" style="display:none">
+          <div class="form-header" style="margin-top:0">
+            <h2 style="font-size:1.5rem">Reset Password</h2>
+            <p>Enter your email and we'll send a reset link.</p>
+          </div>
+          <div class="f-group">
+            <label class="f-label">Email Address</label>
+            <input class="f-input" id="forgot_email" type="email" placeholder="your@email.com">
+          </div>
+          <button class="f-submit" onclick="sendReset()"><span>📧 Send Reset Link</span></button>
+          <div class="f-alert ok" id="resetOk" style="margin-top:1rem">✅ Reset link sent! Check your inbox.</div>
+          <p class="f-switch"><a onclick="showLogin()">← Back to Sign In</a></p>
+        </div>
+
+      </div><!-- /form-shell -->
+    </div><!-- /form-panel -->
+  </div><!-- /split -->
+</div>
+
+<!-- ════════════════════════════════════════════
+     WHATSAPP CHAT WIDGET
+════════════════════════════════════════════ -->
+<!-- Launcher -->
+<div class="wa-launcher" id="waLauncher" onclick="toggleChat()" title="Chat with us on WhatsApp">
+  <div class="wa-badge" id="waBadge">1</div>
+  <svg viewBox="0 0 32 32" fill="white" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16 2C8.268 2 2 8.268 2 16c0 2.49.651 4.826 1.79 6.85L2 30l7.35-1.766A13.94 13.94 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm0 2c6.627 0 12 5.373 12 12s-5.373 12-12 12a11.96 11.96 0 01-5.924-1.565l-.42-.25-4.363 1.05 1.072-4.252-.275-.44A11.96 11.96 0 014 16C4 9.373 9.373 4 16 4zm-3.07 4.5a1.2 1.2 0 00-.88.35c-.303.33-1.15 1.125-1.15 2.743 0 1.618 1.176 3.185 1.34 3.41.163.225 2.312 3.53 5.607 4.952.783.337 1.394.538 1.87.69.786.25 1.5.215 2.064.13.63-.094 1.94-.793 2.214-1.559.274-.766.274-1.422.192-1.559-.082-.137-.305-.219-.638-.383-.333-.163-1.97-.972-2.275-1.082-.305-.11-.527-.164-.749.163-.222.328-.86 1.083-1.054 1.306-.192.22-.385.247-.717.083-.333-.164-1.407-.519-2.68-1.654-.99-.882-1.659-1.97-1.854-2.302-.193-.333-.02-.512.146-.678.148-.148.333-.386.5-.58.163-.19.218-.328.327-.546.11-.22.055-.41-.027-.574-.082-.163-.748-1.804-1.024-2.47-.27-.648-.546-.56-.748-.57a13.7 13.7 0 00-.638-.02 1.22 1.22 0 00-.876.351z"/>
+  </svg>
+</div>
+<div class="wa-tooltip" id="waTooltip">Chat with us 💬</div>
+
+<!-- Chat window -->
+<div class="wa-window" id="waWindow">
+  <!-- Header -->
+  <div class="wa-header">
+    <div class="wa-header-top">
+      <div class="wa-header-logo">
+        <div class="wa-avatar">N</div>
+        <div class="wa-header-info">
+          <h3>Nkiri Support</h3>
+          <p><span class="wa-online-dot"></span> Online · Typically replies in minutes</p>
+        </div>
+      </div>
+      <div class="wa-close" onclick="toggleChat()">✕</div>
+    </div>
+    <div class="wa-welcome">
+      <p>👋 Hi there! Welcome to <strong>Nkiri Synergies</strong>. How can we help you today?</p>
+    </div>
+  </div>
+
+  <!-- Body (chat messages) -->
+  <div class="wa-body" id="waBody">
+    <!-- Initial bot message -->
+    <div class="wa-bubble-wrap them">
+      <div class="wa-bubble them">
+        Hello! 👋 I'm the Nkiri virtual assistant. Choose an option below or type your message and a support agent will respond shortly.
+      </div>
+      <div class="wa-bubble-time them">Just now</div>
+    </div>
+  </div>
+
+  <!-- Quick reply chips -->
+  <div class="wa-quick" id="waQuick">
+    <div class="wa-qr" onclick="qrReply(this,'I want to register as a provider')">📝 Register as Provider</div>
+    <div class="wa-qr" onclick="qrReply(this,'I need help with my account')">🔑 Account Help</div>
+    <div class="wa-qr" onclick="qrReply(this,'How do I get paid?')">💰 Payment Info</div>
+    <div class="wa-qr" onclick="qrReply(this,'I have a complaint')">⚠️ Report Issue</div>
+  </div>
+
+  <!-- Open on WhatsApp -->
+  <button class="wa-open-btn" onclick="openWhatsApp()">
+    <svg width="20" height="20" viewBox="0 0 32 32" fill="white"><path d="M16 2C8.268 2 2 8.268 2 16c0 2.49.651 4.826 1.79 6.85L2 30l7.35-1.766A13.94 13.94 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2z"/></svg>
+    Continue on WhatsApp
+  </button>
+
+  <!-- Input row -->
+  <div class="wa-input-row">
+    <input class="wa-text-input" id="waInput" placeholder="Type a message…" onkeydown="if(event.key==='Enter') sendWaMsg()">
+    <button class="wa-send" onclick="sendWaMsg()">➤</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════ -->
+<script>
+/* ── SCREEN ROUTER ── */
+const SCREENS = ['landing','register','login','dashboard'];
+function goScreen(id) {
+  SCREENS.forEach(s => {
+    const el = document.getElementById('screen-' + s);
+    if (!el) return;
+    el.classList.remove('active');
+    el.style.display = 'none';
+  });
+  const target = document.getElementById('screen-' + id);
+  if (target) {
+    target.style.display = id === 'dashboard' ? 'block' : 'flex';
+    target.classList.add('active');
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.querySelectorAll('.tb-link').forEach(l => l.classList.remove('active'));
+  const activeLink = document.querySelector(`.tb-link[onclick*="${id}"]`);
+  if (activeLink) activeLink.classList.add('active');
+}
+
+/* ── PASSWORD TOGGLE ── */
+function togglePw(id, btn) {
+  const el = document.getElementById(id);
+  const show = el.type === 'password';
+  el.type = show ? 'text' : 'password';
+  btn.textContent = show ? '🙈' : '👁';
+}
+
+/* ── PASSWORD STRENGTH ── */
+function pwStrength(val) {
+  const fill  = document.getElementById('pwFill');
+  const hint  = document.getElementById('pwHint');
+  if (!fill) return;
+  let score = 0;
+  if (val.length >= 8) score++;
+  if (/[A-Z]/.test(val)) score++;
+  if (/[0-9]/.test(val)) score++;
+  if (/[^A-Za-z0-9]/.test(val)) score++;
+  const levels = [
+    { w: '20%', c: '#dc2626', t: 'Very weak' },
+    { w: '40%', c: '#d97706', t: 'Weak' },
+    { w: '65%', c: '#3b82f6', t: 'Fair' },
+    { w: '85%', c: '#22c55e', t: 'Strong' },
+    { w:'100%', c: '#16a34a', t: 'Very strong 🔒' },
+  ];
+  const l = val.length ? levels[score] : levels[0];
+  fill.style.width = val.length ? l.w : '0';
+  fill.style.background = l.c;
+  hint.textContent = val.length ? l.t : 'Enter a password';
+  hint.style.color = val.length ? l.c : 'var(--slate)';
+}
+
+/* ── BIO COUNTER ── */
+document.getElementById('r_bio').addEventListener('input', function() {
+  document.getElementById('bioCount').textContent = this.value.length + ' / 500';
+});
+
+/* ── SERVICE CATEGORY TOGGLE ── */
+function toggleCat(card) {
+  card.classList.toggle('sel');
+}
+
+/* ── FILE UPLOAD ── */
+function fileChosen(input, uploadedId, nameId) {
+  if (input.files && input.files[0]) {
+    document.getElementById(nameId).textContent = input.files[0].name;
+    document.getElementById(uploadedId).classList.add('show');
+  }
+}
+function dragOver(e, zone) { e.preventDefault(); zone.classList.add('dragging'); }
+function dragLeave(zone) { zone.classList.remove('dragging'); }
+function dropFile(e, zone, fileId, uploadedId, nameId) {
+  e.preventDefault(); zone.classList.remove('dragging');
+  const file = e.dataTransfer.files[0];
+  if (file) {
+    document.getElementById(fileId).files = e.dataTransfer.files;
+    document.getElementById(nameId).textContent = file.name;
+    document.getElementById(uploadedId).classList.add('show');
+  }
+}
+
+/* ── STEP MANAGER (register) ── */
+const RNODES = ['rn1','rn2','rn3','rn4'];
+const RBARS  = ['rb1','rb2','rb3'];
+let regCurrentStep = 1;
+
+function setStepUI(step) {
+  RNODES.forEach((id, i) => {
+    const n = document.getElementById(id);
+    const num = i + 1;
+    if (num < step)      { n.className = 'step-node done';    n.innerHTML = '✓<span class="step-label">' + n.querySelector('.step-label').textContent + '</span>'; }
+    else if (num === step){ n.className = 'step-node current'; n.innerHTML = num + '<span class="step-label">' + n.querySelector('.step-label').textContent + '</span>'; }
+    else                 { n.className = 'step-node future';  n.innerHTML = num + '<span class="step-label">' + n.querySelector('.step-label').textContent + '</span>'; }
+  });
+  RBARS.forEach((id, i) => {
+    const b = document.getElementById(id);
+    b.className = 'step-bar' + (i + 1 < step ? ' filled' : '');
+  });
+  for (let i = 1; i <= 4; i++) {
+    const panel = document.getElementById('rStep' + i);
+    if (panel) panel.classList.toggle('active', i === step);
+  }
+  document.getElementById('rSuccess').classList.remove('active');
+  regCurrentStep = step;
+}
+
+function validate(rules) {
+  let ok = true;
+  rules.forEach(([id, errId, test]) => {
+    const el  = document.getElementById(id);
+    const err = document.getElementById(errId);
+    const val = el.tagName === 'SELECT' ? el.value : el.value.trim();
+    const pass = test(val);
+    el.classList.toggle('err', !pass);
+    if (err) err.style.display = pass ? 'none' : 'block';
+    if (!pass) ok = false;
+  });
+  return ok;
+}
+
+function regStep(to) {
+  hideAlert('regAlert');
+  if (to === 2) {
+    const ok = validate([
+      ['r_fname', 'r_fname_e', v => v.length > 0],
+      ['r_lname', 'r_lname_e', v => v.length > 0],
+      ['r_email', 'r_email_e', v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)],
+      ['r_phone', 'r_phone_e', v => v.replace(/\s/g,'').length >= 7],
+      ['r_pw',    'r_pw_e',    v => v.length >= 8],
+      ['r_pw2',   'r_pw2_e',   v => v === document.getElementById('r_pw').value],
+    ]);
+    if (!ok) { showAlert('regAlert'); return; }
+  }
+  if (to === 3) {
+    const ok = validate([
+      ['r_biz',   'r_biz_e',   v => v.length > 0],
+      ['r_state', 'r_state_e', v => v.length > 0],
+      ['r_city',  'r_city_e',  v => v.length > 0],
+      ['r_exp',   'r_exp_e',   v => v.length > 0],
+      ['r_bio',   'r_bio_e',   v => v.length >= 50],
+    ]);
+    if (!ok) { showAlert('regAlert'); return; }
+  }
+  if (to === 4) {
+    const cats = document.querySelectorAll('.cat-card.sel');
+    const catErr = document.getElementById('r_cat_e');
+    if (cats.length === 0) { catErr.style.display = 'block'; return; }
+    catErr.style.display = 'none';
+  }
+  setStepUI(to);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function submitRegister() {
+  const ok = validate([
+    ['r_nin',      'r_nin_e',      v => /^\d{11}$/.test(v)],
+    ['r_bank_acc', 'r_bank_acc_e', v => /^\d{10}$/.test(v)],
+    ['r_bank_name','r_bank_name_e',v => v.length > 0],
+  ]);
+  if (!ok) return;
+  const agreed = document.getElementById('r_agree').checked;
+  if (!agreed) { alert('Please agree to the Terms of Service to proceed.'); return; }
+
+  const btn = document.getElementById('regFinalBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span><div class="spin"></div> Creating account…</span>';
+
+  setTimeout(() => {
+    const ref = 'PRV-2025-' + Math.floor(100000 + Math.random() * 900000);
+    document.getElementById('successRef').textContent   = ref;
+    document.getElementById('successEmail').textContent = document.getElementById('r_email').value || 'your email';
+    // Stash provider name for dashboard
+    const fname = document.getElementById('r_fname').value || 'Provider';
+    const lname = document.getElementById('r_lname').value || '';
+    sessionStorage.setItem('providerName', fname + ' ' + lname);
+    sessionStorage.setItem('providerEmail', document.getElementById('r_email').value || '');
+    // Show success
+    for (let i = 1; i <= 4; i++) {
+      const p = document.getElementById('rStep' + i);
+      if (p) p.classList.remove('active');
+    }
+    document.getElementById('rSuccess').classList.add('active');
+    document.getElementById('regTrack').style.display = 'none';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, 2000);
+}
+
+/* ── SOCIAL AUTH ── */
+function socialReg(provider)   { alert(`${provider} Sign-Up: Connect your OAuth App ID and Secret in production to enable this.`); }
+function socialLogin(provider) { alert(`${provider} Sign-In: Connect your OAuth App ID and Secret in production to enable this.`); }
+
+/* ── ALERTS ── */
+function showAlert(id) { document.getElementById(id).classList.add('show'); setTimeout(() => document.getElementById(id).classList.remove('show'), 4500); }
+function hideAlert(id) { document.getElementById(id).classList.remove('show'); }
+
+/* ── LOGIN ── */
+function submitLogin() {
+  const ok = validate([
+    ['l_email', 'l_email_e', v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)],
+    ['l_pw',    'l_pw_e',    v => v.length >= 1],
+  ]);
+  if (!ok) return;
+
+  const btn = document.getElementById('loginBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span><div class="spin"></div> Signing in…</span>';
+
+  // Simulate auth (demo: any email+password succeeds)
+  setTimeout(() => {
+    btn.disabled = false;
+    btn.innerHTML = '<span>Sign In →</span>';
+    const okAlert = document.getElementById('loginOk');
+    okAlert.classList.add('show');
+    // Stash login email for dashboard
+    const email = document.getElementById('l_email').value || '';
+    if (!sessionStorage.getItem('providerName')) {
+      sessionStorage.setItem('providerName', email.split('@')[0] || 'Provider');
+    }
+    sessionStorage.setItem('providerEmail', email);
+    setTimeout(() => {
+      okAlert.classList.remove('show');
+      initDashboard();
+      goScreen('dashboard');
+    }, 1600);
+  }, 1800);
+}
+
+function showForgot() {
+  document.getElementById('loginFormBody').style.display = 'none';
+  document.getElementById('forgotForm').style.display    = 'block';
+}
+function showLogin() {
+  document.getElementById('loginFormBody').style.display = 'block';
+  document.getElementById('forgotForm').style.display    = 'none';
+}
+function sendReset() {
+  const email = document.getElementById('forgot_email').value.trim();
+  if (!email) { alert('Please enter your email address.'); return; }
+  document.getElementById('resetOk').classList.add('show');
+}
+
+/* ─────────────────────────────────────────────
+   WHATSAPP CHAT WIDGET
+───────────────────────────────────────────── */
+const WA_NUMBER = '2348000000000'; // ← Replace with actual WhatsApp number
+let chatOpen = false;
+let msgCount = 0;
+const waResponses = [
+  "Thanks for reaching out! A Nkiri support agent will assist you shortly. For urgent matters, tap 'Continue on WhatsApp' below 👇",
+  "Great question! You can find detailed info in our Provider Guide. Want me to send you the link?",
+  "We typically respond within 5 minutes during business hours (8am – 6pm WAT, Mon–Fri).",
+  "I've forwarded your message to our provider success team. They'll get back to you very soon! 🙌",
+];
+let responseIdx = 0;
+
+function toggleChat() {
+  chatOpen = !chatOpen;
+  const win       = document.getElementById('waWindow');
+  const launcher  = document.getElementById('waLauncher');
+  const badge     = document.getElementById('waBadge');
+  const tooltip   = document.getElementById('waTooltip');
+
+  win.classList.toggle('show', chatOpen);
+  launcher.classList.toggle('open', chatOpen);
+  tooltip.style.opacity = chatOpen ? '0' : '1';
+
+  if (chatOpen) {
+    badge.style.display = 'none';
+    setTimeout(() => document.getElementById('waInput').focus(), 400);
+  }
+}
+
+function sendWaMsg() {
+  const input = document.getElementById('waInput');
+  const text  = input.value.trim();
+  if (!text) return;
+  input.value = '';
+
+  addBubble(text, 'me');
+  showTyping();
+  setTimeout(() => {
+    hideTyping();
+    addBubble(waResponses[responseIdx % waResponses.length], 'them');
+    responseIdx++;
+  }, 1400 + Math.random() * 800);
+}
+
+function qrReply(el, text) {
+  addBubble(text, 'me');
+  el.style.opacity = '.4'; el.style.pointerEvents = 'none';
+  showTyping();
+  setTimeout(() => {
+    hideTyping();
+    addBubble(waResponses[responseIdx % waResponses.length], 'them');
+    responseIdx++;
+  }, 1200 + Math.random() * 600);
+}
+
+function addBubble(text, side) {
+  const body = document.getElementById('waBody');
+  const time  = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const wrap  = document.createElement('div');
+  wrap.className = 'wa-bubble-wrap ' + side;
+  const tick = side === 'me' ? `<span class="wa-check">✓✓</span>` : '';
+  wrap.innerHTML = `
+    <div class="wa-bubble ${side}">${escHtml(text)}</div>
+    <div class="wa-bubble-time ${side}">${time} ${tick}</div>
+  `;
+  body.appendChild(wrap);
+  body.scrollTop = body.scrollHeight;
+}
+
+function showTyping() {
+  const body = document.getElementById('waBody');
+  const t = document.createElement('div');
+  t.className = 'wa-bubble-wrap them'; t.id = 'typingIndicator';
+  t.innerHTML = `
+    <div class="wa-bubble them" style="padding:12px 14px;">
+      <div class="wa-typing show">
+        <div class="wa-dot-typing"><span></span><span></span><span></span></div>
+      </div>
+    </div>
+  `;
+  body.appendChild(t);
+  body.scrollTop = body.scrollHeight;
+}
+function hideTyping() {
+  const t = document.getElementById('typingIndicator');
+  if (t) t.remove();
+}
+
+function openWhatsApp() {
+  const msg = encodeURIComponent("Hi Nkiri Synergies! I'm interested in becoming a service provider. Can you help me?");
+  window.open(`https://wa.me/${WA_NUMBER}?text=${msg}`, '_blank');
+}
+
+function escHtml(str) {
+  const d = document.createElement('div'); d.textContent = str; return d.innerHTML;
+}
+
+/* Auto-open chat after 6 seconds with a greeting */
+setTimeout(() => {
+  if (!chatOpen) {
+    document.getElementById('waBadge').style.display = 'flex';
+  }
+}, 6000);
+</script>
+</body>
+</html>
