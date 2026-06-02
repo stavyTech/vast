@@ -1125,6 +1125,21 @@ input, select, textarea { font-family: var(--f-body); }
     box-shadow: 10px 0 30px rgba(0,0,0,.25);
   }
 
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: .3s ease;
+  z-index: 999;
+}
+
+.sidebar-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
   /* When opened */
   .dash-sidebar.mobile-open {
     transform: translateX(0);
@@ -1150,7 +1165,7 @@ input, select, textarea { font-family: var(--f-body); }
     opacity: 1;
   }
 }
-/* @media (max-width: 1100px) {
+ @media (max-width: 1100px) {
   .dash-stats { grid-template-columns: repeat(2,1fr); }
   .dash-grid-2 { grid-template-columns: 1fr; }
 }
@@ -1167,7 +1182,7 @@ input, select, textarea { font-family: var(--f-body); }
   .wallet-row { flex-direction: column; }
   .wallet-actions { width: 100%; }
   .wallet-btn { flex: 1; justify-content: center; }
-} */
+} 
 </style>
 
 </head>
@@ -1220,6 +1235,7 @@ input, select, textarea { font-family: var(--f-body); }
 
     <!-- BODY -->
     <div class="dash-body">
+      <div class="sidebar-overlay"></div>
 
         <!-- SIDEBAR -->
         <aside class="dash-sidebar">
@@ -1609,6 +1625,50 @@ input, select, textarea { font-family: var(--f-body); }
 
     window.location.href = '../index.html';
 });
+// sidbar toggle logic//////
+const sidebar = document.querySelector('.dash-sidebar');
+const toggle = document.querySelector('.dash-sidebar-toggle');
+const overlay = document.querySelector('.sidebar-overlay');
+
+// OPEN sidebar
+if (toggle && sidebar && overlay) {
+  toggle.addEventListener('click', () => {
+    sidebar.classList.add('mobile-open');
+    overlay.classList.add('show');
+  });
+}
+
+// CLOSE when clicking overlay
+if (overlay) {
+  overlay.addEventListener('click', () => {
+    sidebar.classList.remove('mobile-open');
+    overlay.classList.remove('show');
+  });
+}
+
+// CLOSE on outside click (optional safety)
+document.addEventListener('click', function (e) {
+  if (!sidebar || !toggle) return;
+
+  const clickedInsideSidebar = sidebar.contains(e.target);
+  const clickedToggle = toggle.contains(e.target);
+
+  if (!clickedInsideSidebar && !clickedToggle) {
+    sidebar.classList.remove('mobile-open');
+    overlay?.classList.remove('show');
+  }
+});
+
+// logout logic/////
+const logoutBtn = document.getElementById('logoutBtn');
+
+if (logoutBtn) {
+  logoutBtn.addEventListener('click', () => {
+    localStorage.removeItem('user');
+    sessionStorage.clear();
+    window.location.href = '../index.html';
+  });
+}
 </script>
 </body>
 </html>
