@@ -6,9 +6,10 @@
 <title>Provider Dashboard | Nkiri Synergies</title>
 
 <link rel="stylesheet" href="dashboard.css">
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<meta name="description" content="Nkiri Synergies connects skilled professionals with businesses across Africa through a seamless, user-friendly platform. Download Vast App today.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 
 <style>
 :root {
@@ -1106,7 +1107,50 @@ input, select, textarea { font-family: var(--f-body); }
 .modal-footer { padding: 1rem 1.5rem; border-top: 1px solid var(--border); display: flex; gap: 10px; justify-content: flex-end; }
 
 /* ── RESPONSIVE ── */
-@media (max-width: 1100px) {
+
+@media (max-width: 900px) {
+
+  /* Sidebar starts hidden */
+  .dash-sidebar {
+    position: fixed;
+    left: 0;
+    top: 64px;
+    bottom: 0;
+    width: 256px !important;
+
+    transform: translateX(-105%);
+    transition: transform .3s ease;
+    z-index: 1000;
+
+    box-shadow: 10px 0 30px rgba(0,0,0,.25);
+  }
+
+  /* When opened */
+  .dash-sidebar.mobile-open {
+    transform: translateX(0);
+  }
+
+  /* Prevent content shift issues */
+  .dash-main {
+    margin-left: 0 !important;
+  }
+
+  /* Optional overlay effect (recommended) */
+  .dash-sidebar::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.35);
+    opacity: 0;
+    pointer-events: none;
+    transition: .3s;
+  }
+
+  .dash-sidebar.mobile-open::before {
+    opacity: 1;
+  }
+}
+/* @media (max-width: 1100px) {
   .dash-stats { grid-template-columns: repeat(2,1fr); }
   .dash-grid-2 { grid-template-columns: 1fr; }
 }
@@ -1123,7 +1167,7 @@ input, select, textarea { font-family: var(--f-body); }
   .wallet-row { flex-direction: column; }
   .wallet-actions { width: 100%; }
   .wallet-btn { flex: 1; justify-content: center; }
-}
+} */
 </style>
 
 </head>

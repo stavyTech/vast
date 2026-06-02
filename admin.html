@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nkiri Synergies — Admin Control Panel</title>
+<meta name="description" content="Nkiri Synergies connects skilled professionals with businesses across Africa through a seamless, user-friendly platform. Download Vast App today.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════ */
+:root{
+  --bg:       #0c0f14;
+  --bg-2:     #111520;
+  --bg-3:     #161b26;
+  --bg-card:  #1a2030;
+  --bg-hover: #202636;
+  --border:   rgba(255,255,255,.07);
+  --border-2: rgba(255,255,255,.12);
+
+  --amber:    #060af194;
+  --amber-l:  #fcd34d;
+  --amber-d:  #b45309;
+  --teal:     #14b8a6;
+  --teal-l:   #5eead4;
+  --green:    #22c55e;
+  --green-d:  #15803d;
+  --red:      #ef4444;
+  --red-l:    #fca5a5;
+  --blue:     #3b82f6;
+  --blue-l:   #93c5fd;
+  --violet:   #8b5cf6;
+  --pink:     #ec4899;
+
+  --text:     #f1f5f9;
+  --text-2:   #94a3b8;
+  --text-3:   #475569;
+
+  --f-display:'Bebas Neue', sans-serif;
+  --f-body:   'Manrope', sans-serif;
+
+  --sb-w:     240px;
+  --sb-mini:  64px;
+  --topbar-h: 60px;
+
+  --r:        10px;
+  --r-lg:     16px;
+  --r-xl:     22px;
+  --sh:       0 4px 24px rgba(0,0,0,.35);
+  --sh-lg:    0 16px 56px rgba(0,0,0,.5);
+  --tr:       all .2s cubic-bezier(.4,0,.2,1);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--f-body);
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.6;
+  overflow-x:hidden;
+  min-height:100vh;
+}
+a{text-decoration:none;color:inherit}
+button{font-family:var(--f-body);cursor:pointer;border:none;background:none}
+input,select,textarea{font-family:var(--f-body)}
+img{max-width:100%;display:block}
+
+/* ═══════════════════════════════════════
+   SIDEBAR
+═══════════════════════════════════════ */
+.sidebar{
+  position:fixed;left:0;top:0;bottom:0;
+  width:var(--sb-w);
+  background:var(--bg-2);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  z-index:400;
+  transition:width .3s cubic-bezier(.4,0,.2,1);
+  overflow:hidden;
+}
+.sidebar.mini{width:var(--sb-mini)}
+
+/* Sidebar header */
+.sb-head{
+  height:var(--topbar-h);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 16px 0 18px;
+  border-bottom:1px solid var(--border);
+  flex-shrink:0;
+}
+.sb-brand{display:flex;align-items:center;gap:10px;overflow:hidden}
+.sb-logo-box{
+  width:32px;height:32px;border-radius:8px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--amber),#ef4444);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--f-display);font-size:17px;color:var(--bg);letter-spacing:0;
+  box-shadow:0 0 0 3px rgba(245,158,11,.2);
+}
+.sb-brand-text{
+  font-family:var(--f-display);font-size:16px;letter-spacing:.06em;
+  color:var(--text);white-space:nowrap;line-height:1.1;
+  transition:opacity .2s ease;
+}
+.sb-brand-sub{font-size:9px;font-family:var(--f-body);font-weight:600;color:var(--amber);letter-spacing:.15em;text-transform:uppercase;display:block}
+.sidebar.mini .sb-brand-text{opacity:0;pointer-events:none}
+.sb-toggle-btn{
+  width:28px;height:28px;border-radius:7px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--text-2);cursor:pointer;transition:var(--tr);
+  font-size:14px;
+}
+.sb-toggle-btn:hover{background:var(--bg-hover);color:var(--text)}
+
+/* Admin card in sidebar */
+.sb-admin{
+  padding:14px 16px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;
+  overflow:hidden;flex-shrink:0;
+}
+.sb-admin-ava{
+  width:36px;height:36px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--amber),#ef4444);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--f-display);font-size:16px;color:var(--bg);
+  border:2px solid rgba(245,158,11,.3);
+}
+.sb-admin-info{flex:1;min-width:0;transition:opacity .2s ease}
+.sb-admin-name{font-size:13px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-admin-role{
+  font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--amber);margin-top:1px;
+}
+.sidebar.mini .sb-admin-info{opacity:0;pointer-events:none}
+
+/* Nav */
+.sb-nav{flex:1;overflow-y:auto;padding:10px 0}
+.sb-nav::-webkit-scrollbar{display:none}
+.sb-group-label{
+  padding:8px 18px 3px;
+  font-size:9.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--text-3);white-space:nowrap;
+  transition:opacity .15s ease;
+}
+.sidebar.mini .sb-group-label{opacity:0}
+.sb-item{
+  display:flex;align-items:center;gap:11px;
+  padding:10px 16px;cursor:pointer;transition:var(--tr);
+  border-left:2px solid transparent;position:relative;white-space:nowrap;
+}
+.sb-item:hover{background:var(--bg-hover)}
+.sb-item.active{background:rgba(245,158,11,.08);border-left-color:var(--amber)}
+.sb-icon{
+  width:32px;height:32px;border-radius:8px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;transition:var(--tr);
+}
+.sb-item.active .sb-icon{background:rgba(245,158,11,.15)}
+.sb-label{
+  font-size:13.5px;color:var(--text-2);font-weight:500;
+  transition:opacity .2s ease;
+}
+.sb-item.active .sb-label{color:var(--amber);font-weight:700}
+.sidebar.mini .sb-label{opacity:0;pointer-events:none}
+.sb-count{
+  margin-left:auto;min-width:20px;height:20px;border-radius:50px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:800;flex-shrink:0;padding:0 5px;
+  transition:opacity .2s ease;
+}
+.sidebar.mini .sb-count{opacity:0}
+.cc-amber{background:rgba(245,158,11,.2);color:var(--amber-l)}
+.cc-red  {background:rgba(239,68,68,.2);color:var(--red-l)}
+.cc-teal {background:rgba(20,184,166,.2);color:var(--teal-l)}
+.cc-blue {background:rgba(59,130,246,.2);color:var(--blue-l)}
+
+/* Tooltip mini */
+.sb-item::after{
+  content:attr(data-tip);
+  position:absolute;left:72px;top:50%;transform:translateY(-50%);
+  background:var(--bg-card);border:1px solid var(--border-2);color:var(--text);
+  padding:5px 10px;border-radius:7px;font-size:12px;font-weight:600;
+  white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .15s ease;z-index:999;
+  box-shadow:var(--sh);
+}
+.sidebar.mini .sb-item:hover::after{opacity:1}
+
+.sb-bottom{padding:8px 0 12px;border-top:1px solid var(--border);flex-shrink:0}
+
+/* ═══════════════════════════════════════
+   TOPBAR
+═══════════════════════════════════════ */
+.topbar{
+  position:fixed;top:0;right:0;
+  left:var(--sb-w);height:var(--topbar-h);z-index:300;
+  background:rgba(12,15,20,.95);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 1.5rem;
+  transition:left .3s cubic-bezier(.4,0,.2,1);
+}
+.topbar.mini{left:var(--sb-mini)}
+.topbar-left{display:flex;align-items:center;gap:14px}
+.tb-page-title{font-family:var(--f-display);font-size:22px;letter-spacing:.06em;color:var(--text)}
+.tb-breadcrumb{font-size:12.5px;color:var(--text-3);font-weight:500}
+.tb-breadcrumb span{color:var(--amber)}
+.topbar-right{display:flex;align-items:center;gap:8px}
+.tb-btn{
+  display:flex;align-items:center;gap:6px;
+  padding:8px 16px;border-radius:8px;font-size:12.5px;font-weight:700;
+  cursor:pointer;transition:var(--tr);border:none;
+}
+.tb-btn-primary{background:var(--amber);color:var(--bg)}
+.tb-btn-primary:hover{background:var(--amber-l);transform:translateY(-1px)}
+.tb-icon-btn{
+  width:36px;height:36px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--bg-3);border:1px solid var(--border);
+  cursor:pointer;transition:var(--tr);font-size:17px;position:relative;
+}
+.tb-icon-btn:hover{border-color:var(--amber);background:rgba(245,158,11,.08)}
+.tb-notif-dot{
+  position:absolute;top:6px;right:6px;width:8px;height:8px;
+  border-radius:50%;background:var(--red);border:1.5px solid var(--bg);
+}
+.tb-search{
+  display:flex;align-items:center;gap:8px;
+  background:var(--bg-3);border:1px solid var(--border);border-radius:8px;
+  padding:8px 14px;transition:var(--tr);
+}
+.tb-search:focus-within{border-color:var(--amber)}
+.tb-search input{
+  background:none;border:none;outline:none;
+  font-size:13px;color:var(--text);font-family:var(--f-body);width:180px;
+}
+.tb-search input::placeholder{color:var(--text-3)}
+.tb-ham{display:none;flex-direction:column;gap:4px;cursor:pointer;padding:6px}
+.tb-ham span{width:18px;height:2px;background:var(--text-2);border-radius:2px;display:block}
+.sb-mobile-overlay{display:none;position:fixed;inset:0;z-index:399;background:rgba(0,0,0,.6)}
+
+/* ═══════════════════════════════════════
+   MAIN SHELL
+═══════════════════════════════════════ */
+.shell{
+  margin-left:var(--sb-w);
+  padding-top:var(--topbar-h);
+  min-height:100vh;
+  transition:margin-left .3s cubic-bezier(.4,0,.2,1);
+}
+.shell.mini{margin-left:var(--sb-mini)}
+.content{padding:1.75rem}
+
+/* ═══════════════════════════════════════
+   PAGE SYSTEM
+═══════════════════════════════════════ */
+.page{display:none;animation:fadeUp .3s ease}
+.page.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═══════════════════════════════════════
+   SHARED COMPONENTS
+═══════════════════════════════════════ */
+.sec-head{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;
+}
+.sec-head-left h2{
+  font-family:var(--f-display);font-size:clamp(1.8rem,3vw,2.4rem);
+  letter-spacing:.06em;color:var(--text);line-height:1.1;margin-bottom:3px;
+}
+.sec-head-left p{font-size:13px;color:var(--text-2)}
+.sec-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+
+/* Btn */
+.btn{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:9px 18px;border-radius:8px;font-size:13px;font-weight:700;
+  cursor:pointer;transition:var(--tr);border:none;font-family:var(--f-body);
+}
+.btn-amber{background:var(--amber);color:var(--bg)}
+.btn-amber:hover{background:var(--amber-l);transform:translateY(-1px)}
+.btn-ghost{
+  background:var(--bg-3);color:var(--text-2);
+  border:1px solid var(--border-2);
+}
+.btn-ghost:hover{border-color:var(--amber);color:var(--amber)}
+.btn-danger{background:rgba(239,68,68,.12);color:var(--red);border:1px solid rgba(239,68,68,.25)}
+.btn-danger:hover{background:var(--red);color:white}
+.btn-teal{background:rgba(20,184,166,.12);color:var(--teal);border:1px solid rgba(20,184,166,.25)}
+.btn-teal:hover{background:var(--teal);color:var(--bg)}
+.btn-sm{padding:7px 14px;font-size:12px}
+.btn-lg{padding:12px 24px;font-size:14px}
+.btn-full{width:100%;justify-content:center}
+
+/* Card */
+.card{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--r-lg);overflow:hidden;
+}
+.card-head{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.1rem 1.4rem;border-bottom:1px solid var(--border);
+}
+.card-head h3{font-size:14px;font-weight:700;color:var(--text)}
+.card-link{font-size:12.5px;color:var(--amber);font-weight:700;cursor:pointer}
+.card-link:hover{text-decoration:underline}
+
+/* Grids */
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-bottom:1.5rem}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:1.5rem}
+.g2{display:grid;grid-template-columns:1.5fr 1fr;gap:1.5rem;margin-bottom:1.5rem}
+.g2b{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem}
+.mb{margin-bottom:1.5rem}
+
+/* ═══════════════════════════════════════
+   KPI CARDS
+═══════════════════════════════════════ */
+.kpi{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--r-lg);padding:1.4rem;
+  position:relative;overflow:hidden;transition:var(--tr);cursor:default;
+}
+.kpi::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  transition:height .3s ease;
+}
+.kpi:hover{transform:translateY(-3px);box-shadow:var(--sh)}
+.kpi:hover::after{height:3px}
+.kpi-users::after   {background:linear-gradient(90deg,var(--amber),var(--amber-l))}
+.kpi-providers::after{background:linear-gradient(90deg,var(--teal),var(--green))}
+.kpi-jobs::after    {background:linear-gradient(90deg,var(--blue),var(--violet))}
+.kpi-revenue::after {background:linear-gradient(90deg,var(--green),var(--teal))}
+.kpi-disputes::after{background:linear-gradient(90deg,var(--red),var(--pink))}
+.kpi-pending::after {background:linear-gradient(90deg,var(--amber-d),var(--amber))}
+.kpi-icon{
+  width:44px;height:44px;border-radius:11px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;margin-bottom:1rem;
+}
+.ki-amber {background:rgba(245,158,11,.12)}
+.ki-teal  {background:rgba(20,184,166,.12)}
+.ki-blue  {background:rgba(59,130,246,.12)}
+.ki-green {background:rgba(34,197,94,.12)}
+.ki-red   {background:rgba(239,68,68,.12)}
+.ki-violet{background:rgba(139,92,246,.12)}
+.kpi-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:5px}
+.kpi-value{font-family:var(--f-display);font-size:2.1rem;letter-spacing:.04em;color:var(--text);line-height:1;margin-bottom:7px}
+.kpi-delta{font-size:12px;font-weight:700;display:flex;align-items:center;gap:4px}
+.kpi-delta.up   {color:var(--green)}
+.kpi-delta.down {color:var(--red)}
+.kpi-delta.flat {color:var(--text-3)}
+
+/* ═══════════════════════════════════════
+   TABLES
+═══════════════════════════════════════ */
+.tbl-wrap{overflow-x:auto}
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{
+  padding:10px 14px;text-align:left;
+  font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text-3);background:var(--bg-3);border-bottom:1px solid var(--border);
+  white-space:nowrap;
+}
+.tbl td{
+  padding:12px 14px;font-size:13px;color:var(--text-2);
+  border-bottom:1px solid var(--border);transition:var(--tr);
+}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:var(--bg-hover)}
+.tbl-name{display:flex;align-items:center;gap:10px}
+.tbl-ava{
+  width:34px;height:34px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--f-display);font-size:14px;color:var(--bg);
+}
+.tbl-title{font-size:13.5px;font-weight:600;color:var(--text)}
+.tbl-sub  {font-size:11.5px;color:var(--text-3)}
+.tbl-amt  {font-family:var(--f-display);font-size:15px;letter-spacing:.04em;color:var(--text)}
+
+/* Pills */
+.pill{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:3px 10px;border-radius:50px;font-size:11.5px;font-weight:700;white-space:nowrap;
+}
+.pill-active   {background:rgba(34,197,94,.12);color:var(--green)}
+.pill-pending  {background:rgba(245,158,11,.12);color:var(--amber-l)}
+.pill-suspended{background:rgba(239,68,68,.12);color:var(--red-l)}
+.pill-verified {background:rgba(20,184,166,.12);color:var(--teal-l)}
+.pill-review   {background:rgba(139,92,246,.12);color:#c4b5fd}
+.pill-done     {background:rgba(34,197,94,.12);color:var(--green)}
+.pill-progress {background:rgba(59,130,246,.12);color:var(--blue-l)}
+.pill-disputed {background:rgba(239,68,68,.12);color:var(--red-l)}
+.pill-new      {background:rgba(245,158,11,.12);color:var(--amber-l)}
+
+/* ═══════════════════════════════════════
+   MINI CHART (CSS bars)
+═══════════════════════════════════════ */
+.chart-bars{
+  display:flex;align-items:flex-end;gap:5px;height:80px;
+  padding:0 4px;
+}
+.chart-bar{
+  flex:1;border-radius:4px 4px 0 0;
+  background:linear-gradient(180deg,var(--amber) 0%,rgba(245,158,11,.3) 100%);
+  transition:height .6s cubic-bezier(.4,0,.2,1),opacity .2s ease;
+  cursor:pointer;position:relative;
+}
+.chart-bar:hover{opacity:.7}
+.chart-bar::after{
+  content:attr(data-val);
+  position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);
+  font-size:9px;font-weight:700;color:var(--amber-l);
+  opacity:0;transition:opacity .15s ease;white-space:nowrap;
+}
+.chart-bar:hover::after{opacity:1}
+.chart-labels{display:flex;gap:5px;padding:6px 4px 0;justify-content:space-between}
+.chart-labels span{flex:1;text-align:center;font-size:9.5px;color:var(--text-3);font-weight:600}
+
+/* ═══════════════════════════════════════
+   ACTIVITY FEED
+═══════════════════════════════════════ */
+.activity-item{
+  display:flex;gap:12px;padding:12px 14px;
+  border-bottom:1px solid var(--border);transition:var(--tr);
+}
+.activity-item:last-child{border-bottom:none}
+.activity-item:hover{background:var(--bg-hover)}
+.act-dot{
+  width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:5px;
+}
+.act-content{flex:1}
+.act-text{font-size:13px;color:var(--text-2);line-height:1.5}
+.act-text strong{color:var(--text);font-weight:700}
+.act-time{font-size:11px;color:var(--text-3);margin-top:2px}
+.act-badge{
+  padding:2px 9px;border-radius:50px;font-size:10.5px;font-weight:700;
+  flex-shrink:0;align-self:flex-start;margin-top:3px;
+}
+
+/* ═══════════════════════════════════════
+   USERS PAGE
+═══════════════════════════════════════ */
+.filter-bar{
+  display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;flex-wrap:wrap;
+}
+.filter-select{
+  padding:9px 14px;background:var(--bg-3);border:1px solid var(--border-2);
+  border-radius:8px;color:var(--text-2);font-size:13px;font-family:var(--f-body);
+  outline:none;cursor:pointer;transition:var(--tr);
+}
+.filter-select:focus{border-color:var(--amber);color:var(--text)}
+.search-box{
+  display:flex;align-items:center;gap:8px;
+  background:var(--bg-3);border:1px solid var(--border-2);border-radius:8px;
+  padding:9px 14px;flex:1;max-width:320px;transition:var(--tr);
+}
+.search-box:focus-within{border-color:var(--amber)}
+.search-box input{
+  background:none;border:none;outline:none;
+  font-size:13px;color:var(--text);font-family:var(--f-body);width:100%;
+}
+.search-box input::placeholder{color:var(--text-3)}
+
+/* ═══════════════════════════════════════
+   SETTINGS PAGE
+═══════════════════════════════════════ */
+.stabs{display:flex;gap:6px;margin-bottom:1.5rem;flex-wrap:wrap}
+.stab{
+  padding:8px 18px;border-radius:8px;font-size:13px;font-weight:700;
+  cursor:pointer;transition:var(--tr);border:1px solid var(--border-2);
+  color:var(--text-2);background:var(--bg-3);
+}
+.stab.active{background:var(--amber);color:var(--bg);border-color:var(--amber)}
+.stab:hover:not(.active){border-color:var(--amber);color:var(--amber)}
+.stab-content{display:none}
+.stab-content.active{display:block}
+
+.sc{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;margin-bottom:1.25rem}
+.sc-sec{padding:1.4rem;border-bottom:1px solid var(--border)}
+.sc-sec:last-child{border-bottom:none}
+.sc-title{font-size:14px;font-weight:800;color:var(--text);margin-bottom:.25rem}
+.sc-sub  {font-size:12.5px;color:var(--text-3);margin-bottom:1.1rem}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.f-grp{margin-bottom:1rem}
+.f-grp:last-child{margin-bottom:0}
+.f-label{display:block;font-size:12px;font-weight:700;color:var(--text-2);margin-bottom:5px;letter-spacing:.03em}
+.f-input,.f-sel,.f-ta{
+  width:100%;padding:10px 13px;
+  background:var(--bg-3);border:1px solid var(--border-2);border-radius:8px;
+  font-size:13.5px;color:var(--text);outline:none;transition:var(--tr);
+  font-family:var(--f-body);
+}
+.f-input:focus,.f-sel:focus,.f-ta:focus{border-color:var(--amber);box-shadow:0 0 0 3px rgba(245,158,11,.12)}
+.f-ta{resize:vertical;min-height:80px}
+.f-sel{appearance:none;cursor:pointer}
+.toggle-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:12px 0;border-bottom:1px solid var(--border);
+}
+.toggle-row:last-child{border-bottom:none}
+.toggle-info h4{font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:2px}
+.toggle-info p {font-size:12px;color:var(--text-3)}
+.tsw{position:relative;width:42px;height:23px;flex-shrink:0}
+.tsw input{opacity:0;position:absolute;width:0;height:0}
+.tsw-track{
+  position:absolute;inset:0;background:var(--bg-hover);border:1px solid var(--border-2);
+  border-radius:50px;cursor:pointer;transition:var(--tr);
+}
+.tsw-track::after{
+  content:'';position:absolute;width:17px;height:17px;border-radius:50%;
+  background:var(--text-3);top:2px;left:2px;transition:var(--tr);
+  box-shadow:0 1px 4px rgba(0,0,0,.4);
+}
+.tsw input:checked+.tsw-track{background:var(--amber);border-color:var(--amber)}
+.tsw input:checked+.tsw-track::after{transform:translateX(19px);background:var(--bg)}
+.danger-box{
+  background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.2);
+  border-radius:var(--r-lg);padding:1.4rem;
+}
+.danger-box h3{font-size:15px;font-weight:800;color:var(--red);margin-bottom:.5rem}
+.danger-box p {font-size:13px;color:var(--text-3);margin-bottom:1.1rem}
+.danger-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1rem;background:var(--bg-card);border-radius:var(--r);
+  border:1px solid rgba(239,68,68,.15);margin-bottom:.75rem;flex-wrap:wrap;gap:.75rem;
+}
+.danger-row:last-child{margin-bottom:0}
+.dr-info h4{font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:2px}
+.dr-info p {font-size:12px;color:var(--text-3)}
+
+/* ═══════════════════════════════════════
+   MODAL
+═══════════════════════════════════════ */
+.mo{
+  display:none;position:fixed;inset:0;z-index:800;
+  background:rgba(0,0,0,.75);backdrop-filter:blur(6px);
+  align-items:center;justify-content:center;padding:1rem;
+}
+.mo.open{display:flex}
+.mo-box{
+  background:var(--bg-card);border:1px solid var(--border-2);
+  border-radius:var(--r-xl);width:100%;max-width:480px;
+  box-shadow:var(--sh-lg);
+  animation:moPop .3s cubic-bezier(.34,1.2,.64,1);overflow:hidden;
+}
+@keyframes moPop{from{transform:scale(.88);opacity:0}to{transform:scale(1);opacity:1}}
+.mo-head{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.1rem 1.4rem;border-bottom:1px solid var(--border);
+}
+.mo-head h3{font-size:17px;font-weight:800;color:var(--text)}
+.mo-close{
+  width:30px;height:30px;border-radius:8px;background:var(--bg-3);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  font-size:15px;color:var(--text-2);transition:var(--tr);
+}
+.mo-close:hover{background:var(--red);color:white}
+.mo-body{padding:1.4rem}
+.mo-foot{padding:.9rem 1.4rem;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end}
+
+/* ═══════════════════════════════════════
+   TOAST
+═══════════════════════════════════════ */
+.toast-wrap{position:fixed;bottom:24px;right:24px;z-index:999;display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+.toast{
+  background:var(--bg-card);border:1px solid var(--border-2);
+  color:var(--text);padding:11px 18px;border-radius:10px;
+  font-size:13px;font-weight:600;
+  box-shadow:var(--sh-lg);
+  display:flex;align-items:center;gap:9px;
+  animation:toastIn .3s cubic-bezier(.34,1.2,.64,1);
+  border-left:3px solid var(--amber);max-width:320px;
+}
+.toast.ok  {border-left-color:var(--green)}
+.toast.err {border-left-color:var(--red)}
+.toast.warn{border-left-color:var(--amber)}
+@keyframes toastIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+
+/* Loading */
+.spin{display:inline-block;width:14px;height:14px;border-radius:50%;border:2px solid rgba(255,255,255,.2);border-top-color:currentColor;animation:spn .7s linear infinite}
+@keyframes spn{to{transform:rotate(360deg)}}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media(max-width:1200px){.g4{grid-template-columns:1fr 1fr}.g2{grid-template-columns:1fr}}
+@media(max-width:900px){
+  .sidebar{transform:translateX(-100%);width:var(--sb-w)!important}
+  .sidebar.mobile-open{transform:translateX(0)}
+  .sb-mobile-overlay.open{display:block}
+  .shell,.topbar{margin-left:0!important;left:0!important}
+  .tb-ham{display:flex}
+  .tb-search{display:none}
+  .g3,.g2b{grid-template-columns:1fr}
+  .f-row{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .g4{grid-template-columns:1fr}
+  .content{padding:1rem}
+  .sec-actions{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     SIDEBAR
+═══════════════════════════════════════ -->
+<aside class="sidebar" id="sidebar">
+
+  <div class="sb-head">
+    <div class="sb-brand">
+      <div class="sb-logo-box" style="background: transparent;"> <img src="img/563189-removebg-preview (1).png" alt="" style="width:200px;height:100pxpx;cursor:pointer;" onclick="goScreen('landing')"></div>
+      <div class="sb-brand-text">NKIRI<span class="sb-brand-sub">Admin Panel</span></div>
+    </div>
+    <div class="sb-toggle-btn" onclick="toggleSb()" title="Toggle sidebar">☰</div>
+  </div>
+
+  <div class="sb-admin">
+    <div class="sb-admin-ava" style="background: white;">SA</div>
+    <div class="sb-admin-info">
+      <div class="sb-admin-name">Super Admin</div>
+      <div class="sb-admin-role">● System Administrator</div>
+    </div>
+  </div>
+
+  <nav class="sb-nav">
+    <div class="sb-group-label">Overview</div>
+
+    <div class="sb-item active" data-tip="Dashboard" onclick="goPage('dashboard',this)">
+      <div class="sb-icon">📊</div>
+      <span class="sb-label">Dashboard</span>
+    </div>
+
+    <div class="sb-item" data-tip="Analytics" onclick="goPage('analytics',this)">
+      <div class="sb-icon">📈</div>
+      <span class="sb-label">Analytics</span>
+    </div>
+
+    <div class="sb-group-label">User Management</div>
+
+    <div class="sb-item" data-tip="All Users" onclick="goPage('users',this)">
+      <div class="sb-icon">👥</div>
+      <span class="sb-label">All Users</span>
+      <span class="sb-count cc-amber">1,248</span>
+    </div>
+
+    <div class="sb-item" data-tip="Providers" onclick="goPage('providers',this)">
+      <div class="sb-icon">🔧</div>
+      <span class="sb-label">Providers</span>
+      <span class="sb-count cc-teal">312</span>
+    </div>
+
+    <div class="sb-item" data-tip="Verification" onclick="goPage('verification',this)">
+      <div class="sb-icon">✅</div>
+      <span class="sb-label">Verification Queue</span>
+      <span class="sb-count cc-red">14</span>
+    </div>
+
+    <div class="sb-group-label">Operations</div>
+
+    <div class="sb-item" data-tip="Jobs" onclick="goPage('jobs',this)">
+      <div class="sb-icon">💼</div>
+      <span class="sb-label">All Jobs</span>
+      <span class="sb-count cc-blue">892</span>
+    </div>
+
+    <div class="sb-item" data-tip="Disputes" onclick="goPage('disputes',this)">
+      <div class="sb-icon">⚠️</div>
+      <span class="sb-label">Disputes</span>
+      <span class="sb-count cc-red">7</span>
+    </div>
+
+    <div class="sb-item" data-tip="Payments" onclick="goPage('payments',this)">
+      <div class="sb-icon">💳</div>
+      <span class="sb-label">Payments</span>
+    </div>
+
+    <div class="sb-group-label">System</div>
+
+    <div class="sb-item" data-tip="Settings" onclick="goPage('settings',this)">
+      <div class="sb-icon">⚙️</div>
+      <span class="sb-label">Settings</span>
+    </div>
+
+    <div class="sb-item" data-tip="Audit Log" onclick="goPage('audit',this)">
+      <div class="sb-icon">📋</div>
+      <span class="sb-label">Audit Log</span>
+    </div>
+  </nav>
+
+  <div class="sb-bottom">
+    <a href="index.html" class="sb-item" data-tip="Logout" style="color:rgba(239,68,68,.7)">
+      <div class="sb-icon">🚪</div>
+      <span class="sb-label" style="color:rgba(239,68,68,.7)">Logout</span>
+    </a>
+  </div>
+</aside>
+
+<!-- ═══════════════════════════════════════
+     TOPBAR
+═══════════════════════════════════════ -->
+<header class="topbar" id="topbar">
+  <div class="topbar-left">
+    <div class="tb-ham" onclick="toggleMobile()"><span></span><span></span><span></span></div>
+    <div>
+      <div class="tb-page-title" id="pageTitle">DASHBOARD</div>
+      <div class="tb-breadcrumb">Admin / <span id="pageCrumb">Overview</span></div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <div class="tb-search">
+      <span style="color:var(--text-3);font-size:15px">🔍</span>
+      <input placeholder="Search users, jobs, providers…" oninput="globalSearch(this.value)">
+    </div>
+    <div class="tb-icon-btn" title="Notifications">
+      🔔
+      <div class="tb-notif-dot"></div>
+    </div>
+    <div class="tb-icon-btn" title="Messages">💬</div>
+    <button class="tb-btn tb-btn-primary" onclick="openModal('quickActionModal')">⚡ Quick Action</button>
+  </div>
+</header>
+<div class="sb-mobile-overlay" id="sbOverlay" onclick="closeMobile()"></div>
+
+<!-- ═══════════════════════════════════════
+     MAIN SHELL
+═══════════════════════════════════════ -->
+<div class="shell" id="shell">
+<div class="content">
+
+<!-- ────────────────────────────────
+     PAGE: DASHBOARD
+──────────────────────────────── -->
+<div class="page active" id="page-dashboard">
+  <div class="sec-head">
+    <div class="sec-head-left">
+      <h2>PLATFORM <span style="color:var(--amber)">OVERVIEW</span></h2>
+      <p id="dashDate">Loading…</p>
+    </div>
+    <div class="sec-actions">
+      <button class="btn btn-ghost btn-sm" onclick="toast('Report exported!','ok')">📥 Export Report</button>
+      <button class="btn btn-amber btn-sm" onclick="goPage('users', document.querySelector('.sb-item:nth-of-type(4)'))">+ Add User</button>
+    </div>
+  </div>
+
+  <!-- KPI row 1 -->
+  <div class="g4">
+    <div class="kpi kpi-users">
+      <div class="kpi-icon ki-amber">👥</div>
+      <div class="kpi-label">Total Users</div>
+      <div class="kpi-value">1,248</div>
+      <div class="kpi-delta up">↑ 84 this month</div>
+    </div>
+    <div class="kpi kpi-providers">
+      <div class="kpi-icon ki-teal">🔧</div>
+      <div class="kpi-label">Service Providers</div>
+      <div class="kpi-value">312</div>
+      <div class="kpi-delta up">↑ 18 this month</div>
+    </div>
+    <div class="kpi kpi-jobs">
+      <div class="kpi-icon ki-blue">💼</div>
+      <div class="kpi-label">Total Jobs</div>
+      <div class="kpi-value">892</div>
+      <div class="kpi-delta up">↑ 63 this month</div>
+    </div>
+    <div class="kpi kpi-revenue">
+      <div class="kpi-icon ki-green">💰</div>
+      <div class="kpi-label">Platform Revenue</div>
+      <div class="kpi-value">₦4.1M</div>
+      <div class="kpi-delta up">↑ 22% vs last month</div>
+    </div>
+  </div>
+
+  <!-- KPI row 2 -->
+  <div class="g4" style="margin-bottom:1.75rem">
+    <div class="kpi kpi-disputes">
+      <div class="kpi-icon ki-red">⚠️</div>
+      <div class="kpi-label">Open Disputes</div>
+      <div class="kpi-value">7</div>
+      <div class="kpi-delta down">↑ 2 since yesterday</div>
+    </div>
+    <div class="kpi kpi-pending">
+      <div class="kpi-icon ki-amber">⏳</div>
+      <div class="kpi-label">Pending Verifications</div>
+      <div class="kpi-value">14</div>
+      <div class="kpi-delta flat">Awaiting review</div>
+    </div>
+    <div class="kpi" style="border-bottom-color:var(--violet)">
+      <div class="kpi-icon ki-violet">⭐</div>
+      <div class="kpi-label">Avg Platform Rating</div>
+      <div class="kpi-value">4.87</div>
+      <div class="kpi-delta up">↑ 0.1 this quarter</div>
+    </div>
+    <div class="kpi" style="border-bottom-color:var(--teal)">
+      <div class="kpi-icon ki-teal">💳</div>
+      <div class="kpi-label">Transactions Today</div>
+      <div class="kpi-value">128</div>
+      <div class="kpi-delta up">↑ 12 vs yesterday</div>
+    </div>
+  </div>
+
+  <!-- Charts + activity -->
+  <div class="g2" style="margin-bottom:1.75rem">
+    <!-- Revenue chart -->
+    <div class="card">
+      <div class="card-head">
+        <h3>📈 Monthly Revenue (₦)</h3>
+        <span class="card-link">2025</span>
+      </div>
+      <div style="padding:1.25rem">
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:.5rem">
+          <div style="font-family:var(--f-display);font-size:1.8rem;letter-spacing:.04em;color:var(--amber)">₦4,128,500</div>
+          <div style="font-size:12px;color:var(--green);font-weight:700">↑ +22%</div>
+        </div>
+        <div class="chart-bars" id="revenueChart">
+          <div class="chart-bar" style="height:45%" data-val="₦1.9M"></div>
+          <div class="chart-bar" style="height:52%" data-val="₦2.2M"></div>
+          <div class="chart-bar" style="height:38%" data-val="₦1.6M"></div>
+          <div class="chart-bar" style="height:61%" data-val="₦2.6M"></div>
+          <div class="chart-bar" style="height:70%" data-val="₦3.0M"></div>
+          <div class="chart-bar" style="height:58%" data-val="₦2.5M"></div>
+          <div class="chart-bar" style="height:75%" data-val="₦3.2M"></div>
+          <div class="chart-bar" style="height:82%" data-val="₦3.5M"></div>
+          <div class="chart-bar" style="height:67%" data-val="₦2.9M"></div>
+          <div class="chart-bar" style="height:88%" data-val="₦3.8M"></div>
+          <div class="chart-bar" style="height:76%" data-val="₦3.3M"></div>
+          <div class="chart-bar" style="height:96%" data-val="₦4.1M" style="background:linear-gradient(180deg,var(--amber-l) 0%,var(--amber) 100%)"></div>
+        </div>
+        <div class="chart-labels">
+          <span>J</span><span>F</span><span>M</span><span>A</span><span>M</span><span>J</span>
+          <span>J</span><span>A</span><span>S</span><span>O</span><span>N</span><span>D</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live activity -->
+    <div class="card">
+      <div class="card-head">
+        <h3>⚡ Live Activity</h3>
+        <span class="card-link" onclick="goPage('audit',document.querySelector('.sb-item[data-tip=Audit Log]'))">Full log →</span>
+      </div>
+      <div id="activityFeed">
+        <div class="activity-item"><div class="act-dot" style="background:var(--green)"></div><div class="act-content"><div class="act-text"><strong>Amara Okafor</strong> completed a cleaning job · ₦20,000</div><div class="act-time">2 min ago</div></div><span class="act-badge pill-done">Done</span></div>
+        <div class="activity-item"><div class="act-dot" style="background:var(--amber)"></div><div class="act-content"><div class="act-text"><strong>GreenStar Ventures</strong> raised a dispute on Job #892</div><div class="act-time">8 min ago</div></div><span class="act-badge pill-disputed">Dispute</span></div>
+        <div class="activity-item"><div class="act-dot" style="background:var(--blue)"></div><div class="act-content"><div class="act-text"><strong>New provider</strong> Chidi Dev registered · pending verification</div><div class="act-time">14 min ago</div></div><span class="act-badge pill-pending">Pending</span></div>
+        <div class="activity-item"><div class="act-dot" style="background:var(--teal)"></div><div class="act-content"><div class="act-text"><strong>Fatima Bello</strong> withdrew ₦50,000 to GTB</div><div class="act-time">21 min ago</div></div><span class="act-badge pill-done">Paid</span></div>
+        <div class="activity-item"><div class="act-dot" style="background:var(--red)"></div><div class="act-content"><div class="act-text"><strong>Seeker #1044</strong> account flagged for suspicious activity</div><div class="act-time">35 min ago</div></div><span class="act-badge pill-suspended">Flagged</span></div>
+        <div class="activity-item"><div class="act-dot" style="background:var(--green)"></div><div class="act-content"><div class="act-text"><strong>Sunrise Boutique</strong> e-commerce project marked in progress</div><div class="act-time">1 hr ago</div></div><span class="act-badge pill-progress">Active</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent users + top providers -->
+  <div class="g2b">
+    <div class="card mb">
+      <div class="card-head"><h3>🆕 New Users</h3><span class="card-link" onclick="goPage('users',document.querySelector('.sb-item[data-tip=\'All Users\']'))">See all →</span></div>
+      <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>User</th><th>Role</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td><div class="tbl-name"><div class="tbl-ava" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">A</div><div><div class="tbl-title">Amara Okafor</div><div class="tbl-sub">amara@mail.com</div></div></div></td><td>Provider</td><td><span class="pill pill-verified">✓ Verified</span></td><td><button class="btn btn-ghost btn-sm" onclick="openUserModal('Amara Okafor','Provider','Active')">View</button></td></tr>
+          <tr><td><div class="tbl-name"><div class="tbl-ava" style="background:linear-gradient(135deg,#3b82f6,#8b5cf6)">C</div><div><div class="tbl-title">Chidi Nwosu</div><div class="tbl-sub">chidi@mail.com</div></div></div></td><td>Seeker</td><td><span class="pill pill-active">● Active</span></td><td><button class="btn btn-ghost btn-sm" onclick="openUserModal('Chidi Nwosu','Seeker','Active')">View</button></td></tr>
+          <tr><td><div class="tbl-name"><div class="tbl-ava" style="background:linear-gradient(135deg,#0d9488,#22c55e)">F</div><div><div class="tbl-title">Fatima Bello</div><div class="tbl-sub">fatima@mail.com</div></div></div></td><td>Provider</td><td><span class="pill pill-pending">⏳ Review</span></td><td><button class="btn btn-ghost btn-sm" onclick="openUserModal('Fatima Bello','Provider','Pending')">View</button></td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+    <div class="card mb">
+      <div class="card-head"><h3>🏆 Top Providers</h3><span class="card-link" onclick="goPage('providers',document.querySelector('.sb-item[data-tip=Providers]'))">See all →</span></div>
+      <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>Provider</th><th>Rating</th><th>Jobs</th></tr></thead>
+        <tbody>
+          <tr><td><div class="tbl-name"><div class="tbl-ava" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">A</div><div><div class="tbl-title">Amara Okafor</div><div class="tbl-sub">Cleaning · Lagos</div></div></div></td><td><span style="color:var(--amber-l);font-weight:700">★ 4.9</span></td><td><strong style="color:var(--text)">47</strong></td></tr>
+          <tr><td><div class="tbl-name"><div class="tbl-ava" style="background:linear-gradient(135deg,#0d9488,#22c55e)">K</div><div><div class="tbl-title">Kunle Adeyemi</div><div class="tbl-sub">Logistics · Abuja</div></div></div></td><td><span style="color:var(--amber-l);font-weight:700">★ 4.8</span></td><td><strong style="color:var(--text)">39</strong></td></tr>
+          <tr><td><div class="tbl-name"><div class="tbl-ava" style="background:linear-gradient(135deg,#3b82f6,#8b5cf6)">T</div><div><div class="tbl-title">Tunde Dev</div><div class="tbl-sub">App Dev · Lagos</div></div></div></td><td><span style="color:var(--amber-l);font-weight:700">★ 4.8</span></td><td><strong style="color:var(--text)">33</strong></td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+</div><!-- /dashboard -->
+
+
+<!-- ────────────────────────────────
+     PAGE: USERS
+──────────────────────────────── -->
+<div class="page" id="page-users">
+  <div class="sec-head">
+    <div class="sec-head-left"><h2>ALL <span style="color:var(--amber)">USERS</span></h2><p>Manage service seekers and their accounts.</p></div>
+    <div class="sec-actions">
+      <button class="btn btn-ghost btn-sm" onclick="toast('Exported!','ok')">📥 Export CSV</button>
+      <button class="btn btn-amber btn-sm" onclick="openAddUserModal()">+ Add User</button>
+    </div>
+  </div>
+  <div class="filter-bar">
+    <div class="search-box"><span style="color:var(--text-3)">🔍</span><input placeholder="Search users…" oninput="filterTable('usersTbl',this.value)"></div>
+    <select class="filter-select" onchange="filterByStatus('usersTbl',this.value)"><option value="">All Statuses</option><option>Active</option><option>Suspended</option><option>Pending</option></select>
+    <select class="filter-select"><option>All Time</option><option>This Month</option><option>This Week</option></select>
+  </div>
+  <div class="card">
+    <div class="card-head"><h3>Service Seekers (1,248)</h3></div>
+    <div class="tbl-wrap">
+    <table class="tbl" id="usersTbl">
+      <thead><tr><th>User</th><th>Email</th><th>Phone</th><th>Location</th><th>Joined</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody>
+        <tr data-status="Active"><td><div class="tbl-name"><div class="tbl-ava" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">A</div><div><div class="tbl-title">Amara Okafor</div><div class="tbl-sub">Seeker</div></div></div></td><td>amara@mail.com</td><td>+234 812 345 6789</td><td>Lekki, Lagos</td><td>Jan 12, 2025</td><td><span class="pill pill-active">● Active</span></td><td><div style="display:flex;gap:6px"><button class="btn btn-ghost btn-sm" onclick="openUserModal('Amara Okafor','Seeker','Active')">👁</button><button class="btn btn-teal btn-sm" onclick="toast('User suspended','warn')">⏸</button><button class="btn btn-danger btn-sm" onclick="confirmAction('delete user Amara Okafor')">🗑</button></div></td></tr>
+        <tr data-status="Active"><td><div class="tbl-name"><div class="tbl-ava" style="background:linear-gradient(135deg,#3b82f6,#8b5cf6)">C</div><div><div class="tbl-title">Chidi Nwosu</div><div class="tbl-sub">Seeker</div></div></div></td><td>chidi@mail.com</td><td>+234 803 456 7890</td><td>Ikeja, Lagos</td><td>Feb 5, 2025</td><td><span class="pill pill-active">● Active</span></td><td><div style="display:flex;gap:6px"><button class="btn btn-ghost btn-sm" onclick="openUserModal('Chidi Nwosu','Seeker','Active')">👁</button><button class="btn btn-teal btn-sm" onclick="toast('User suspended','warn')">⏸</button><button class="btn btn-danger btn-sm" onclick="confirmAction('delete user Chidi Nwosu')">🗑</button></div></td></tr>
+        <tr data-status="Suspended"><td><div class="tbl-name"><div class="tbl-ava" style="background:linear-gradient(135deg,#0d9488,#22c55e)">F</div><div><div class="tbl-title">Fatima Bello</div><div class="tbl-sub">Seeker</div></div></div></td><td>fatima@mail.com</td><td>+234 905 678 9012</td><td>Maitama, Abuja</td><td>Feb 18, 2025</td><td><span class="pill pill-suspended">⊘ Suspended</span></td><td><div style="display:flex;gap:6px"><button class="btn btn-ghost btn-sm" onclick="openUserModal('Fatima Bello','Seeker','Suspended')">👁</button><button class="btn btn-teal btn-sm" onclick="toast('User reactivated','ok')">▶</button><button class="btn btn-danger btn-sm" onclick="confirmAction('delete user Fatima Bello')">🗑</button></div></td></tr>
+        <tr data-status="Active"><td><div class="tbl-name"><div class="tbl-ava" style="background:linear-gradient(135deg,#ec4899,#8b5cf6)">N</div><div><div class="tbl-title">Ngozi Eze</div><div class="tbl-sub">Seeker</div></div></div></td><td>ngozi@mail.com</td><td>+234 816 789 0123</td><td>Enugu</td><td>Mar 3, 2025</td><td><span class="pill pill-active">● Active</span></td><td><div style="display:flex;gap:6px"><button class="btn btn-ghost btn-sm" onclick="openUserModal('Ngozi Eze','Seeker','Active')">👁</button><button class="btn btn-teal btn-sm" onclick="toast('User suspended','warn')">⏸</button><button class="btn btn-danger btn-sm" onclick="confirmAction('delete user Ngozi Eze')">🗑</button></div></td></tr>
+        <tr data-status="Pending"><td><div class="tbl-name"><div class="tbl-ava" style="background:linear-gradient(135deg,#d97706,#f59e0b)">K</div><div><div class="tbl-title">Kunle Adeyemi</div><div class="tbl-sub">Seeker</div></div></div></td><td>kunle@mail.com</td><td>+234 701 234 5678</td><td>Wuse, Abuja</td><td>Apr 10, 2025</td><td><span class="pill pill-pending">⏳ Pending</span></td><td><div style="display:flex;gap:6px"><button class="btn btn-ghost btn-sm" onclick="openUserModal('Kunle Adeyemi','Seeker','Pending')">👁</button><button class="btn btn-amber btn-sm" onclick="toast('User approved','ok')">✓ Approve</button></div></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div><!-- /users -->
+
+
+<!-- ────────────────────────────────
+     PAGE: PROVIDERS
+──────────────────────────────── -->
+<div class="page" id="page-providers">
+  <div class="sec-head">
+    <div class="sec-head-left"><h2>SERVICE <span style="color:var(--amber)">PROVIDERS</span></h2><p>Manage all registered service providers.</p></div>
+    <div class="sec-actions">
+      <button class="btn btn-ghost btn-sm" onclick="toast('Exported!','ok')">📥 Export</button>
+      <button class="btn btn-amber btn-sm" onclick="openAddUserModal('provider')">+ Add Provider</button>
+    </div>
+  </div>
+  <div class="filter-bar">
+    <div class="search-box"><span style="color:var(--text-3)">🔍</span><input placeholder="Search providers…" oninput="filterTable('provTbl',this.value)"></div>
+    <select class="filter-select"><option value="">All Categories</option><option>Cleaning</option><option>Logistics</option><option>App Dev</option><option>E-commerce</option><option>Photography</option></select>
+    <select class="filter-select" onchange="filterByStatus('provTbl',this.value)"><option value="">All Statuses</option><option>Verified</option><option>Pending</option><option>Suspended</option></select>
+  </div>
+  <div class="card mb">
+    <div class="card-head"><h3>All Providers (312)</h3></div>
+    <div class="tbl-wrap">
+    <table class="tbl" id="provTbl">
+      <thead><tr><th>Provider</th><th>Category</th><th>Location</th><th>Rating</th><th>Jobs</th><th>Earnings</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody>
+        <tr data-status="Verified"><td><div class="tbl-name"><div class="tbl-ava" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">A</div><div><div class="tbl-title">Amara Okafor</div><div class="tbl-sub">amara@mail.com</div></div></div></td><td>Cleaning</td><td>Lekki, Lagos</td><td><span style="color:var(--amber-l);font-weight:700">★ 4.9</span></td><td>47</td><td class="tbl-amt">₦742K</td><td><span class="pill pill-verified">✓ Verified</span></td><td><div style="display:flex;gap:5px"><button class="btn btn-ghost btn-sm" onclick="openUserModal('Amara Okafor','Provider','Verified')">👁</button><button class="btn btn-danger btn-sm" onclick="confirmAction('suspend provider Amara Okafor')">⏸</button></div></td></tr>
+        <tr data-status="Verified"><td><div class="tbl-name"><div class="tbl-ava" style="background:linear-gradient(135deg,#0d9488,#22c55e)">K</div><div><div class="tbl-title">Kunle Adeyemi</div><div class="tbl-sub">kunle@mail.com</div></div></div></td><td>Logistics</td><td>Wuse, Abuja</td><td><span style="color:var(--amber-l);font-weight:700">★ 4.8</span></td><td>39</td><td class="tbl-amt">₦584K</td><td><span class="pill pill-verified">✓ Verified</span></td><td><div style="display:flex;gap:5px"><button class="btn btn-ghost btn-sm" onclick="openUserModal('Kunle Adeyemi','Provider','Verified')">👁</button><button class="btn btn-danger btn-sm" onclick="confirmAction('suspend provider Kunle Adeyemi')">⏸</button></div></td></tr>
+        <tr data-status="Verified"><td><div class="tbl-name"><div class="tbl-ava" style="background:linear-gradient(135deg,#3b82f6,#8b5cf6)">T</div><div><div class="tbl-title">Tunde Adeleke (Dev)</div><div class="tbl-sub">tunde@mail.com</div></div></div></td><td>App Dev</td><td>Yaba, Lagos</td><td><span style="color:var(--amber-l);font-weight:700">★ 4.8</span></td><td>33</td><td class="tbl-amt">₦1.2M</td><td><span class="pill pill-verified">✓ Verified</span></td><td><div style="display:flex;gap:5px"><button class="btn btn-ghost btn-sm" onclick="openUserModal('Tunde Adeleke','Provider','Verified')">👁</button><button class="btn btn-danger btn-sm" onclick="confirmAction('suspend provider Tunde Adeleke')">⏸</button></div></td></tr>
+        <tr data-status="Pending"><td><div class="tbl-name"><div class="tbl-ava" style="background:linear-gradient(135deg,#ec4899,#8b5cf6)">G</div><div><div class="tbl-title">Grace Obi</div><div class="tbl-sub">grace@mail.com</div></div></div></td><td>Photography</td><td>GRA, Port Harcourt</td><td><span style="color:var(--text-3)">—</span></td><td>0</td><td class="tbl-amt">₦0</td><td><span class="pill pill-pending">⏳ Pending</span></td><td><div style="display:flex;gap:5px"><button class="btn btn-ghost btn-sm" onclick="openUserModal('Grace Obi','Provider','Pending')">👁</button><button class="btn btn-amber btn-sm" onclick="approveProvider('Grace Obi')">✓ Approve</button></div></td></tr>
+        <tr data-status="Suspended"><td><div class="tbl-name"><div class="tbl-ava" style="background:linear-gradient(135deg,#475569,#94a3b8)">M</div><div><div class="tbl-title">Musa Ibrahim</div><div class="tbl-sub">musa@mail.com</div></div></div></td><td>Cleaning</td><td>Kano</td><td><span style="color:var(--amber-l);font-weight:700">★ 3.2</span></td><td>8</td><td class="tbl-amt">₦48K</td><td><span class="pill pill-suspended">⊘ Suspended</span></td><td><div style="display:flex;gap:5px"><button class="btn btn-ghost btn-sm" onclick="openUserModal('Musa Ibrahim','Provider','Suspended')">👁</button><button class="btn btn-teal btn-sm" onclick="toast('Provider reactivated','ok')">▶ Reinstate</button></div></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div><!-- /providers -->
+
+
+<!-- ────────────────────────────────
+     PAGE: JOBS
+──────────────────────────────── -->
+<div class="page" id="page-jobs">
+  <div class="sec-head">
+    <div class="sec-head-left"><h2>ALL <span style="color:var(--amber)">JOBS</span></h2><p>Monitor every service engagement on the platform.</p></div>
+    <div class="sec-actions">
+      <select class="filter-select" onchange="filterTable('jobsTbl',this.value)"><option value="">All Statuses</option><option>Completed</option><option>In Progress</option><option>Pending</option><option>Disputed</option></select>
+      <button class="btn btn-ghost btn-sm" onclick="toast('Jobs exported!','ok')">📥 Export</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-head"><h3>All Jobs (892)</h3></div>
+    <div class="tbl-wrap">
+    <table class="tbl" id="jobsTbl">
+      <thead><tr><th>Job</th><th>Client</th><th>Provider</th><th>Category</th><th>Date</th><th>Amount</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody>
+        <tr><td><div><div class="tbl-title">Office Deep Clean</div><div class="tbl-sub">#JOB-892</div></div></td><td>Lekki Finance Co.</td><td>Amara Okafor</td><td>Cleaning</td><td>May 26</td><td class="tbl-amt">₦20,000</td><td><span class="pill pill-done">✓ Done</span></td><td><button class="btn btn-ghost btn-sm" onclick="openJobModal('Office Deep Clean','#JOB-892','Completed')">View</button></td></tr>
+        <tr><td><div><div class="tbl-title">E-commerce Setup</div><div class="tbl-sub">#JOB-891</div></div></td><td>Sunrise Boutique</td><td>Tunde Dev</td><td>E-commerce</td><td>May 20</td><td class="tbl-amt">₦45,000</td><td><span class="pill pill-progress">⏳ In Progress</span></td><td><button class="btn btn-ghost btn-sm" onclick="openJobModal('E-commerce Setup','#JOB-891','In Progress')">View</button></td></tr>
+        <tr><td><div><div class="tbl-title">Logistics Run</div><div class="tbl-sub">#JOB-890</div></div></td><td>SwiftCargo NG</td><td>Kunle Adeyemi</td><td>Logistics</td><td>May 18</td><td class="tbl-amt">₦8,500</td><td><span class="pill pill-done">✓ Done</span></td><td><button class="btn btn-ghost btn-sm" onclick="openJobModal('Logistics Run','#JOB-890','Completed')">View</button></td></tr>
+        <tr><td><div><div class="tbl-title">Product Photography</div><div class="tbl-sub">#JOB-889</div></div></td><td>Mama's Kitchen NG</td><td>Grace Obi</td><td>Photography</td><td>May 15</td><td class="tbl-amt">₦15,000</td><td><span class="pill pill-pending">⏱ Pending</span></td><td><button class="btn btn-ghost btn-sm" onclick="openJobModal('Product Photography','#JOB-889','Pending')">View</button></td></tr>
+        <tr><td><div><div class="tbl-title">Business Plan Audit</div><div class="tbl-sub">#JOB-888</div></div></td><td>GreenStar Ventures</td><td>Musa Ibrahim</td><td>QA</td><td>Apr 30</td><td class="tbl-amt">₦30,000</td><td><span class="pill pill-disputed">⚠ Disputed</span></td><td><div style="display:flex;gap:5px"><button class="btn btn-ghost btn-sm" onclick="openJobModal('Business Plan Audit','#JOB-888','Disputed')">View</button><button class="btn btn-amber btn-sm" onclick="openModal('disputeModal')">Resolve</button></div></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div><!-- /jobs -->
+
+
+<!-- ────────────────────────────────
+     PAGE: DISPUTES
+──────────────────────────────── -->
+<div class="page" id="page-disputes">
+  <div class="sec-head">
+    <div class="sec-head-left"><h2>OPEN <span style="color:var(--red)">DISPUTES</span></h2><p>7 disputes require your attention. Resolve them to protect platform trust.</p></div>
+  </div>
+  <div class="g4" style="margin-bottom:1.5rem">
+    <div class="kpi"><div class="kpi-icon ki-red">🔥</div><div class="kpi-label">Open Disputes</div><div class="kpi-value">7</div><div class="kpi-delta down">↑ 2 this week</div></div>
+    <div class="kpi"><div class="kpi-icon ki-amber">⏳</div><div class="kpi-label">Avg Resolution Time</div><div class="kpi-value">2.4d</div><div class="kpi-delta flat">Target: &lt;2 days</div></div>
+    <div class="kpi"><div class="kpi-icon ki-green">✅</div><div class="kpi-label">Resolved This Month</div><div class="kpi-value">23</div><div class="kpi-delta up">↑ 5 vs last month</div></div>
+    <div class="kpi"><div class="kpi-icon ki-blue">💰</div><div class="kpi-label">Funds Held in Escrow</div><div class="kpi-value">₦78K</div><div class="kpi-delta flat">Pending resolution</div></div>
+  </div>
+  <div class="card">
+    <div class="card-head"><h3>⚠️ Active Disputes</h3></div>
+    <div class="tbl-wrap">
+    <table class="tbl">
+      <thead><tr><th>Job</th><th>Client</th><th>Provider</th><th>Amount</th><th>Raised</th><th>Reason</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td><div><div class="tbl-title">Business Plan Audit</div><div class="tbl-sub">#JOB-888</div></div></td><td>GreenStar Ventures</td><td>Musa Ibrahim</td><td class="tbl-amt">₦30,000</td><td>Apr 30</td><td><span class="pill pill-disputed">Quality Issue</span></td><td><button class="btn btn-amber btn-sm" onclick="openModal('disputeModal')">Resolve</button></td></tr>
+        <tr><td><div><div class="tbl-title">Cleaning #879</div><div class="tbl-sub">#JOB-879</div></div></td><td>TechHub NG</td><td>Amara Okafor</td><td class="tbl-amt">₦18,000</td><td>May 5</td><td><span class="pill pill-pending">No-show</span></td><td><button class="btn btn-amber btn-sm" onclick="openModal('disputeModal')">Resolve</button></td></tr>
+        <tr><td><div><div class="tbl-title">App Development</div><div class="tbl-sub">#JOB-870</div></div></td><td>AfriMart Ltd</td><td>Tunde Dev</td><td class="tbl-amt">₦200,000</td><td>May 10</td><td><span class="pill pill-disputed">Delayed Delivery</span></td><td><button class="btn btn-amber btn-sm" onclick="openModal('disputeModal')">Resolve</button></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div><!-- /disputes -->
+
+
+<!-- ────────────────────────────────
+     PAGE: VERIFICATION
+──────────────────────────────── -->
+<div class="page" id="page-verification">
+  <div class="sec-head">
+    <div class="sec-head-left"><h2>VERIFICATION <span style="color:var(--amber)">QUEUE</span></h2><p>14 providers awaiting document review and approval.</p></div>
+  </div>
+  <div class="card">
+    <div class="card-head"><h3>📋 Pending Providers (14)</h3></div>
+    <div class="tbl-wrap">
+    <table class="tbl">
+      <thead><tr><th>Provider</th><th>Category</th><th>ID Submitted</th><th>NIN</th><th>Certificate</th><th>Submitted</th><th>Actions</th></tr></thead>
+      <tbody>
+        <tr><td><div class="tbl-name"><div class="tbl-ava" style="background:linear-gradient(135deg,#ec4899,#8b5cf6)">G</div><div><div class="tbl-title">Grace Obi</div><div class="tbl-sub">Port Harcourt</div></div></div></td><td>Photography</td><td><span class="pill pill-done">✓ Uploaded</span></td><td><span class="pill pill-done">✓ 12345678901</span></td><td><span class="pill pill-done">✓ Uploaded</span></td><td>May 25</td><td><div style="display:flex;gap:5px"><button class="btn btn-amber btn-sm" onclick="approveProvider('Grace Obi')">✓ Approve</button><button class="btn btn-danger btn-sm" onclick="rejectProvider('Grace Obi')">✗ Reject</button></div></td></tr>
+        <tr><td><div class="tbl-name"><div class="tbl-ava" style="background:linear-gradient(135deg,#3b82f6,#06b6d4)">I</div><div><div class="tbl-title">Ibrahim Sule</div><div class="tbl-sub">Kano</div></div></div></td><td>Logistics</td><td><span class="pill pill-done">✓ Uploaded</span></td><td><span class="pill pill-pending">⏳ Unverified</span></td><td><span class="pill pill-review">Review</span></td><td>May 24</td><td><div style="display:flex;gap:5px"><button class="btn btn-ghost btn-sm" onclick="toast('More info requested from Ibrahim Sule','warn')">📧 Request Info</button><button class="btn btn-danger btn-sm" onclick="rejectProvider('Ibrahim Sule')">✗ Reject</button></div></td></tr>
+        <tr><td><div class="tbl-name"><div class="tbl-ava" style="background:linear-gradient(135deg,#0d9488,#16a34a)">A</div><div><div class="tbl-title">Adaeze Mba</div><div class="tbl-sub">Enugu</div></div></div></td><td>Cleaning</td><td><span class="pill pill-done">✓ Uploaded</span></td><td><span class="pill pill-done">✓ 98765432100</span></td><td><span class="pill pill-pending">⏳ Pending</span></td><td>May 23</td><td><div style="display:flex;gap:5px"><button class="btn btn-amber btn-sm" onclick="approveProvider('Adaeze Mba')">✓ Approve</button><button class="btn btn-danger btn-sm" onclick="rejectProvider('Adaeze Mba')">✗ Reject</button></div></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div><!-- /verification -->
+
+
+<!-- ────────────────────────────────
+     PAGE: PAYMENTS
+──────────────────────────────── -->
+<div class="page" id="page-payments">
+  <div class="sec-head">
+    <div class="sec-head-left"><h2>PAYMENT <span style="color:var(--amber)">TRANSACTIONS</span></h2><p>Monitor all platform financial activity.</p></div>
+    <div class="sec-actions"><button class="btn btn-ghost btn-sm" onclick="toast('Exported!','ok')">📥 Export</button></div>
+  </div>
+  <div class="g4" style="margin-bottom:1.5rem">
+    <div class="kpi"><div class="kpi-icon ki-green">💰</div><div class="kpi-label">Total Volume</div><div class="kpi-value">₦48.2M</div><div class="kpi-delta up">↑ All time</div></div>
+    <div class="kpi"><div class="kpi-icon ki-amber">🏦</div><div class="kpi-label">Withdrawals Today</div><div class="kpi-value">₦1.8M</div><div class="kpi-delta flat">32 transactions</div></div>
+    <div class="kpi"><div class="kpi-icon ki-teal">💳</div><div class="kpi-label">Deposits Today</div><div class="kpi-value">₦320K</div><div class="kpi-delta up">↑ 14 transactions</div></div>
+    <div class="kpi"><div class="kpi-icon ki-blue">📊</div><div class="kpi-label">Platform Fee Earned</div><div class="kpi-value">₦2.4M</div><div class="kpi-delta up">↑ 5% of volume</div></div>
+  </div>
+  <div class="card">
+    <div class="card-head"><h3>Recent Transactions</h3><span class="card-link" onclick="toast('All transactions exported','ok')">Export All</span></div>
+    <div class="tbl-wrap">
+    <table class="tbl">
+      <thead><tr><th>Ref</th><th>User</th><th>Type</th><th>Method</th><th>Amount</th><th>Fee</th><th>Date</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td style="font-family:var(--f-display);color:var(--amber);font-size:13px">NSL-2025-192034</td><td>Amara Okafor</td><td><span class="pill pill-done">Payout</span></td><td>Paystack</td><td class="tbl-amt">₦20,000</td><td>₦1,000</td><td>May 26</td><td><span class="pill pill-done">✓ Success</span></td></tr>
+        <tr><td style="font-family:var(--f-display);color:var(--amber);font-size:13px">NSL-2025-191820</td><td>Fatima Bello</td><td><span class="pill" style="background:rgba(239,68,68,.12);color:var(--red-l)">Withdrawal</span></td><td>GTB Direct</td><td class="tbl-amt">₦50,000</td><td>₦500</td><td>May 25</td><td><span class="pill pill-done">✓ Success</span></td></tr>
+        <tr><td style="font-family:var(--f-display);color:var(--amber);font-size:13px">NSL-2025-191540</td><td>Chidi Nwosu</td><td><span class="pill pill-progress">Deposit</span></td><td>Flutterwave</td><td class="tbl-amt">₦10,000</td><td>₦300</td><td>May 24</td><td><span class="pill pill-done">✓ Success</span></td></tr>
+        <tr><td style="font-family:var(--f-display);color:var(--amber);font-size:13px">NSL-2025-191204</td><td>Tunde Dev</td><td><span class="pill pill-done">Payout</span></td><td>Paystack</td><td class="tbl-amt">₦45,000</td><td>₦2,250</td><td>May 23</td><td><span class="pill pill-pending">⏳ Pending</span></td></tr>
+        <tr><td style="font-family:var(--f-display);color:var(--amber);font-size:13px">NSL-2025-190788</td><td>Kunle Adeyemi</td><td><span class="pill" style="background:rgba(239,68,68,.12);color:var(--red-l)">Withdrawal</span></td><td>Access Bank</td><td class="tbl-amt">₦30,000</td><td>₦500</td><td>May 22</td><td><span class="pill pill-suspended">✗ Failed</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div><!-- /payments -->
+
+
+<!-- ────────────────────────────────
+     PAGE: ANALYTICS
+──────────────────────────────── -->
+<div class="page" id="page-analytics">
+  <div class="sec-head">
+    <div class="sec-head-left"><h2>PLATFORM <span style="color:var(--amber)">ANALYTICS</span></h2><p>Deep insights into platform growth and performance.</p></div>
+    <div class="sec-actions"><select class="filter-select"><option>Last 30 Days</option><option>Last 3 Months</option><option>Last 12 Months</option></select></div>
+  </div>
+  <div class="g4" style="margin-bottom:1.5rem">
+    <div class="kpi"><div class="kpi-icon ki-amber">👥</div><div class="kpi-label">New Users (30d)</div><div class="kpi-value">284</div><div class="kpi-delta up">↑ 31% vs prior period</div></div>
+    <div class="kpi"><div class="kpi-icon ki-teal">💼</div><div class="kpi-label">Jobs Created (30d)</div><div class="kpi-value">183</div><div class="kpi-delta up">↑ 18%</div></div>
+    <div class="kpi"><div class="kpi-icon ki-green">💰</div><div class="kpi-label">Revenue (30d)</div><div class="kpi-value">₦4.1M</div><div class="kpi-delta up">↑ 22%</div></div>
+    <div class="kpi"><div class="kpi-icon ki-blue">⭐</div><div class="kpi-label">Avg Rating (30d)</div><div class="kpi-value">4.87</div><div class="kpi-delta up">↑ 0.08</div></div>
+  </div>
+  <div class="g2b">
+    <div class="card mb">
+      <div class="card-head"><h3>👥 User Growth (Monthly)</h3></div>
+      <div style="padding:1.25rem">
+        <div class="chart-bars">
+          <div class="chart-bar" style="height:30%;background:linear-gradient(180deg,var(--teal) 0%,rgba(20,184,166,.3) 100%)" data-val="48"></div>
+          <div class="chart-bar" style="height:40%;background:linear-gradient(180deg,var(--teal) 0%,rgba(20,184,166,.3) 100%)" data-val="64"></div>
+          <div class="chart-bar" style="height:55%;background:linear-gradient(180deg,var(--teal) 0%,rgba(20,184,166,.3) 100%)" data-val="88"></div>
+          <div class="chart-bar" style="height:45%;background:linear-gradient(180deg,var(--teal) 0%,rgba(20,184,166,.3) 100%)" data-val="72"></div>
+          <div class="chart-bar" style="height:65%;background:linear-gradient(180deg,var(--teal) 0%,rgba(20,184,166,.3) 100%)" data-val="104"></div>
+          <div class="chart-bar" style="height:72%;background:linear-gradient(180deg,var(--teal) 0%,rgba(20,184,166,.3) 100%)" data-val="115"></div>
+          <div class="chart-bar" style="height:60%;background:linear-gradient(180deg,var(--teal) 0%,rgba(20,184,166,.3) 100%)" data-val="96"></div>
+          <div class="chart-bar" style="height:80%;background:linear-gradient(180deg,var(--teal) 0%,rgba(20,184,166,.3) 100%)" data-val="128"></div>
+          <div class="chart-bar" style="height:70%;background:linear-gradient(180deg,var(--teal) 0%,rgba(20,184,166,.3) 100%)" data-val="112"></div>
+          <div class="chart-bar" style="height:88%;background:linear-gradient(180deg,var(--teal) 0%,rgba(20,184,166,.3) 100%)" data-val="140"></div>
+          <div class="chart-bar" style="height:76%;background:linear-gradient(180deg,var(--teal) 0%,rgba(20,184,166,.3) 100%)" data-val="122"></div>
+          <div class="chart-bar" style="height:95%;background:linear-gradient(180deg,var(--teal-l) 0%,var(--teal) 100%)" data-val="152"></div>
+        </div>
+        <div class="chart-labels"><span>J</span><span>F</span><span>M</span><span>A</span><span>M</span><span>J</span><span>J</span><span>A</span><span>S</span><span>O</span><span>N</span><span>D</span></div>
+      </div>
+    </div>
+    <div class="card mb">
+      <div class="card-head"><h3>📊 Service Category Breakdown</h3></div>
+      <div style="padding:1.25rem;display:flex;flex-direction:column;gap:12px">
+        <div><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:13px;color:var(--text-2)">Cleaning Services</span><span style="font-size:12px;font-weight:700;color:var(--amber)">34%</span></div><div style="height:7px;background:var(--bg-3);border-radius:4px;overflow:hidden"><div style="height:100%;width:34%;background:linear-gradient(90deg,var(--amber),var(--amber-l));border-radius:4px"></div></div></div>
+        <div><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:13px;color:var(--text-2)">App Development</span><span style="font-size:12px;font-weight:700;color:var(--teal)">27%</span></div><div style="height:7px;background:var(--bg-3);border-radius:4px;overflow:hidden"><div style="height:100%;width:27%;background:linear-gradient(90deg,var(--teal),var(--teal-l));border-radius:4px"></div></div></div>
+        <div><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:13px;color:var(--text-2)">Logistics & Delivery</span><span style="font-size:12px;font-weight:700;color:var(--blue-l)">18%</span></div><div style="height:7px;background:var(--bg-3);border-radius:4px;overflow:hidden"><div style="height:100%;width:18%;background:linear-gradient(90deg,var(--blue),var(--blue-l));border-radius:4px"></div></div></div>
+        <div><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:13px;color:var(--text-2)">E-commerce Solutions</span><span style="font-size:12px;font-weight:700;color:var(--violet)">13%</span></div><div style="height:7px;background:var(--bg-3);border-radius:4px;overflow:hidden"><div style="height:100%;width:13%;background:linear-gradient(90deg,var(--violet),var(--pink));border-radius:4px"></div></div></div>
+        <div><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:13px;color:var(--text-2)">Others</span><span style="font-size:12px;font-weight:700;color:var(--text-3)">8%</span></div><div style="height:7px;background:var(--bg-3);border-radius:4px;overflow:hidden"><div style="height:100%;width:8%;background:var(--text-3);border-radius:4px"></div></div></div>
+      </div>
+    </div>
+  </div>
+</div><!-- /analytics -->
+
+
+<!-- ────────────────────────────────
+     PAGE: SETTINGS
+──────────────────────────────── -->
+<div class="page" id="page-settings">
+  <div class="sec-head">
+    <div class="sec-head-left"><h2>SYSTEM <span style="color:var(--amber)">SETTINGS</span></h2><p>Configure platform-wide settings, integrations, and policies.</p></div>
+  </div>
+  <div class="stabs">
+    <button class="stab active" onclick="switchStab('general',this)">🌐 General</button>
+    <button class="stab" onclick="switchStab('security',this)">🔒 Security</button>
+    <button class="stab" onclick="switchStab('payments',this)">💳 Payments</button>
+    <button class="stab" onclick="switchStab('notifications',this)">🔔 Notifications</button>
+    <button class="stab" onclick="switchStab('danger',this)" style="color:var(--red)">⚠️ Danger Zone</button>
+  </div>
+
+  <!-- General -->
+  <div class="stab-content active" id="sc-general">
+    <div class="sc"><div class="sc-sec"><div class="sc-title">Platform Identity</div><div class="sc-sub">Configure the platform name, logo, and contact details.</div><div class="f-row"><div class="f-grp"><label class="f-label">Platform Name</label><input class="f-input" value="Nkiri Synergies Ltd"></div><div class="f-grp"><label class="f-label">Tagline</label><input class="f-input" value="Empowering Innovation, Enhancing Productivity"></div></div><div class="f-row"><div class="f-grp"><label class="f-label">Support Email</label><input class="f-input" type="email" value="hello@nkirisynergies.com"></div><div class="f-grp"><label class="f-label">Support Phone</label><input class="f-input" value="+234 800 000 0000"></div></div><div class="f-grp"><label class="f-label">Office Address</label><input class="f-input" value="Lagos, Nigeria"></div><button class="btn btn-amber" onclick="saveSetting('Platform identity')">Save Changes</button></div>
+    <div class="sc-sec"><div class="sc-title">Platform Fees</div><div class="sc-sub">Set the commission rate and transaction fees charged on jobs.</div><div class="f-row"><div class="f-grp"><label class="f-label">Provider Commission (%)</label><input class="f-input" type="number" value="5" min="0" max="30"></div><div class="f-grp"><label class="f-label">Withdrawal Fee (₦)</label><input class="f-input" type="number" value="500"></div></div><div class="f-row"><div class="f-grp"><label class="f-label">Min Withdrawal (₦)</label><input class="f-input" type="number" value="1000"></div><div class="f-grp"><label class="f-label">Max Withdrawal per Txn (₦)</label><input class="f-input" type="number" value="500000"></div></div><button class="btn btn-amber" onclick="saveSetting('Fee structure')">Update Fees</button></div></div>
+  </div>
+
+  <!-- Security -->
+  <div class="stab-content" id="sc-security">
+    <div class="sc"><div class="sc-sec"><div class="sc-title">Authentication Settings</div><div class="sc-sub">Control how admin and users authenticate to the platform.</div>
+    <div class="toggle-row"><div class="toggle-info"><h4>Require 2FA for Admins</h4><p>All admin accounts must have 2-factor authentication enabled</p></div><label class="tsw"><input type="checkbox" checked><div class="tsw-track"></div></label></div>
+    <div class="toggle-row"><div class="toggle-info"><h4>Require Email Verification</h4><p>New users must verify their email before accessing the platform</p></div><label class="tsw"><input type="checkbox" checked><div class="tsw-track"></div></label></div>
+    <div class="toggle-row"><div class="toggle-info"><h4>Auto-Lock Inactive Accounts</h4><p>Lock accounts with no activity for more than 90 days</p></div><label class="tsw"><input type="checkbox"><div class="tsw-track"></div></label></div>
+    <div class="toggle-row"><div class="toggle-info"><h4>IP Rate Limiting</h4><p>Block IPs that exceed 100 login attempts per hour</p></div><label class="tsw"><input type="checkbox" checked><div class="tsw-track"></div></label></div>
+    <div style="margin-top:1rem"><button class="btn btn-amber" onclick="saveSetting('Security settings')">Save Settings</button></div></div></div>
+  </div>
+
+  <!-- Payments settings -->
+  <div class="stab-content" id="sc-payments">
+    <div class="sc"><div class="sc-sec"><div class="sc-title">Payment Gateway Configuration</div><div class="sc-sub">Set API keys for Paystack and Flutterwave. Do not share these publicly.</div>
+    <div class="f-grp"><label class="f-label">Paystack Public Key</label><input class="f-input" value="pk_live_••••••••••••••••••••" type="password"></div>
+    <div class="f-grp"><label class="f-label">Paystack Secret Key</label><input class="f-input" value="sk_live_••••••••••••••••••••" type="password"></div>
+    <div class="f-grp"><label class="f-label">Flutterwave Public Key</label><input class="f-input" value="FLWPUBK_••••••••••••••••••••" type="password"></div>
+    <div class="f-grp"><label class="f-label">Flutterwave Secret Key</label><input class="f-input" value="FLWSECK_••••••••••••••••••••" type="password"></div>
+    <div style="display:flex;gap:8px;margin-top:.5rem">
+      <button class="btn btn-amber" onclick="saveSetting('Payment keys')">Save Keys</button>
+      <button class="btn btn-ghost" onclick="toast('Paystack connection: OK ✓','ok')">🔌 Test Paystack</button>
+      <button class="btn btn-ghost" onclick="toast('Flutterwave connection: OK ✓','ok')">🔌 Test Flutterwave</button>
+    </div></div></div>
+  </div>
+
+  <!-- Notifications settings -->
+  <div class="stab-content" id="sc-notifications">
+    <div class="sc"><div class="sc-sec"><div class="sc-title">Admin Alert Preferences</div><div class="sc-sub">Choose which system events trigger admin notifications.</div>
+    <div class="toggle-row"><div class="toggle-info"><h4>New Provider Registration</h4><p>Notify admin when a new provider submits registration</p></div><label class="tsw"><input type="checkbox" checked><div class="tsw-track"></div></label></div>
+    <div class="toggle-row"><div class="toggle-info"><h4>Dispute Raised</h4><p>Immediate alert when a client or provider raises a dispute</p></div><label class="tsw"><input type="checkbox" checked><div class="tsw-track"></div></label></div>
+    <div class="toggle-row"><div class="toggle-info"><h4>Large Withdrawal Alert</h4><p>Alert when a single withdrawal exceeds ₦200,000</p></div><label class="tsw"><input type="checkbox" checked><div class="tsw-track"></div></label></div>
+    <div class="toggle-row"><div class="toggle-info"><h4>Failed Payment Alert</h4><p>Notify on any failed payment transaction</p></div><label class="tsw"><input type="checkbox" checked><div class="tsw-track"></div></label></div>
+    <div class="toggle-row"><div class="toggle-info"><h4>Daily Summary Email</h4><p>Receive a daily digest of platform metrics at 7am</p></div><label class="tsw"><input type="checkbox"><div class="tsw-track"></div></label></div>
+    <div style="margin-top:1rem"><button class="btn btn-amber" onclick="saveSetting('Notification preferences')">Save Preferences</button></div></div></div>
+  </div>
+
+  <!-- Danger zone -->
+  <div class="stab-content" id="sc-danger">
+    <div class="danger-box">
+      <h3>⚠️ Danger Zone</h3>
+      <p>Critical system operations. These actions affect the entire platform and are irreversible.</p>
+      <div class="danger-row"><div class="dr-info"><h4>Clear Cache</h4><p>Flush all cached data and sessions. Users may be temporarily logged out.</p></div><button class="btn btn-ghost btn-sm" onclick="saveSetting('Cache cleared')">🗑 Clear Cache</button></div>
+      <div class="danger-row"><div class="dr-info"><h4>Maintenance Mode</h4><p>Put the platform in maintenance mode. All users will see a maintenance page.</p></div><button class="btn btn-ghost btn-sm" onclick="toast('Maintenance mode toggled','warn')">🔧 Toggle Maintenance</button></div>
+      <div class="danger-row"><div class="dr-info"><h4>Reset Platform Statistics</h4><p>Clear all analytics counters. This cannot be undone.</p></div><button class="btn btn-danger btn-sm" onclick="confirmAction('reset all platform statistics')">⚠️ Reset Stats</button></div>
+    </div>
+  </div>
+</div><!-- /settings -->
+
+
+<!-- ────────────────────────────────
+     PAGE: AUDIT LOG
+──────────────────────────────── -->
+<div class="page" id="page-audit">
+  <div class="sec-head">
+    <div class="sec-head-left"><h2>AUDIT <span style="color:var(--amber)">LOG</span></h2><p>Complete record of all admin and system actions.</p></div>
+    <div class="sec-actions"><button class="btn btn-ghost btn-sm" onclick="toast('Audit log exported','ok')">📥 Export Log</button></div>
+  </div>
+  <div class="card">
+    <div class="card-head"><h3>System Activity Log</h3></div>
+    <div class="tbl-wrap">
+    <table class="tbl">
+      <thead><tr><th>Timestamp</th><th>Admin</th><th>Action</th><th>Target</th><th>IP Address</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td style="color:var(--text-3);font-size:12px">2025-05-26 09:14:22</td><td>Super Admin</td><td>Approved provider</td><td>Amara Okafor</td><td>197.210.x.x</td><td><span class="pill pill-done">Success</span></td></tr>
+        <tr><td style="color:var(--text-3);font-size:12px">2025-05-26 08:52:11</td><td>Super Admin</td><td>Suspended user</td><td>Musa Ibrahim</td><td>197.210.x.x</td><td><span class="pill pill-done">Success</span></td></tr>
+        <tr><td style="color:var(--text-3);font-size:12px">2025-05-25 16:30:05</td><td>Super Admin</td><td>Updated platform fee</td><td>Commission: 5%</td><td>197.210.x.x</td><td><span class="pill pill-done">Success</span></td></tr>
+        <tr><td style="color:var(--text-3);font-size:12px">2025-05-25 14:15:44</td><td>Super Admin</td><td>Resolved dispute</td><td>#JOB-880</td><td>197.210.x.x</td><td><span class="pill pill-done">Success</span></td></tr>
+        <tr><td style="color:var(--text-3);font-size:12px">2025-05-24 11:08:33</td><td>Super Admin</td><td>Rejected provider</td><td>Ibrahim Sule</td><td>197.210.x.x</td><td><span class="pill pill-suspended">Rejected</span></td></tr>
+        <tr><td style="color:var(--text-3);font-size:12px">2025-05-24 09:22:19</td><td>Super Admin</td><td>Updated payment keys</td><td>Paystack</td><td>197.210.x.x</td><td><span class="pill pill-done">Success</span></td></tr>
+        <tr><td style="color:var(--text-3);font-size:12px">2025-05-23 15:55:02</td><td>Super Admin</td><td>Admin login</td><td>admin@nkiri.com</td><td>197.210.x.x</td><td><span class="pill pill-done">Success</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div><!-- /audit -->
+
+</div><!-- /content -->
+</div><!-- /shell -->
+
+
+<!-- ═══════════════════════════════════════
+     MODALS
+═══════════════════════════════════════ -->
+
+<!-- User Detail Modal -->
+<div class="mo" id="userModal">
+  <div class="mo-box">
+    <div class="mo-head">
+      <h3>👤 User Details</h3>
+      <div class="mo-close" onclick="closeModal('userModal')">✕</div>
+    </div>
+    <div class="mo-body">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)">
+        <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--amber),#ef4444);display:flex;align-items:center;justify-content:center;font-family:var(--f-display);font-size:22px;color:var(--bg)" id="modAva">A</div>
+        <div><div style="font-size:18px;font-weight:800;color:var(--text)" id="modName">Amara Okafor</div><div style="font-size:12px;color:var(--text-2)" id="modRole">Provider</div></div>
+        <span class="pill pill-active" id="modStatus" style="margin-left:auto">● Active</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+        <div><div style="font-size:11px;color:var(--text-3);font-weight:700;margin-bottom:3px">EMAIL</div><div style="font-size:13.5px;color:var(--text)">amara@mail.com</div></div>
+        <div><div style="font-size:11px;color:var(--text-3);font-weight:700;margin-bottom:3px">PHONE</div><div style="font-size:13.5px;color:var(--text)">+234 812 345 6789</div></div>
+        <div><div style="font-size:11px;color:var(--text-3);font-weight:700;margin-bottom:3px">LOCATION</div><div style="font-size:13.5px;color:var(--text)">Lekki, Lagos</div></div>
+        <div><div style="font-size:11px;color:var(--text-3);font-weight:700;margin-bottom:3px">JOINED</div><div style="font-size:13.5px;color:var(--text)">January 12, 2025</div></div>
+        <div><div style="font-size:11px;color:var(--text-3);font-weight:700;margin-bottom:3px">JOBS</div><div style="font-size:13.5px;color:var(--text)">47 completed</div></div>
+        <div><div style="font-size:11px;color:var(--text-3);font-weight:700;margin-bottom:3px">RATING</div><div style="font-size:13.5px;color:var(--amber-l)">★ 4.9 (38 reviews)</div></div>
+      </div>
+    </div>
+    <div class="mo-foot">
+      <button class="btn btn-danger btn-sm" onclick="toast('User suspended','warn');closeModal('userModal')">⏸ Suspend</button>
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('userModal')">Close</button>
+      <button class="btn btn-amber btn-sm" onclick="toast('Message sent to user','ok');closeModal('userModal')">📧 Message</button>
+    </div>
+  </div>
+</div>
+
+<!-- Job Detail Modal -->
+<div class="mo" id="jobModal">
+  <div class="mo-box">
+    <div class="mo-head">
+      <h3>💼 Job Details</h3>
+      <div class="mo-close" onclick="closeModal('jobModal')">✕</div>
+    </div>
+    <div class="mo-body">
+      <div style="margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)">
+        <div style="font-family:var(--f-display);font-size:1.4rem;letter-spacing:.04em;color:var(--text);margin-bottom:4px" id="jobModTitle">Office Deep Clean</div>
+        <div style="font-size:12px;color:var(--amber);font-weight:700" id="jobModRef">#JOB-892</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.25rem">
+        <div><div style="font-size:11px;color:var(--text-3);font-weight:700;margin-bottom:3px">CLIENT</div><div style="font-size:13.5px;color:var(--text)">Lekki Finance Co.</div></div>
+        <div><div style="font-size:11px;color:var(--text-3);font-weight:700;margin-bottom:3px">PROVIDER</div><div style="font-size:13.5px;color:var(--text)">Amara Okafor</div></div>
+        <div><div style="font-size:11px;color:var(--text-3);font-weight:700;margin-bottom:3px">AMOUNT</div><div style="font-family:var(--f-display);font-size:1.1rem;color:var(--amber)">₦20,000</div></div>
+        <div><div style="font-size:11px;color:var(--text-3);font-weight:700;margin-bottom:3px">STATUS</div><span class="pill pill-done" id="jobModStatus">✓ Completed</span></div>
+        <div><div style="font-size:11px;color:var(--text-3);font-weight:700;margin-bottom:3px">DATE</div><div style="font-size:13.5px;color:var(--text)">May 26, 2025</div></div>
+        <div><div style="font-size:11px;color:var(--text-3);font-weight:700;margin-bottom:3px">PLATFORM FEE</div><div style="font-size:13.5px;color:var(--green)">₦1,000 (5%)</div></div>
+      </div>
+    </div>
+    <div class="mo-foot">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('jobModal')">Close</button>
+      <button class="btn btn-danger btn-sm" onclick="toast('Job cancelled','warn');closeModal('jobModal')">Cancel Job</button>
+    </div>
+  </div>
+</div>
+
+<!-- Dispute Resolution Modal -->
+<div class="mo" id="disputeModal">
+  <div class="mo-box">
+    <div class="mo-head">
+      <h3>⚠️ Resolve Dispute</h3>
+      <div class="mo-close" onclick="closeModal('disputeModal')">✕</div>
+    </div>
+    <div class="mo-body">
+      <div style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:var(--r);padding:1rem;margin-bottom:1.25rem">
+        <div style="font-weight:700;color:var(--red);margin-bottom:4px">Business Plan Audit · #JOB-888</div>
+        <div style="font-size:13px;color:var(--text-2)">GreenStar Ventures vs Musa Ibrahim · ₦30,000 in escrow</div>
+      </div>
+      <div class="f-grp"><label class="f-label">Resolution Action</label><select class="f-sel"><option>Refund client fully — return ₦30,000</option><option>Pay provider fully — release ₦30,000</option><option>Split 50/50 — ₦15,000 each</option><option>Custom split</option></select></div>
+      <div class="f-grp"><label class="f-label">Admin Note (sent to both parties)</label><textarea class="f-ta" placeholder="Explain the resolution decision…"></textarea></div>
+    </div>
+    <div class="mo-foot">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('disputeModal')">Cancel</button>
+      <button class="btn btn-amber btn-sm" onclick="resolveDispute()">✓ Resolve Dispute</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add User Modal -->
+<div class="mo" id="addUserModal">
+  <div class="mo-box">
+    <div class="mo-head">
+      <h3 id="addUserTitle">➕ Add New User</h3>
+      <div class="mo-close" onclick="closeModal('addUserModal')">✕</div>
+    </div>
+    <div class="mo-body">
+      <div class="f-row">
+        <div class="f-grp"><label class="f-label">First Name</label><input class="f-input" placeholder="e.g. Amara"></div>
+        <div class="f-grp"><label class="f-label">Last Name</label><input class="f-input" placeholder="e.g. Okafor"></div>
+      </div>
+      <div class="f-grp"><label class="f-label">Email</label><input class="f-input" type="email" placeholder="user@example.com"></div>
+      <div class="f-grp"><label class="f-label">Phone</label><input class="f-input" type="tel" placeholder="+234 812 345 6789"></div>
+      <div class="f-row">
+        <div class="f-grp"><label class="f-label">Role</label><select class="f-sel" id="addUserRole"><option>Seeker</option><option>Provider</option><option>Admin</option></select></div>
+        <div class="f-grp"><label class="f-label">Status</label><select class="f-sel"><option>Active</option><option>Pending</option></select></div>
+      </div>
+    </div>
+    <div class="mo-foot">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('addUserModal')">Cancel</button>
+      <button class="btn btn-amber btn-sm" onclick="addUser()">➕ Create User</button>
+    </div>
+  </div>
+</div>
+
+<!-- Quick Action Modal -->
+<div class="mo" id="quickActionModal">
+  <div class="mo-box">
+    <div class="mo-head">
+      <h3>⚡ Quick Actions</h3>
+      <div class="mo-close" onclick="closeModal('quickActionModal')">✕</div>
+    </div>
+    <div class="mo-body" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <button class="btn btn-ghost" style="justify-content:flex-start;padding:14px" onclick="closeModal('quickActionModal');goPage('users',null)">👥 Manage Users</button>
+      <button class="btn btn-ghost" style="justify-content:flex-start;padding:14px" onclick="closeModal('quickActionModal');goPage('providers',null)">🔧 Manage Providers</button>
+      <button class="btn btn-ghost" style="justify-content:flex-start;padding:14px" onclick="closeModal('quickActionModal');goPage('disputes',null)">⚠️ View Disputes</button>
+      <button class="btn btn-ghost" style="justify-content:flex-start;padding:14px" onclick="closeModal('quickActionModal');goPage('verification',null)">✅ Review Queue</button>
+      <button class="btn btn-ghost" style="justify-content:flex-start;padding:14px" onclick="closeModal('quickActionModal');goPage('payments',null)">💳 Payments</button>
+      <button class="btn btn-ghost" style="justify-content:flex-start;padding:14px" onclick="closeModal('quickActionModal');goPage('analytics',null)">📈 Analytics</button>
+      <button class="btn btn-amber btn-full" style="grid-column:1/-1" onclick="closeModal('quickActionModal');openAddUserModal()">➕ Add New User</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div class="toast-wrap" id="toastWrap"></div>
+
+<!-- ═══════════════════════════════════════
+     JS
+═══════════════════════════════════════ -->
+<script>
+/* ── SIDEBAR ── */
+let sbMini = false, mobileOpen = false;
+function toggleSb() {
+  sbMini = !sbMini;
+  document.getElementById('sidebar').classList.toggle('mini', sbMini);
+  document.getElementById('topbar').classList.toggle('mini', sbMini);
+  document.getElementById('shell').classList.toggle('mini', sbMini);
+}
+function toggleMobile() {
+  mobileOpen = !mobileOpen;
+  document.getElementById('sidebar').classList.toggle('mobile-open', mobileOpen);
+  document.getElementById('sbOverlay').classList.toggle('open', mobileOpen);
+}
+function closeMobile() {
+  mobileOpen = false;
+  document.getElementById('sidebar').classList.remove('mobile-open');
+  document.getElementById('sbOverlay').classList.remove('open');
+}
+
+/* ── PAGE NAV ── */
+const pageMeta = {
+  dashboard:    ['DASHBOARD',    'Overview'],
+  analytics:    ['ANALYTICS',    'Platform Analytics'],
+  users:        ['ALL USERS',    'User Management'],
+  providers:    ['PROVIDERS',    'User Management'],
+  verification: ['VERIFICATION', 'User Management'],
+  jobs:         ['ALL JOBS',     'Operations'],
+  disputes:     ['DISPUTES',     'Operations'],
+  payments:     ['PAYMENTS',     'Operations'],
+  settings:     ['SETTINGS',     'System'],
+  audit:        ['AUDIT LOG',    'System'],
+};
+
+function goPage(id, sbEl) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const page = document.getElementById('page-' + id);
+  if (page) page.classList.add('active');
+  document.querySelectorAll('.sb-item').forEach(i => i.classList.remove('active'));
+  if (sbEl) sbEl.classList.add('active');
+  else {
+    const auto = document.querySelector(`.sb-item[onclick*="'${id}'"]`);
+    if (auto) auto.classList.add('active');
+  }
+  const meta = pageMeta[id] || [id.toUpperCase(), ''];
+  document.getElementById('pageTitle').textContent = meta[0];
+  document.getElementById('pageCrumb').textContent = meta[1];
+  closeMobile();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ── SETTINGS TABS ── */
+function switchStab(id, btn) {
+  document.querySelectorAll('.stab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.stab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('sc-' + id).classList.add('active');
+}
+
+/* ── MODALS ── */
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.mo').forEach(m => {
+  m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
+});
+
+function openUserModal(name, role, status) {
+  document.getElementById('modName').textContent = name;
+  document.getElementById('modRole').textContent = role;
+  document.getElementById('modAva').textContent = name[0];
+  const sp = document.getElementById('modStatus');
+  sp.textContent = status === 'Active' ? '● Active' : status === 'Suspended' ? '⊘ Suspended' : '⏳ Pending';
+  sp.className = 'pill ' + (status === 'Active' ? 'pill-active' : status === 'Suspended' ? 'pill-suspended' : 'pill-pending');
+  openModal('userModal');
+}
+
+function openJobModal(title, ref, status) {
+  document.getElementById('jobModTitle').textContent = title;
+  document.getElementById('jobModRef').textContent = ref;
+  const st = document.getElementById('jobModStatus');
+  st.textContent = status;
+  st.className = 'pill ' + (status === 'Completed' ? 'pill-done' : status === 'In Progress' ? 'pill-progress' : status === 'Disputed' ? 'pill-disputed' : 'pill-pending');
+  openModal('jobModal');
+}
+
+function openAddUserModal(role) {
+  if (role) document.getElementById('addUserRole').value = role.charAt(0).toUpperCase() + role.slice(1);
+  document.getElementById('addUserTitle').textContent = role === 'provider' ? '➕ Add New Provider' : '➕ Add New User';
+  openModal('addUserModal');
+}
+
+/* ── ACTIONS ── */
+function saveSetting(label) { toast(`${label} saved successfully!`, 'ok'); }
+function approveProvider(name) { toast(`${name} approved & notified ✓`, 'ok'); }
+function rejectProvider(name) { toast(`${name} application rejected`, 'warn'); }
+function addUser() { toast('New user created successfully!', 'ok'); closeModal('addUserModal'); }
+function resolveDispute() { toast('Dispute resolved — both parties notified', 'ok'); closeModal('disputeModal'); }
+function confirmAction(action) {
+  if (confirm(`Are you sure you want to ${action}? This may be irreversible.`)) {
+    toast(`Action confirmed: ${action}`, 'warn');
+  }
+}
+
+/* ── FILTER / SEARCH ── */
+function filterTable(tableId, query) {
+  const q = query.toLowerCase();
+  document.querySelectorAll(`#${tableId} tbody tr`).forEach(row => {
+    row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+function filterByStatus(tableId, status) {
+  document.querySelectorAll(`#${tableId} tbody tr`).forEach(row => {
+    if (!status) { row.style.display = ''; return; }
+    const text = row.textContent.toLowerCase();
+    row.style.display = text.toLowerCase().includes(status.toLowerCase()) ? '' : 'none';
+  });
+}
+function globalSearch(q) {
+  if (!q) return;
+  toast(`Searching for "${q}"…`, '');
+}
+
+/* ── TOAST ── */
+function toast(msg, type) {
+  const wrap = document.getElementById('toastWrap');
+  const el = document.createElement('div');
+  el.className = 'toast' + (type ? ' ' + type : '');
+  const icons = { ok:'✅', err:'❌', warn:'⚠️', '':'ℹ️' };
+  el.innerHTML = `<span>${icons[type] ?? 'ℹ️'}</span> ${msg}`;
+  wrap.appendChild(el);
+  setTimeout(() => {
+    el.style.transition = 'all .3s ease';
+    el.style.opacity = '0';
+    el.style.transform = 'translateX(20px)';
+    setTimeout(() => el.remove(), 300);
+  }, 3200);
+}
+
+/* ── INIT ── */
+document.addEventListener('DOMContentLoaded', () => {
+  const d = new Date();
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.getElementById('dashDate').textContent =
+    `${days[d.getDay()]}, ${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()} · Live Data`;
+});
+</script>
+</body>
+</html>
