@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nkiri Synergies — Admin Control Panel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <meta name="description" content="Nkiri Synergies connects skilled professionals with businesses across Africa through a seamless, user-friendly platform. Download Vast App today.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,19 +22,20 @@
   --border:   rgba(255,255,255,.07);
   --border-2: rgba(255,255,255,.12);
 
-  --amber:    #060af194;
-  --amber-l:  #fcd34d;
-  --amber-d:  #b45309;
+  --amber:    #0b70f5;
+  --amber-l:  #4d93fc;
+  --amber-d:  #09b4b4;
   --teal:     #14b8a6;
   --teal-l:   #5eead4;
   --green:    #22c55e;
   --green-d:  #15803d;
-  --red:      #ef4444;
-  --red-l:    #fca5a5;
-  --blue:     #3b82f6;
+  --red:      #4447ef;
+  --red-l:    #a5e0fc;
+  --blue:     #3b57f6;
   --blue-l:   #93c5fd;
-  --violet:   #8b5cf6;
-  --pink:     #ec4899;
+  --violet:   #5cc5f6;
+  --pink:     #48b8ec;
+  /* --pink:     #ec4899; */
 
   --text:     #f1f5f9;
   --text-2:   #94a3b8;
@@ -95,10 +97,10 @@ img{max-width:100%;display:block}
 .sb-brand{display:flex;align-items:center;gap:10px;overflow:hidden}
 .sb-logo-box{
   width:32px;height:32px;border-radius:8px;flex-shrink:0;
-  background:linear-gradient(135deg,var(--amber),#ef4444);
+  background:linear-gradient(135deg,var(--amber),#5544ef);
   display:flex;align-items:center;justify-content:center;
   font-family:var(--f-display);font-size:17px;color:var(--bg);letter-spacing:0;
-  box-shadow:0 0 0 3px rgba(245,158,11,.2);
+  box-shadow:0 0 0 3px rgba(11, 229, 245, 0.2);
 }
 .sb-brand-text{
   font-family:var(--f-display);font-size:16px;letter-spacing:.06em;
@@ -124,7 +126,7 @@ img{max-width:100%;display:block}
 }
 .sb-admin-ava{
   width:36px;height:36px;border-radius:50%;flex-shrink:0;
-  background:linear-gradient(135deg,var(--amber),#ef4444);
+  background:linear-gradient(135deg,var(--amber),#4488ef);
   display:flex;align-items:center;justify-content:center;
   font-family:var(--f-display);font-size:16px;color:var(--bg);
   border:2px solid rgba(245,158,11,.3);
@@ -603,9 +605,792 @@ img{max-width:100%;display:block}
   .content{padding:1rem}
   .sec-actions{flex-wrap:wrap}
 }
+
+/* ═══════════════════════════════════════
+   AUTH SCREEN SYSTEM
+═══════════════════════════════════════ */
+.auth-screen{
+  display:none;
+  position:fixed;inset:0;z-index:9999;
+  background:var(--bg);
+  overflow-y:auto;
+}
+.auth-screen.visible{ display:flex; }
+
+/* Dashboard hidden until authenticated */
+.app-shell{ display:none; }
+.app-shell.visible{ display:block; }
+
+/* ── Auth layout ── */
+.auth-wrap{
+  display:grid;
+  grid-template-columns:1fr 1.1fr;
+  min-height:100vh;
+  width:100%;
+}
+
+/* Left: dramatic visual panel */
+.auth-panel-left{
+  background:var(--bg-2);
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:space-between;
+  padding:2.5rem;
+}
+.auth-panel-left::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 75% 60% at 15% 35%, rgba(245,158,11,.18) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 70% at 85% 75%, rgba(239,68,68,.12) 0%, transparent 50%),
+    radial-gradient(ellipse 45% 40% at 60% 10%, rgba(20,184,166,.1) 0%, transparent 45%);
+}
+/* Animated grid lines */
+.auth-grid-bg{
+  position:absolute;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.03) 1px, transparent 1px);
+  background-size:44px 44px;
+}
+/* Floating orbs */
+.auth-orb{
+  position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;opacity:.3;
+  animation:orbFloat 9s ease-in-out infinite alternate;
+}
+.auth-orb-1{width:380px;height:380px;background:var(--amber);top:-100px;left:-80px;animation-delay:0s;}
+.auth-orb-2{width:260px;height:260px;background:var(--red);bottom:-40px;right:-60px;animation-delay:-4s;}
+.auth-orb-3{width:180px;height:180px;background:var(--teal);top:40%;right:10%;animation-delay:-7s;}
+@keyframes orbFloat{
+  from{transform:translate(0,0) scale(1)}
+  to  {transform:translate(20px,25px) scale(1.08)}
+}
+.auth-left-content{position:relative;z-index:2;}
+.auth-left-bottom {position:relative;z-index:2;}
+
+/* Logo on left panel */
+.auth-logo{display:flex;align-items:center;gap:12px;margin-bottom:3rem;}
+.auth-logo-box{
+  width:46px;height:46px;border-radius:12px;
+  background:linear-gradient(135deg,var(--amber),#ef4444);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--f-display);font-size:22px;color:var(--bg);
+  box-shadow:0 0 0 4px rgba(245,158,11,.2);
+}
+.auth-logo-name{
+  font-family:var(--f-display);font-size:20px;letter-spacing:.08em;color:var(--text);line-height:1.1;
+}
+.auth-logo-sub{font-size:10px;font-family:var(--f-body);font-weight:700;color:var(--amber);letter-spacing:.15em;text-transform:uppercase;display:block;}
+
+.auth-headline{
+  font-family:var(--f-display);
+  font-size:clamp(2.6rem,5vw,4rem);
+  letter-spacing:.05em;line-height:1.05;color:var(--text);
+  margin-bottom:1.1rem;
+}
+.auth-headline em{
+  font-style:normal;
+  background:linear-gradient(90deg,var(--amber),var(--amber-l));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.auth-sub{
+  font-size:.95rem;color:var(--text-2);line-height:1.75;
+  max-width:360px;margin-bottom:2.5rem;
+}
+
+/* Feature list */
+.auth-features{display:flex;flex-direction:column;gap:12px;margin-bottom:2.5rem;}
+.auth-feat{
+  display:flex;align-items:center;gap:14px;
+  padding:13px 16px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;
+  backdrop-filter:blur(6px);
+  transition:var(--tr);
+}
+.auth-feat:hover{background:rgba(255,255,255,.07);transform:translateX(4px)}
+.auth-feat-icon{
+  width:38px;height:38px;border-radius:9px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+}
+.auth-feat-text h4{font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px;}
+.auth-feat-text p {font-size:11.5px;color:var(--text-3);}
+
+/* Stats row */
+.auth-stats{
+  display:flex;gap:0;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:14px;overflow:hidden;
+}
+.auth-stat{flex:1;padding:16px 14px;text-align:center;border-right:1px solid rgba(255,255,255,.07);}
+.auth-stat:last-child{border-right:none;}
+.ast-num{font-family:var(--f-display);font-size:1.6rem;letter-spacing:.04em;color:var(--amber);line-height:1;}
+.ast-lbl{font-size:10.5px;color:var(--text-3);font-weight:600;margin-top:4px;}
+
+/* Trust row */
+.auth-trust{display:flex;align-items:center;gap:12px;margin-top:1.5rem;font-size:12px;color:var(--text-3);}
+.auth-trust-avs{display:flex;}
+.auth-trust-avs span{
+  width:28px;height:28px;border-radius:50%;border:2px solid var(--bg-2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--f-display);font-size:12px;color:var(--bg);margin-left:-7px;
+}
+.auth-trust-avs span:first-child{margin-left:0;}
+.auth-trust strong{color:var(--text-2);}
+
+/* ── Right: form panel ── */
+.auth-panel-right{
+  background:var(--bg-2);
+  display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(2rem,5vw,4.5rem) clamp(2rem,6vw,5rem);
+  overflow-y:auto;
+  border-left:1px solid var(--border);
+}
+.auth-form-shell{max-width:440px;width:100%;margin:0 auto;}
+
+/* Back link */
+.auth-back{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:12.5px;font-weight:600;color:var(--text-3);
+  cursor:pointer;transition:var(--tr);margin-bottom:2rem;
+  padding:5px 0;
+}
+.auth-back:hover{color:var(--text);}
+.auth-back svg{transition:var(--tr);}
+.auth-back:hover svg{transform:translateX(-3px);}
+
+/* Step indicator (register only) */
+.auth-steps{
+  display:flex;align-items:center;gap:0;margin-bottom:1.75rem;
+}
+.step-node{
+  width:30px;height:30px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;flex-shrink:0;transition:var(--tr);
+  position:relative;z-index:1;
+}
+.step-node.done   {background:var(--teal);color:var(--bg);}
+.step-node.current{background:var(--amber);color:var(--bg);box-shadow:0 0 0 4px rgba(245,158,11,.2);}
+.step-node.future {background:var(--bg-3);border:1px solid var(--border-2);color:var(--text-3);}
+.step-bar{flex:1;height:2px;background:var(--border);margin:0 3px;position:relative;}
+.step-bar.done::after{content:'';position:absolute;inset:0;background:var(--amber);animation:barFill .4s ease;}
+@keyframes barFill{from{width:0}to{width:100%}}
+
+/* Form heading */
+.auth-form-head{margin-bottom:1.75rem;}
+.auth-form-head h2{
+  font-family:var(--f-display);font-size:clamp(1.7rem,3vw,2.2rem);
+  letter-spacing:.05em;color:var(--text);margin-bottom:.35rem;line-height:1.1;
+}
+.auth-form-head p{font-size:13.5px;color:var(--text-2);}
+
+/* OTP section */
+.otp-label{font-size:13px;color:var(--text-2);margin-bottom:12px;line-height:1.6;}
+.otp-boxes{display:flex;gap:10px;margin-bottom:.5rem;}
+.otp-box{
+  width:52px;height:58px;border-radius:10px;
+  background:var(--bg-3);border:2px solid var(--border-2);
+  text-align:center;font-size:1.6rem;font-weight:800;
+  color:var(--amber);outline:none;transition:var(--tr);
+  font-family:var(--f-display);letter-spacing:.04em;
+}
+.otp-box:focus{border-color:var(--amber);box-shadow:0 0 0 3px rgba(245,158,11,.15);}
+
+/* Social buttons */
+.auth-socials{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.25rem;}
+.auth-social-btn{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:11px 16px;background:var(--bg-3);
+  border:1px solid var(--border-2);border-radius:8px;
+  font-size:13px;font-weight:600;color:var(--text-2);
+  cursor:pointer;transition:var(--tr);
+}
+.auth-social-btn:hover{border-color:var(--amber);color:var(--amber);background:rgba(245,158,11,.06);}
+.auth-divider{
+  display:flex;align-items:center;gap:10px;
+  font-size:11.5px;color:var(--text-3);font-weight:600;
+  margin-bottom:1.25rem;
+}
+.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* Form fields */
+.af-group{margin-bottom:1rem;}
+.af-group:last-of-type{margin-bottom:0;}
+.af-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.af-label{display:block;font-size:12px;font-weight:700;color:var(--text-2);margin-bottom:5px;letter-spacing:.04em;}
+.af-label sup{color:var(--red);}
+.af-input,.af-select{
+  width:100%;padding:11px 14px;
+  background:var(--bg-3);border:2px solid var(--border-2);
+  border-radius:8px;font-size:13.5px;color:var(--text);outline:none;
+  transition:var(--tr);font-family:var(--f-body);
+}
+.af-input:focus,.af-select:focus{border-color:var(--amber);box-shadow:0 0 0 3px rgba(245,158,11,.12);}
+.af-input.err{border-color:var(--red);box-shadow:0 0 0 3px rgba(239,68,68,.1);}
+.af-err{font-size:11.5px;color:var(--red-l);margin-top:5px;font-weight:600;display:none;}
+.af-select{appearance:none;cursor:pointer;}
+.af-pw-wrap{position:relative;}
+.af-pw-wrap .af-input{padding-right:44px;}
+.af-pw-eye{
+  position:absolute;right:12px;top:50%;transform:translateY(-50%);
+  font-size:17px;color:var(--text-3);cursor:pointer;transition:var(--tr);
+  background:none;border:none;
+}
+.af-pw-eye:hover{color:var(--text);}
+
+/* Password strength */
+.pw-bar{height:4px;border-radius:2px;background:var(--bg-3);margin-top:7px;overflow:hidden;}
+.pw-fill{height:100%;border-radius:2px;width:0;transition:width .4s ease,background .4s ease;}
+.pw-hint{font-size:11px;margin-top:5px;font-weight:700;}
+
+/* Check */
+.af-check{display:flex;align-items:flex-start;gap:9px;font-size:12.5px;color:var(--text-3);cursor:pointer;}
+.af-check input[type=checkbox]{width:16px;height:16px;accent-color:var(--amber);margin-top:1px;flex-shrink:0;}
+.af-check a{color:var(--amber);font-weight:700;}
+.af-row-between{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;}
+.af-link{font-size:12.5px;color:var(--amber);font-weight:700;cursor:pointer;}
+.af-link:hover{text-decoration:underline;}
+
+/* Submit btn */
+.af-submit{
+  width:100%;padding:13px;border-radius:8px;
+  font-family:var(--f-display);font-size:16px;letter-spacing:.06em;
+  cursor:pointer;transition:var(--tr);border:none;
+  background:linear-gradient(135deg,var(--amber),#ef4444);
+  color:var(--bg);box-shadow:0 4px 20px rgba(245,158,11,.3);
+  margin-top:.25rem;position:relative;overflow:hidden;
+}
+.af-submit::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--amber-l),var(--amber));
+  opacity:0;transition:opacity .25s ease;
+}
+.af-submit:hover::before{opacity:1;}
+.af-submit span{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:8px;}
+.af-submit:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(245,158,11,.45);}
+.af-submit:disabled{opacity:.65;cursor:not-allowed;transform:none;}
+.af-btn-back{
+  padding:12px 22px;border-radius:8px;
+  font-family:var(--f-display);font-size:14px;letter-spacing:.04em;
+  border:1px solid var(--border-2);color:var(--text-3);background:var(--bg-3);
+  cursor:pointer;transition:var(--tr);
+}
+.af-btn-back:hover{border-color:var(--amber);color:var(--amber);}
+.af-btn-row{display:flex;gap:10px;margin-top:.25rem;}
+.af-btn-row .af-submit{flex:1;}
+
+.af-switch{text-align:center;font-size:12.5px;color:var(--text-3);margin-top:1.25rem;}
+.af-switch a{color:var(--amber);font-weight:700;cursor:pointer;}
+
+/* Step panels */
+.auth-step-panel{display:none;animation:fadeUp .3s ease;}
+.auth-step-panel.active{display:block;}
+
+/* Admin code step */
+.admin-code-hint{
+  padding:12px 14px;
+  background:rgba(245,158,11,.07);
+  border:1px solid rgba(245,158,11,.2);
+  border-radius:8px;font-size:13px;color:var(--amber-l);
+  margin-bottom:1.25rem;line-height:1.6;
+}
+
+/* Role badge chips */
+.role-chips{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.25rem;}
+.role-chip{
+  padding:14px;border-radius:10px;
+  border:2px solid var(--border-2);background:var(--bg-3);
+  cursor:pointer;transition:var(--tr);text-align:center;position:relative;
+}
+.role-chip:hover{border-color:var(--amber);}
+.role-chip.sel{border-color:var(--amber);background:rgba(245,158,11,.06);box-shadow:0 0 0 3px rgba(245,158,11,.1);}
+.role-chip-icon{font-size:1.6rem;margin-bottom:6px;}
+.role-chip h4{font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px;}
+.role-chip p {font-size:11px;color:var(--text-3);}
+.role-chip-tick{
+  position:absolute;top:8px;right:8px;width:18px;height:18px;
+  border-radius:50%;background:var(--amber);color:var(--bg);
+  font-size:10px;font-weight:800;display:none;
+  align-items:center;justify-content:center;
+}
+.role-chip.sel .role-chip-tick{display:flex;}
+
+/* Success state */
+.auth-success{display:none;text-align:center;padding:1.5rem 0;}
+.auth-success.show{display:block;}
+.auth-success-ring{
+  width:88px;height:88px;border-radius:50%;margin:0 auto 1.25rem;
+  background:linear-gradient(135deg,var(--amber),#ef4444);
+  display:flex;align-items:center;justify-content:center;font-size:2.4rem;
+  animation:sRingPop .6s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:0 0 0 16px rgba(245,158,11,.1),0 0 0 32px rgba(245,158,11,.05);
+}
+@keyframes sRingPop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.auth-success h2{font-family:var(--f-display);font-size:1.8rem;letter-spacing:.05em;color:var(--text);margin-bottom:.4rem;}
+.auth-success p {font-size:13.5px;color:var(--text-2);max-width:320px;margin:0 auto .5rem;}
+.auth-success-ref{
+  display:inline-block;padding:7px 18px;border-radius:50px;
+  background:var(--bg-3);font-family:var(--f-display);
+  font-size:13px;color:var(--amber);letter-spacing:.1em;margin:1rem 0 1.5rem;
+  border:1px solid rgba(245,158,11,.2);
+}
+
+/* Forgot password inline */
+.forgot-wrap{display:none;}
+.forgot-wrap.show{display:block;}
+
+/* Alert box */
+.af-alert{
+  display:none;padding:11px 14px;border-radius:8px;font-size:13px;font-weight:600;
+  align-items:center;gap:9px;margin-bottom:1rem;border:1px solid;
+}
+.af-alert.show{display:flex;}
+.af-alert.err{background:rgba(239,68,68,.07);color:var(--red-l);border-color:rgba(239,68,68,.2);}
+.af-alert.ok {background:rgba(20,184,166,.07);color:var(--teal-l);border-color:rgba(20,184,166,.2);}
+
+/* Spinner */
+.af-spin{display:inline-block;width:15px;height:15px;border-radius:50%;border:2.5px solid rgba(0,0,0,.2);border-top-color:var(--bg);animation:spn .7s linear infinite;}
+
+/* Auth responsive */
+@media(max-width:900px){
+  .auth-wrap{grid-template-columns:1fr;}
+  .auth-panel-left{display:none;}
+  .auth-panel-right{padding:5rem 1.5rem 3rem;}
+}
+@media(max-width:480px){
+  .af-row{grid-template-columns:1fr;}
+  .role-chips{grid-template-columns:1fr 1fr;}
+  .auth-socials{grid-template-columns:1fr;}
+  .otp-boxes{gap:7px;}
+  .otp-box{width:44px;height:52px;font-size:1.4rem;}
+}
 </style>
 </head>
 <body>
+
+<!-- ═══════════════════════════════════════════════════════
+     AUTH SCREEN: LOGIN
+═══════════════════════════════════════════════════════ -->
+<div class="auth-screen visible" id="authLogin">
+  <div class="auth-wrap">
+
+    <!-- Left brand panel -->
+    <div class="auth-panel-left">
+      <div class="auth-grid-bg"></div>
+      <div class="auth-orb auth-orb-1"></div>
+      <div class="auth-orb auth-orb-2"></div>
+      <div class="auth-orb auth-orb-3"></div>
+
+      <div class="auth-left-content">
+        <div class="auth-logo">
+          <div class="auth-logo-box" style="background: white; width: 100px; height: 50px;"><img src="img/563189-removebg-preview (1).png" alt="" style="width:200px;height:100pxpx;cursor:pointer;" onclick="goScreen('landing')"></div>
+          <div class="auth-logo-name"><span class="auth-logo-sub" style="color: white;">Control Panel</span></div>
+        </div>
+
+        <div class="auth-headline">ADMIN<br><em>ACCESS</em><br>PORTAL</div>
+        <p class="auth-sub">Secure, role-based access to the Nkiri Synergies platform. Only authorised administrators may proceed.</p>
+
+        <div class="auth-features">
+          <div class="auth-feat">
+            <div class="auth-feat-icon" style="background:rgba(245,158,11,.15)">📊</div>
+            <div class="auth-feat-text"><h4>Full Platform Visibility</h4><p>Monitor all users, providers, jobs & revenue in real-time</p></div>
+          </div>
+          <div class="auth-feat">
+            <div class="auth-feat-icon" style="background:rgba(20,184,166,.15)">👥</div>
+            <div class="auth-feat-text"><h4>User & Provider Management</h4><p>Approve, suspend, verify & manage every account</p></div>
+          </div>
+          <div class="auth-feat">
+            <div class="auth-feat-icon" style="background:rgba(239,68,68,.15)">⚠️</div>
+            <div class="auth-feat-text"><h4>Dispute Resolution</h4><p>Investigate and resolve platform disputes with full context</p></div>
+          </div>
+          <div class="auth-feat">
+            <div class="auth-feat-icon" style="background:rgba(59,130,246,.15)">💳</div>
+            <div class="auth-feat-text"><h4>Financial Oversight</h4><p>Track all transactions, payouts and platform revenue</p></div>
+          </div>
+        </div>
+
+        <div class="auth-stats">
+          <div class="auth-stat"><div class="ast-num">1,248</div><div class="ast-lbl">Users</div></div>
+          <div class="auth-stat"><div class="ast-num">312</div><div class="ast-lbl">Providers</div></div>
+          <div class="auth-stat"><div class="ast-num">₦4.1M</div><div class="ast-lbl">Revenue</div></div>
+        </div>
+      </div>
+
+      <div class="auth-left-bottom">
+        <div class="auth-trust">
+          <div class="auth-trust-avs">
+            <span style="background:linear-gradient(135deg,#f59e0b,#ef4444)">S</span>
+            <span style="background:linear-gradient(135deg,#14b8a6,#22c55e)">A</span>
+            <span style="background:linear-gradient(135deg,#3b82f6,#8b5cf6)">M</span>
+          </div>
+          <span class="auth-trust"><strong>3 admins</strong> currently online</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right form panel -->
+    <div class="auth-panel-right">
+      <div class="auth-form-shell">
+
+        <div class="auth-back" onclick="window.location.href='index.html'" style="background: rgba(10, 130, 243, 0.795); border-radius: 5px; padding: 5px 10px; color: white;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+          Back to Main Site
+        </div>
+
+        <div class="auth-form-head">
+          <h2>ADMIN LOGIN</h2>
+          <p>Sign in with your administrator credentials</p>
+        </div>
+
+        <div class="af-alert err" id="loginAlert">⚠️ <span id="loginAlertMsg">Invalid email or password.</span></div>
+        <div class="af-alert ok"  id="loginOkAlert" style="display:none">✅ Authentication successful! Loading dashboard…</div>
+
+        <!-- Social -->
+        <div class="auth-socials">
+          <button class="auth-social-btn" onclick="socialAuthAdmin('Google')">
+            <svg width="17" height="17" viewBox="0 0 48 48"><path fill="#4285F4" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#34A853" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#EA4335" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.29-8.16 2.29-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+            Google SSO
+          </button>
+          <button class="auth-social-btn" onclick="socialAuthAdmin('Microsoft')">
+            <svg width="17" height="17" viewBox="0 0 21 21"><rect x="1" y="1" width="9" height="9" fill="#f25022"/><rect x="11" y="1" width="9" height="9" fill="#7fba00"/><rect x="1" y="11" width="9" height="9" fill="#00a4ef"/><rect x="11" y="11" width="9" height="9" fill="#ffb900"/></svg>
+            Microsoft SSO
+          </button>
+        </div>
+        <div class="auth-divider">or sign in with email</div>
+
+        <!-- Login form -->
+        <div id="loginFormBody">
+          <div class="af-group">
+            <label class="af-label">Admin Email Address <sup>*</sup></label>
+            <input class="af-input" id="loginEmail" type="email" placeholder="admin@nkirisynergies.com" onkeydown="if(event.key==='Enter')doLogin()">
+            <div class="af-err" id="loginEmailErr">Enter a valid email.</div>
+          </div>
+          <div class="af-group">
+            <label class="af-label">Password <sup>*</sup></label>
+            <div class="af-pw-wrap">
+              <input class="af-input" id="loginPw" type="password" placeholder="Enter your password" onkeydown="if(event.key==='Enter')doLogin()">
+              <button class="af-pw-eye" onclick="togglePw('loginPw',this)" tabindex="-1">👁</button>
+            </div>
+            <div class="af-err" id="loginPwErr">Password required.</div>
+          </div>
+          <div class="af-row-between">
+            <label class="af-check"><input type="checkbox" id="rememberMe"> Remember this device</label>
+            <span class="af-link" onclick="showForgot()">Forgot password?</span>
+          </div>
+          <button class="af-submit" id="loginBtn" onclick="doLogin()"><span>SIGN IN TO DASHBOARD →</span></button>
+          <p class="af-switch">Need an admin account? <a onclick="showScreen('authRegister')">Register here</a></p>
+        </div>
+
+        <!-- Forgot password (inline toggle) -->
+        <div class="forgot-wrap" id="forgotWrap">
+          <div class="auth-form-head" style="margin-bottom:1rem">
+            <h2 style="font-size:1.6rem">RESET PASSWORD</h2>
+            <p>Enter your admin email to receive a reset link.</p>
+          </div>
+          <div class="af-group">
+            <label class="af-label">Admin Email Address</label>
+            <input class="af-input" id="forgotEmail" type="email" placeholder="admin@nkirisynergies.com">
+          </div>
+          <button class="af-submit" onclick="sendReset()"><span>📧 SEND RESET LINK</span></button>
+          <div class="af-alert ok" id="resetSentAlert" style="margin-top:1rem;display:none">✅ Reset link sent to your email!</div>
+          <p class="af-switch"><a onclick="hideForgot()">← Back to Sign In</a></p>
+        </div>
+
+        <!-- 2FA step (shown after correct password) -->
+        <div id="twoFaStep" style="display:none">
+          <div class="auth-form-head">
+            <h2 style="font-size:1.6rem">TWO-FACTOR AUTH</h2>
+            <p>Enter the 6-digit code sent to your registered phone/email.</p>
+          </div>
+          <div class="admin-code-hint">🔐 For demo purposes, enter any 6 digits to proceed.</div>
+          <div class="otp-boxes" id="otpBoxes">
+            <input class="otp-box" maxlength="1" type="text" oninput="otpInput(this,0)">
+            <input class="otp-box" maxlength="1" type="text" oninput="otpInput(this,1)">
+            <input class="otp-box" maxlength="1" type="text" oninput="otpInput(this,2)">
+            <input class="otp-box" maxlength="1" type="text" oninput="otpInput(this,3)">
+            <input class="otp-box" maxlength="1" type="text" oninput="otpInput(this,4)">
+            <input class="otp-box" maxlength="1" type="text" oninput="otpInput(this,5)">
+          </div>
+          <button class="af-submit" id="otpBtn" onclick="verify2FA()"><span>VERIFY & ACCESS DASHBOARD →</span></button>
+          <p class="af-switch" style="margin-top:1rem">Didn't receive a code? <a onclick="toast('New code sent to your email','ok')">Resend</a></p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     AUTH SCREEN: REGISTER
+═══════════════════════════════════════════════════════ -->
+<div class="auth-screen" id="authRegister">
+  <div class="auth-wrap">
+
+    <!-- Left brand panel -->
+    <div class="auth-panel-left">
+      <div class="auth-grid-bg"></div>
+      <div class="auth-orb auth-orb-1" style="opacity:.25"></div>
+      <div class="auth-orb auth-orb-2" style="opacity:.2"></div>
+
+      <div class="auth-left-content">
+        <div class="auth-logo">
+          <div class="auth-logo-box">N</div>
+          <div class="auth-logo-name">NKIRI<span class="auth-logo-sub">Control Panel</span></div>
+        </div>
+
+        <div class="auth-headline">JOIN THE<br><em>ADMIN</em><br>TEAM</div>
+        <p class="auth-sub">Admin accounts require a valid invitation code issued by the Super Administrator. All registrations are logged and audited.</p>
+
+        <div class="auth-features">
+          <div class="auth-feat">
+            <div class="auth-feat-icon" style="background:rgba(245,158,11,.15)">🛡️</div>
+            <div class="auth-feat-text"><h4>Role-Based Access</h4><p>Choose your admin role — each has specific permissions</p></div>
+          </div>
+          <div class="auth-feat">
+            <div class="auth-feat-icon" style="background:rgba(20,184,166,.15)">📋</div>
+            <div class="auth-feat-text"><h4>Full Audit Trail</h4><p>Every admin action is logged with timestamp and IP address</p></div>
+          </div>
+          <div class="auth-feat">
+            <div class="auth-feat-icon" style="background:rgba(239,68,68,.15)">🔐</div>
+            <div class="auth-feat-text"><h4>Mandatory 2FA</h4><p>Two-factor authentication required for all admin accounts</p></div>
+          </div>
+        </div>
+
+        <div class="auth-stats">
+          <div class="auth-stat"><div class="ast-num">3</div><div class="ast-lbl">Admins</div></div>
+          <div class="auth-stat"><div class="ast-num">4</div><div class="ast-lbl">Roles</div></div>
+          <div class="auth-stat"><div class="ast-num">100%</div><div class="ast-lbl">Audited</div></div>
+        </div>
+      </div>
+
+      <div class="auth-left-bottom">
+        <div class="auth-trust">
+          <div class="auth-trust-avs">
+            <span style="background:linear-gradient(135deg,#f59e0b,#ef4444)">S</span>
+            <span style="background:linear-gradient(135deg,#14b8a6,#22c55e)">A</span>
+          </div>
+          <span>All registrations reviewed by <strong>Super Admin</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right form panel -->
+    <div class="auth-panel-right">
+      <div class="auth-form-shell">
+
+        <div class="auth-back" onclick="showScreen('authLogin')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+          Back to Login
+        </div>
+
+        <!-- Step progress -->
+        <div class="auth-steps" id="regSteps">
+          <div class="step-node current" id="rn1">1</div>
+          <div class="step-bar" id="rb1"></div>
+          <div class="step-node future"  id="rn2">2</div>
+          <div class="step-bar" id="rb2"></div>
+          <div class="step-node future"  id="rn3">3</div>
+        </div>
+
+        <div class="af-alert err" id="regAlert">⚠️ Please fix the highlighted fields.</div>
+
+        <!-- STEP 1: Role & Invitation Code -->
+        <div class="auth-step-panel active" id="rStep1">
+          <div class="auth-form-head">
+            <h2>SELECT YOUR ROLE</h2>
+            <p>Step 1 of 3 · Choose your admin role and enter your invitation code</p>
+          </div>
+
+          <div class="role-chips">
+            <div class="role-chip sel" id="rc-superadmin" onclick="pickRole('superadmin',this)">
+              <div class="role-chip-tick">✓</div>
+              <div class="role-chip-icon">👑</div>
+              <h4>Super Admin</h4>
+              <p>Full system access</p>
+            </div>
+            <div class="role-chip" id="rc-admin" onclick="pickRole('admin',this)">
+              <div class="role-chip-tick">✓</div>
+              <div class="role-chip-icon">🛡️</div>
+              <h4>Admin</h4>
+              <p>Users & jobs</p>
+            </div>
+            <div class="role-chip" id="rc-finance" onclick="pickRole('finance',this)">
+              <div class="role-chip-tick">✓</div>
+              <div class="role-chip-icon">💳</div>
+              <h4>Finance Admin</h4>
+              <p>Payments only</p>
+            </div>
+            <div class="role-chip" id="rc-support" onclick="pickRole('support',this)">
+              <div class="role-chip-tick">✓</div>
+              <div class="role-chip-icon">💬</div>
+              <h4>Support Admin</h4>
+              <p>Disputes & users</p>
+            </div>
+          </div>
+
+          <div class="af-group">
+            <label class="af-label">Admin Invitation Code <sup>*</sup></label>
+            <input class="af-input" id="inviteCode" type="text" placeholder="e.g. NKIRI-ADMIN-2025" oninput="this.value=this.value.toUpperCase()">
+            <div class="af-err" id="inviteCodeErr">Enter a valid invitation code.</div>
+            <div style="font-size:11.5px;color:var(--text-3);margin-top:5px;">💡 Demo codes: <span style="color:var(--amber);font-weight:700">NKIRI-ADMIN-2025</span> or <span style="color:var(--amber);font-weight:700">SUPER-2025</span></div>
+          </div>
+
+          <button class="af-submit" onclick="regGoStep(2)"><span>CONTINUE →</span></button>
+          <p class="af-switch">Already have an account? <a onclick="showScreen('authLogin')">Sign in</a></p>
+        </div>
+
+        <!-- STEP 2: Personal credentials -->
+        <div class="auth-step-panel" id="rStep2">
+          <div class="auth-form-head">
+            <h2>YOUR DETAILS</h2>
+            <p>Step 2 of 3 · Set up your admin account credentials</p>
+          </div>
+
+          <div class="auth-socials" style="margin-bottom:1.25rem">
+            <button class="auth-social-btn" onclick="socialAuthAdmin('Google')">
+              <svg width="16" height="16" viewBox="0 0 48 48"><path fill="#4285F4" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#34A853" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#EA4335" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.29-8.16 2.29-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+              Google SSO
+            </button>
+            <button class="auth-social-btn" onclick="socialAuthAdmin('Microsoft')">
+              <svg width="16" height="16" viewBox="0 0 21 21"><rect x="1" y="1" width="9" height="9" fill="#f25022"/><rect x="11" y="1" width="9" height="9" fill="#7fba00"/><rect x="1" y="11" width="9" height="9" fill="#00a4ef"/><rect x="11" y="11" width="9" height="9" fill="#ffb900"/></svg>
+              Microsoft SSO
+            </button>
+          </div>
+          <div class="auth-divider">or fill your details</div>
+
+          <div class="af-row">
+            <div class="af-group">
+              <label class="af-label">First Name <sup>*</sup></label>
+              <input class="af-input" id="rFirst" type="text" placeholder="e.g. Samuel">
+              <div class="af-err" id="rFirstErr">Required.</div>
+            </div>
+            <div class="af-group">
+              <label class="af-label">Last Name <sup>*</sup></label>
+              <input class="af-input" id="rLast" type="text" placeholder="e.g. Eze">
+              <div class="af-err" id="rLastErr">Required.</div>
+            </div>
+          </div>
+          <div class="af-group">
+            <label class="af-label">Work Email <sup>*</sup></label>
+            <input class="af-input" id="rEmail" type="email" placeholder="admin@nkirisynergies.com">
+            <div class="af-err" id="rEmailErr">Enter a valid email address.</div>
+          </div>
+          <div class="af-group">
+            <label class="af-label">Phone Number <sup>*</sup></label>
+            <input class="af-input" id="rPhone" type="tel" placeholder="+234 812 345 6789">
+            <div class="af-err" id="rPhoneErr">Enter a valid phone number.</div>
+          </div>
+          <div class="af-group">
+            <label class="af-label">Password <sup>*</sup></label>
+            <div class="af-pw-wrap">
+              <input class="af-input" id="rPw" type="password" placeholder="Create a strong password" oninput="checkPwStrength(this.value)">
+              <button class="af-pw-eye" onclick="togglePw('rPw',this)" tabindex="-1">👁</button>
+            </div>
+            <div class="pw-bar"><div class="pw-fill" id="rPwFill"></div></div>
+            <div class="pw-hint" id="rPwHint" style="color:var(--text-3)">Enter a password</div>
+            <div class="af-err" id="rPwErr">Minimum 8 characters required.</div>
+          </div>
+          <div class="af-group">
+            <label class="af-label">Confirm Password <sup>*</sup></label>
+            <div class="af-pw-wrap">
+              <input class="af-input" id="rPw2" type="password" placeholder="Repeat your password">
+              <button class="af-pw-eye" onclick="togglePw('rPw2',this)" tabindex="-1">👁</button>
+            </div>
+            <div class="af-err" id="rPw2Err">Passwords do not match.</div>
+          </div>
+
+          <div class="af-btn-row">
+            <button class="af-btn-back" onclick="regGoStep(1)">← BACK</button>
+            <button class="af-submit" onclick="regGoStep(3)"><span>CONTINUE →</span></button>
+          </div>
+        </div>
+
+        <!-- STEP 3: Preferences & confirmation -->
+        <div class="auth-step-panel" id="rStep3">
+          <div class="auth-form-head">
+            <h2>FINAL STEP</h2>
+            <p>Step 3 of 3 · Set your preferences and confirm your account</p>
+          </div>
+
+          <div class="af-group">
+            <label class="af-label">Department</label>
+            <select class="af-select" id="rDept">
+              <option value="">Select your department</option>
+              <option>Operations</option>
+              <option>Finance & Payments</option>
+              <option>Customer Support</option>
+              <option>Technology & IT</option>
+              <option>Executive</option>
+            </select>
+          </div>
+          <div class="af-group">
+            <label class="af-label">Office Location</label>
+            <select class="af-select">
+              <option>Lagos (Head Office)</option>
+              <option>Abuja</option>
+              <option>Port Harcourt</option>
+              <option>Remote</option>
+            </select>
+          </div>
+
+          <!-- 2FA setup -->
+          <div style="background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.15);border-radius:10px;padding:14px;margin-bottom:1.25rem;">
+            <div style="font-size:13px;font-weight:700;color:var(--amber);margin-bottom:8px;">🔐 Two-Factor Authentication (Mandatory)</div>
+            <div style="font-size:12.5px;color:var(--text-2);margin-bottom:10px;">Select your preferred 2FA method. This is required for all admin accounts.</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <div class="role-chip sel" style="padding:10px 14px;flex:1;min-width:120px;text-align:center" id="tfa-sms" onclick="pickTFA('sms',this)">
+                <div class="role-chip-tick">✓</div>
+                <div style="font-size:1.1rem">📱</div>
+                <div style="font-size:12px;font-weight:700;color:var(--text);margin-top:3px">SMS</div>
+              </div>
+              <div class="role-chip" style="padding:10px 14px;flex:1;min-width:120px;text-align:center" id="tfa-email" onclick="pickTFA('email',this)">
+                <div class="role-chip-tick">✓</div>
+                <div style="font-size:1.1rem">📧</div>
+                <div style="font-size:12px;font-weight:700;color:var(--text);margin-top:3px">Email</div>
+              </div>
+              <div class="role-chip" style="padding:10px 14px;flex:1;min-width:120px;text-align:center" id="tfa-app" onclick="pickTFA('app',this)">
+                <div class="role-chip-tick">✓</div>
+                <div style="font-size:1.1rem">🔑</div>
+                <div style="font-size:12px;font-weight:700;color:var(--text);margin-top:3px">Auth App</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="af-group">
+            <label class="af-check">
+              <input type="checkbox" id="rAgree">
+              I agree to the <a href="#" style="color:var(--amber);font-weight:700">Admin Terms of Use</a> and confirm all information is accurate and authorised.
+            </label>
+          </div>
+
+          <div class="af-btn-row">
+            <button class="af-btn-back" onclick="regGoStep(2)">← BACK</button>
+            <button class="af-submit" id="regFinalBtn" onclick="doRegister()"><span>🎉 CREATE ADMIN ACCOUNT</span></button>
+          </div>
+          <p class="af-switch">Already registered? <a onclick="showScreen('authLogin')">Sign in</a></p>
+        </div>
+
+        <!-- Success -->
+        <div class="auth-success" id="regSuccess">
+          <div class="auth-success-ring">🎊</div>
+          <h2>ACCOUNT CREATED!</h2>
+          <p>Your admin account has been created and is pending Super Admin approval. You'll receive an email once approved.</p>
+          <p style="margin-top:.5rem">Registered as: <strong id="regSuccessEmail" style="color:var(--amber)"></strong></p>
+          <div class="auth-success-ref" id="regSuccessRef">ADM-2025-000000</div>
+          <button class="af-submit" style="max-width:280px;margin:0 auto" onclick="showScreen('authLogin')"><span>PROCEED TO LOGIN →</span></button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     DASHBOARD APP SHELL (hidden until logged in)
+═══════════════════════════════════════════════════════ -->
+<div class="app-shell" id="appShell">
 
 <!-- ═══════════════════════════════════════
      SIDEBAR
@@ -614,14 +1399,14 @@ img{max-width:100%;display:block}
 
   <div class="sb-head">
     <div class="sb-brand">
-      <div class="sb-logo-box" style="background: transparent;"> <img src="img/563189-removebg-preview (1).png" alt="" style="width:200px;height:100pxpx;cursor:pointer;" onclick="goScreen('landing')"></div>
+      <div class="sb-logo-box" style="background: white; width: 200px; height: 50px;"><img src="img/563189-removebg-preview (1).png" alt="" style="width:130px;height:100pxpx;cursor:pointer;" onclick="goScreen('landing')"></div>
       <div class="sb-brand-text">NKIRI<span class="sb-brand-sub">Admin Panel</span></div>
     </div>
-    <div class="sb-toggle-btn" onclick="toggleSb()" title="Toggle sidebar">☰</div>
+    <div class="sb-toggle-btn" onclick="toggleSb()" title="Toggle sidebar" style="background:transparent; color: white;">☰</div>
   </div>
 
   <div class="sb-admin">
-    <div class="sb-admin-ava" style="background: white;">SA</div>
+    <div class="sb-admin-ava">SA</div>
     <div class="sb-admin-info">
       <div class="sb-admin-name">Super Admin</div>
       <div class="sb-admin-role">● System Administrator</div>
@@ -1349,10 +2134,290 @@ img{max-width:100%;display:block}
 <!-- Toast container -->
 <div class="toast-wrap" id="toastWrap"></div>
 
+</div><!-- /app-shell -->
+
 <!-- ═══════════════════════════════════════
      JS
 ═══════════════════════════════════════ -->
 <script>
+/* ═══════════════════════════════════════════
+   AUTH STATE
+═══════════════════════════════════════════ */
+// Simple in-memory admin registry for demo
+const VALID_INVITE_CODES = ['NKIRI-ADMIN-2025','SUPER-2025','FINANCE-2025','SUPPORT-2025'];
+let adminRegistry = JSON.parse(localStorage.getItem('nkiri_admins') || '[]');
+// Pre-seed a demo admin so login works without registering
+if (!adminRegistry.find(a => a.email === 'admin@nkirisynergies.com')) {
+  adminRegistry.push({
+    email:'admin@nkirisynergies.com', pw:'Admin@123',
+    name:'Super Admin', role:'superadmin', ref:'ADM-2025-000001'
+  });
+  localStorage.setItem('nkiri_admins', JSON.stringify(adminRegistry));
+}
+let currentAdmin = null;
+let loginStage = 'credentials'; // 'credentials' | '2fa'
+
+/* Screen router */
+function showScreen(id) {
+  document.querySelectorAll('.auth-screen').forEach(s => s.classList.remove('visible'));
+  document.getElementById(id)?.classList.add('visible');
+}
+function showDashboard() {
+  document.querySelectorAll('.auth-screen').forEach(s => s.classList.remove('visible'));
+  document.getElementById('appShell').classList.add('visible');
+  // Update sidebar admin name
+  const n = document.getElementById('sb-admin-name-el');
+  if (n && currentAdmin) n.textContent = currentAdmin.name;
+  const r = document.getElementById('sb-admin-role-el');
+  if (r && currentAdmin) r.textContent = '● ' + currentAdmin.role.replace('superadmin','Super Admin').replace('admin','Admin').replace('finance','Finance Admin').replace('support','Support Admin');
+  setGreeting();
+}
+
+/* ── LOGIN ── */
+function doLogin() {
+  hideAlert('loginAlert');
+  const email = document.getElementById('loginEmail');
+  const pw    = document.getElementById('loginPw');
+  let ok = true;
+
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim());
+  document.getElementById('loginEmailErr').style.display = emailOk ? 'none' : 'block';
+  email.classList.toggle('err', !emailOk);
+  if (!emailOk) ok = false;
+
+  const pwOk = pw.value.length >= 1;
+  document.getElementById('loginPwErr').style.display = pwOk ? 'none' : 'block';
+  pw.classList.toggle('err', !pwOk);
+  if (!pwOk) ok = false;
+
+  if (!ok) return;
+
+  const btn = document.getElementById('loginBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span><div class="af-spin"></div> Authenticating…</span>';
+
+  setTimeout(() => {
+    adminRegistry = JSON.parse(localStorage.getItem('nkiri_admins') || '[]');
+    const admin = adminRegistry.find(a =>
+      a.email.toLowerCase() === email.value.trim().toLowerCase() && a.pw === pw.value
+    );
+
+    btn.disabled = false;
+    btn.innerHTML = '<span>SIGN IN TO DASHBOARD →</span>';
+
+    if (!admin) {
+      showAlert('loginAlert', 'Invalid email or password. Try: admin@nkirisynergies.com / Admin@123');
+      return;
+    }
+    currentAdmin = admin;
+    // Show 2FA step
+    document.getElementById('loginFormBody').style.display = 'none';
+    document.getElementById('twoFaStep').style.display = 'block';
+    document.querySelectorAll('#otpBoxes .otp-box')[0]?.focus();
+  }, 1600);
+}
+
+/* ── 2FA ── */
+function otpInput(input, idx) {
+  input.value = input.value.replace(/\D/g, '').slice(0, 1);
+  if (input.value) {
+    const boxes = document.querySelectorAll('#otpBoxes .otp-box');
+    if (idx < 5) boxes[idx + 1]?.focus();
+    // Auto-verify when all filled
+    const allFilled = [...boxes].every(b => b.value.length === 1);
+    if (allFilled) { setTimeout(verify2FA, 300); }
+  }
+}
+function verify2FA() {
+  const boxes = document.querySelectorAll('#otpBoxes .otp-box');
+  const code = [...boxes].map(b => b.value).join('');
+  if (code.length < 6) { toast('Enter all 6 digits', 'err'); return; }
+
+  const btn = document.getElementById('otpBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span><div class="af-spin"></div> Verifying…</span>';
+
+  setTimeout(() => {
+    btn.disabled = false;
+    btn.innerHTML = '<span>VERIFY & ACCESS DASHBOARD →</span>';
+    document.getElementById('loginOkAlert').style.display = 'flex';
+    setTimeout(() => { showDashboard(); }, 1200);
+  }, 1400);
+}
+
+/* ── FORGOT PASSWORD ── */
+function showForgot() {
+  document.getElementById('loginFormBody').style.display = 'none';
+  document.getElementById('forgotWrap').classList.add('show');
+}
+function hideForgot() {
+  document.getElementById('loginFormBody').style.display = 'block';
+  document.getElementById('forgotWrap').classList.remove('show');
+  document.getElementById('resetSentAlert').style.display = 'none';
+}
+function sendReset() {
+  const email = document.getElementById('forgotEmail').value.trim();
+  if (!email) { toast('Enter your email address', 'err'); return; }
+  document.getElementById('resetSentAlert').style.display = 'flex';
+}
+
+/* ── REGISTER ── */
+let selectedRole = 'superadmin';
+let selectedTFA  = 'sms';
+let regStep = 1;
+
+function pickRole(role, el) {
+  selectedRole = role;
+  document.querySelectorAll('.role-chip[id^="rc-"]').forEach(c => c.classList.remove('sel'));
+  el.classList.add('sel');
+}
+function pickTFA(method, el) {
+  selectedTFA = method;
+  document.querySelectorAll('[id^="tfa-"]').forEach(c => c.classList.remove('sel'));
+  el.classList.add('sel');
+}
+
+function regGoStep(to) {
+  hideAlert('regAlert');
+
+  if (to === 2) {
+    const code = document.getElementById('inviteCode').value.trim();
+    if (!VALID_INVITE_CODES.includes(code)) {
+      document.getElementById('inviteCodeErr').style.display = 'block';
+      document.getElementById('inviteCode').classList.add('err');
+      showAlert('regAlert', 'Invalid invitation code. Demo codes: NKIRI-ADMIN-2025 or SUPER-2025');
+      return;
+    }
+    document.getElementById('inviteCodeErr').style.display = 'none';
+    document.getElementById('inviteCode').classList.remove('err');
+  }
+
+  if (to === 3) {
+    const rules = [
+      ['rFirst','rFirstErr', v => v.length > 0],
+      ['rLast', 'rLastErr',  v => v.length > 0],
+      ['rEmail','rEmailErr', v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)],
+      ['rPhone','rPhoneErr', v => v.replace(/\s/g,'').length >= 7],
+      ['rPw',   'rPwErr',    v => v.length >= 8],
+      ['rPw2',  'rPw2Err',   v => v === document.getElementById('rPw').value],
+    ];
+    let ok = true;
+    rules.forEach(([id, errId, test]) => {
+      const el = document.getElementById(id);
+      const err = document.getElementById(errId);
+      const pass = test(el.value.trim());
+      el.classList.toggle('err', !pass);
+      err.style.display = pass ? 'none' : 'block';
+      if (!pass) ok = false;
+    });
+    if (!ok) { showAlert('regAlert', 'Please fix all highlighted fields.'); return; }
+  }
+
+  // Update steps UI
+  for (let i = 1; i <= 3; i++) {
+    const node = document.getElementById('rn' + i);
+    const bar  = document.getElementById('rb' + i);
+    if (i < to)  { node.className = 'step-node done';    node.textContent = '✓'; }
+    if (i === to){ node.className = 'step-node current'; node.textContent = i; }
+    if (i > to)  { node.className = 'step-node future';  node.textContent = i; }
+    if (bar) bar.className = 'step-bar' + (i < to ? ' done' : '');
+  }
+  ['rStep1','rStep2','rStep3'].forEach(id => {
+    document.getElementById(id)?.classList.remove('active');
+  });
+  document.getElementById('rStep' + to)?.classList.add('active');
+  regStep = to;
+}
+
+function doRegister() {
+  if (!document.getElementById('rAgree').checked) {
+    toast('Please agree to the Admin Terms of Use', 'err'); return;
+  }
+
+  const btn = document.getElementById('regFinalBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span><div class="af-spin"></div> Creating account…</span>';
+
+  const email = document.getElementById('rEmail').value.trim();
+  const pw    = document.getElementById('rPw').value;
+  const first = document.getElementById('rFirst').value.trim();
+  const last  = document.getElementById('rLast').value.trim();
+  const ref   = 'ADM-2025-' + Math.floor(100000 + Math.random() * 900000);
+
+  setTimeout(() => {
+    // Save to registry
+    adminRegistry = JSON.parse(localStorage.getItem('nkiri_admins') || '[]');
+    if (!adminRegistry.find(a => a.email.toLowerCase() === email.toLowerCase())) {
+      adminRegistry.push({ email, pw, name: first + ' ' + last, role: selectedRole, ref });
+      localStorage.setItem('nkiri_admins', JSON.stringify(adminRegistry));
+    }
+
+    btn.disabled = false;
+    btn.innerHTML = '<span>🎉 CREATE ADMIN ACCOUNT</span>';
+
+    // Hide steps, show success
+    document.getElementById('regSteps').style.display = 'none';
+    ['rStep1','rStep2','rStep3'].forEach(id => {
+      document.getElementById(id)?.classList.remove('active');
+    });
+    document.getElementById('regSuccessEmail').textContent = email;
+    document.getElementById('regSuccessRef').textContent   = ref;
+    document.getElementById('regSuccess').classList.add('show');
+  }, 2000);
+}
+
+/* ── SOCIAL AUTH ── */
+function socialAuthAdmin(provider) {
+  toast(`${provider} SSO — configure OAuth credentials in production.`, 'warn');
+}
+
+/* ── ALERTS ── */
+function showAlert(id, msg) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  if (msg) {
+    const span = el.querySelector('span') || el;
+    span.textContent = msg;
+  }
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 5000);
+}
+function hideAlert(id) { document.getElementById(id)?.classList.remove('show'); }
+
+/* ── PASSWORD HELPERS ── */
+function togglePw(id, btn) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const show = el.type === 'password';
+  el.type = show ? 'text' : 'password';
+  btn.textContent = show ? '🙈' : '👁';
+}
+function checkPwStrength(val) {
+  const fill = document.getElementById('rPwFill');
+  const hint = document.getElementById('rPwHint');
+  if (!fill) return;
+  let score = 0;
+  if (val.length >= 8)          score++;
+  if (/[A-Z]/.test(val))        score++;
+  if (/[0-9]/.test(val))        score++;
+  if (/[^A-Za-z0-9]/.test(val)) score++;
+  const levels = [
+    {w:'20%',c:'#ef4444',t:'Very weak'},
+    {w:'40%',c:'#f59e0b',t:'Weak'},
+    {w:'65%',c:'#3b82f6',t:'Fair'},
+    {w:'85%',c:'#22c55e',t:'Strong'},
+    {w:'100%',c:'#15803d',t:'Very strong 🔒'},
+  ];
+  const l = val.length ? levels[score] : levels[0];
+  fill.style.width = val.length ? l.w : '0';
+  fill.style.background = l.c;
+  hint.textContent = val.length ? l.t : 'Enter a password';
+  hint.style.color = val.length ? l.c : 'var(--text-3)';
+}
+
+/* ═══════════════════════════════════════════
+   DASHBOARD JS (original, extended)
+═══════════════════════════════════════════ */
 /* ── SIDEBAR ── */
 let sbMini = false, mobileOpen = false;
 function toggleSb() {
@@ -1465,8 +2530,7 @@ function filterTable(tableId, query) {
 function filterByStatus(tableId, status) {
   document.querySelectorAll(`#${tableId} tbody tr`).forEach(row => {
     if (!status) { row.style.display = ''; return; }
-    const text = row.textContent.toLowerCase();
-    row.style.display = text.toLowerCase().includes(status.toLowerCase()) ? '' : 'none';
+    row.style.display = row.textContent.toLowerCase().includes(status.toLowerCase()) ? '' : 'none';
   });
 }
 function globalSearch(q) {
@@ -1490,13 +2554,36 @@ function toast(msg, type) {
   }, 3200);
 }
 
+/* ── LOGOUT ── */
+function doLogout() {
+  currentAdmin = null;
+  document.getElementById('appShell').classList.remove('visible');
+  // Reset login form
+  document.getElementById('loginFormBody').style.display = 'block';
+  document.getElementById('twoFaStep').style.display = 'none';
+  document.getElementById('loginOkAlert').style.display = 'none';
+  document.getElementById('loginEmail').value = '';
+  document.getElementById('loginPw').value = '';
+  document.querySelectorAll('#otpBoxes .otp-box').forEach(b => b.value = '');
+  showScreen('authLogin');
+}
+
+/* ── GREETING ── */
+function setGreeting() {
+  const h = new Date().getHours();
+  const greet = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+  const name = currentAdmin ? currentAdmin.name.split(' ')[0] : 'Admin';
+  const el = document.getElementById('topGreeting');
+  if (el) el.innerHTML = `${greet}, <span>${name}</span> 👋`;
+}
+
 /* ── INIT ── */
 document.addEventListener('DOMContentLoaded', () => {
   const d = new Date();
   const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  document.getElementById('dashDate').textContent =
-    `${days[d.getDay()]}, ${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()} · Live Data`;
+  const el = document.getElementById('dashDate');
+  if (el) el.textContent = `${days[d.getDay()]}, ${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()} · Live Data`;
 });
 </script>
 </body>
