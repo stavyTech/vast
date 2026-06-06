@@ -1,0 +1,2103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nkiri Synergies — Find a Service Provider</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Epilogue:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --forest:#1a3d2b;
+  --forest-l:#2d6045;
+  --sage:#5a8a6e;
+  --cream:#faf8f3;
+  --cream-2:#f3f0e8;
+  --cream-3:#ebe6d8;
+  --gold:#c9963f;
+  --gold-l:#e8b660;
+  --rust:#c0522a;
+  --sky:#2a6896;
+  --text:#1c1c1c;
+  --text-2:#3d3d3d;
+  --text-3:#6b6b6b;
+  --text-4:#9b9b9b;
+  --border:#ddd8cc;
+  --border-2:#ccc5b5;
+  --white:#ffffff;
+  --f-serif:'Cormorant Garamond',Georgia,serif;
+  --f-body:'Epilogue',sans-serif;
+  --r:10px;--r-lg:18px;--r-xl:28px;
+  --sh:0 2px 20px rgba(26,61,43,.08);
+  --sh-md:0 8px 32px rgba(26,61,43,.12);
+  --sh-lg:0 20px 60px rgba(26,61,43,.18);
+  --tr:all .22s cubic-bezier(.4,0,.2,1);
+}
+*,*::before,*::after{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+html{
+  scroll-behavior:smooth;
+}
+body{
+  font-family:var(--f-body);
+  background:var(--cream);
+  color:var(--text);
+  line-height:1.6;
+  overflow-x:hidden;
+  min-height:100vh;
+}
+a{
+  text-decoration:none;
+  color:inherit;
+}
+button{
+  font-family:var(--f-body);
+  cursor:pointer;
+  border:none
+  ;background:none;
+}
+input,select,textarea{
+  font-family:var(--f-body);
+}
+
+/* ── SCREEN ROUTER ── */
+.screen{display:none}
+.screen.show{display:block}
+.flex-screen{display:none!important}
+.flex-screen.show{display:flex!important}
+
+/* ── AUTH SPLIT ── */
+.auth-split{
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:1fr 1.1fr;
+  width:100%;
+}
+
+/* ── LEFT PANEL ── */
+.auth-left{
+   background:navy;
+  /* background:var(--forest); */
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  padding:2.5rem;
+}
+.auth-left::before
+{content:'';
+position:absolute;
+inset:0;
+background:radial-gradient(ellipse 70% 55% at 20% 30%,rgba(61,122,88,.4) 0%,transparent 55%),radial-gradient(ellipse 50% 60% at 85% 75%,rgba(201,150,63,.15) 0%,transparent 50%)}
+.al-grid{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
+  background-size:44px 44px;
+}
+.al-content{
+  position:relative;
+  z-index:2;
+}
+.al-bottom{
+  position:relative;
+  z-index:2;
+}
+.al-logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:2.5rem;
+}
+.al-logo-mark{
+  width:42px;
+  height:42px;
+  border-radius:11px;
+  background:linear-gradient(135deg,var(--gold),var(--rust));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:var(--f-serif);
+  font-size:22px;
+  font-weight:700;
+  color:white;
+  box-shadow:0 0 0 3px rgba(201,150,63,.25);
+}
+.al-logo-name{
+  font-family:var(--f-serif);
+  font-size:18px;
+  font-weight:600;
+  color:white;
+  line-height:1.2;
+}
+.al-logo-sub{
+  font-size:10px;
+  font-family:var(--f-body);
+  font-weight:500;
+  color:rgba(255,255,255,.4);
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  display:block;
+}
+.al-headline{
+  font-family:var(--f-serif);
+  font-size:clamp(2.4rem,4.5vw,3.6rem);
+  font-weight:600;
+  color:white;
+  line-height:1.1;
+  margin-bottom:1.1rem;
+}
+.al-headline em{
+  font-style:italic;
+  color:var(--gold-l);
+}
+.al-sub{
+  font-size:.93rem;
+  color:rgba(255,255,255,.55);
+  line-height:1.8;
+  max-width:360px;
+  margin-bottom:2rem;
+}
+.al-perks{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-bottom:2.5rem;
+}
+.al-perk{
+  display:flex;
+  align-items:center;
+  gap:14px;background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:14px;
+  padding:14px 18px;
+  transition:var(--tr);
+}
+.al-perk:hover{
+  background:rgba(255,255,255,.1);
+  transform:translateX(4px);
+}
+.al-perk-icon{
+  width:40px;
+  height:40px;
+  border-radius:11px;
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:19px;
+}
+.al-perk-text h4{
+  font-size:14px;
+  font-weight:700;
+  color:white;
+  margin-bottom:2px;
+}
+.al-perk-text p{
+  font-size:12px;
+  color:rgba(255,255,255,.45);
+}
+.al-stats{
+  display:flex;
+  gap:0;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:14px;
+  overflow:hidden;
+}
+.al-stat{
+  flex:1;
+  padding:16px;
+  text-align:center;
+  border-right:1px solid rgba(255,255,255,.07);
+}
+.al-stat:last-child{
+  border-right:none;
+}
+.al-stat-n{
+  font-family:var(--f-serif);
+  font-size:1.7rem;
+  font-weight:600;
+  color:white;
+}
+.al-stat-l{font-size:11px;color:rgba(255,255,255,.4);
+  font-weight:500;
+}
+.al-trust{
+  display:flex
+  ;align-items:center;
+  gap:12px;
+}
+.al-trust-avs{
+  display:flex;
+}
+.al-trust-avs span{
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  border:2px solid var(--forest);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:var(--f-serif);
+  font-size:13px;
+  color:white;
+  font-weight:600;
+  margin-left:-7px}
+.al-trust-avs span:first-child{
+  margin-left:0;
+}
+.al-trust-text{
+  font-size:12.5px;
+  color:rgba(255,255,255,.5);
+}
+.al-trust-text strong{
+  color:rgba(255,255,255,.8);
+}
+
+/* ── RIGHT PANEL ── */
+.auth-right{
+  background:var(--cream);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:clamp(2rem,5vw,4.5rem) clamp(2rem,6vw,5rem);
+  overflow-y:auto;
+}
+.auth-form-shell{
+  max-width:490px;
+  width:100%;
+  margin:0 auto;
+}
+.auth-back{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  font-size:13px;
+  font-weight:600;
+  color:var(--text-3);
+  cursor:pointer;
+  transition:var(--tr);
+  margin-bottom:2rem;
+  padding:6px 0;
+}
+.auth-back:hover{
+  color:var(--forest);
+}
+.auth-back svg{
+  transition:var(--tr);
+}
+.auth-back:hover svg{
+  transform:translateX(-3px);
+}
+
+/* ── STEP TRACK ── */
+.step-track{display:flex;align-items:center;gap:0;margin-bottom:1.75rem}
+.sn{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;transition:var(--tr)}
+.sn.done{background:var(--forest);color:white}
+.sn.curr{background:var(--text);color:white;box-shadow:0 0 0 4px rgba(28,28,28,.12)}
+.sn.todo{background:var(--cream-3);color:var(--text-3)}
+.sb{flex:1;height:2px;background:var(--border);margin:0 4px}
+.sb.done{background:var(--forest)}
+
+/* ── FORM HEAD ── */
+.form-head{margin-bottom:1.75rem}
+.form-head h2{font-family:var(--f-serif);font-size:clamp(1.7rem,3vw,2.2rem);font-weight:600;color:var(--text);margin-bottom:.3rem}
+.form-head h2 em{font-style:italic;color:var(--forest)}
+.form-head p{font-size:13.5px;color:var(--text-3)}
+
+/* ── SOCIAL ── */
+.social-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.25rem}
+.social-btn{display:flex;align-items:center;justify-content:center;gap:9px;padding:11px 16px;border:2px solid var(--border-2);border-radius:var(--r);font-size:13.5px;font-weight:600;color:var(--text-2);background:white;transition:var(--tr)}
+.social-btn:hover{border-color:var(--forest);color:var(--forest);transform:translateY(-1px);box-shadow:var(--sh)}
+.or-divider{display:flex;align-items:center;gap:12px;font-size:12.5px;color:var(--text-4);margin-bottom:1.25rem;font-weight:500}
+.or-divider::before,.or-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ── FORM FIELDS ── */
+.fg{margin-bottom:1rem}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.fl{display:block;font-size:12.5px;font-weight:700;color:var(--text-2);margin-bottom:6px;letter-spacing:.02em}
+.fl sup{color:var(--rust)}
+.fi,.fsel,.fta{width:100%;padding:11px 14px;border:2px solid var(--border);border-radius:var(--r);font-size:14px;color:var(--text);outline:none;background:white;transition:var(--tr);font-family:var(--f-body)}
+.fi:focus,.fsel:focus,.fta:focus{border-color:var(--forest);box-shadow:0 0 0 3px rgba(26,61,43,.1)}
+.fi.err{border-color:var(--rust);box-shadow:0 0 0 3px rgba(192,82,42,.1)}
+.fta{resize:vertical;min-height:80px}
+.fsel{appearance:none;cursor:pointer}
+.ferr{font-size:12px;color:var(--rust);margin-top:4px;font-weight:600;display:none}
+.fhint{font-size:12px;color:var(--text-4);margin-top:4px}
+.pw-wrap{position:relative}
+.pw-wrap .fi{padding-right:44px}
+.pw-eye{position:absolute;right:13px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:16px;color:var(--text-4);transition:var(--tr)}
+.pw-eye:hover{color:var(--text)}
+.pw-bar{height:4px;border-radius:2px;background:var(--cream-3);margin-top:8px;overflow:hidden}
+.pw-fill{height:100%;border-radius:2px;width:0;transition:width .4s ease,background .4s ease}
+.pw-hint{font-size:11.5px;margin-top:4px;font-weight:700}
+.fcheck{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--text-3);cursor:pointer}
+.fcheck input{width:16px;height:16px;margin-top:2px;accent-color:var(--forest);flex-shrink:0;cursor:pointer}
+.fcheck a{color:var(--forest);font-weight:700}
+
+/* ── BUTTONS ── */
+.fsub{width:100%;
+  padding:14px;
+  border-radius:50px;
+  font-family:var(--f-serif);
+  font-size:17px;
+  font-weight:600;
+  cursor:pointer;
+  transition:var(--tr);
+  border:none;
+    background:navy;
+  /* background:var(--forest); */
+  color:white;
+  box-shadow:0 4px 20px rgba(26, 48, 61, 0.28);
+  position:relative;
+  overflow:hidden;
+}
+.fsub::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,var(--gold),var(--rust));opacity:0;
+  transition:opacity .3s ease;
+}
+.fsub:hover::before{
+  opacity:1;
+}
+.fsub:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 28px rgba(26, 157, 233, 0.4);
+}
+.fsub span{
+  position:relative;
+  z-index:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+ 
+}
+.fsub:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+  transform:none;
+}
+.fsub-ghost{
+  width:100%;
+  padding:13px;
+  border-radius:50px;
+  font-family:var(--f-serif);
+  font-size:16px;
+  font-weight:600;
+  border:2px solid var(--border-2);
+  color:var(--text-2);
+  background:transparent;
+  cursor:pointer;
+  transition:var(--tr);
+}
+.fsub-ghost:hover{
+  border-color:var(--forest);
+  color:var(--forest);
+}
+.f-switch{
+  text-align:center;
+  font-size:13px;
+  color: navy;
+  /* color:var(--text-3); */
+  margin-top:1.25rem;
+}
+.f-switch a{
+  color: rgb(6, 10, 241);
+  /* color:var(--forest); */
+  font-weight:700;
+  cursor:pointer;
+}
+.falert{
+  display:none;
+  padding:12px 15px;border-radius:var(--r);font-size:13px;font-weight:600;align-items:center;gap:9px;margin-bottom:1rem;border:1px solid}
+.falert.show{display:flex}
+.falert.err{background:rgba(192,82,42,.07);color:var(--rust);border-color:rgba(192,82,42,.25)}
+.falert.ok{background:rgba(26,61,43,.07);color:var(--forest);border-color:rgba(26,61,43,.25)}
+.spanel{display:none;animation:fadeUp .3s ease}
+.spanel.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.auth-success{display:none;text-align:center;padding:1.5rem 0}
+.auth-success.show{display:block}
+.success-ring{width:88px;height:88px;border-radius:50%;margin:0 auto 1.25rem;background:linear-gradient(135deg,var(--forest),var(--gold));display:flex;align-items:center;justify-content:center;font-size:2.4rem;animation:popRing .6s cubic-bezier(.34,1.56,.64,1);box-shadow:0 0 0 16px rgba(26,61,43,.08),0 0 0 32px rgba(26,61,43,.04)}
+@keyframes popRing{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.auth-success h2{font-family:var(--f-serif);font-size:1.9rem;color:var(--forest);margin-bottom:.4rem}
+.auth-success p{font-size:14px;color:var(--text-3);max-width:320px;margin:0 auto .5rem}
+.spin{display:inline-block;width:16px;height:16px;border-radius:50%;border:2.5px solid rgba(255,255,255,.3);border-top-color:white;animation:doSpin .7s linear infinite}
+@keyframes doSpin{to{transform:rotate(360deg)}}
+
+/* ── NAVBAR ── */
+.navbar{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:500;
+  height:64px;
+  background:rgba(4, 1, 39, 0.97);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 2rem;
+  box-shadow:var(--sh);
+  color: white;
+}
+.nav-logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  cursor:pointer;
+}
+.nav-logo-mark{
+  width:34px;
+  height:34px;
+  border-radius:9px;
+  background:navy;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:var(--f-serif);
+  font-size:17px;
+  font-weight:700;
+  color:white;
+}
+.nav-logo-name{
+  font-family:var(--f-serif);
+  font-size:16px;
+  font-weight:600;
+  color:var(--text);
+}
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:4px;
+}
+.nl{
+  font-size:13.5px;
+  font-weight:600;
+  color:var(--white);
+  padding:7px 13px;
+  border-radius:8px;
+  cursor:pointer;
+  transition:var(--tr);
+}
+.nl:hover{
+  color:var(--forest);
+  background:rgba(26,61,43,.06);
+}
+.nl.active{
+  color:var(--white);
+  background:rgba(10, 100, 204, 0.08);
+}
+.nav-right{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.nav-icon-btn{
+  width:38px;
+  height:38px;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--cream-2);
+  cursor:pointer;
+  transition:var(--tr);
+  font-size:17px;
+  position:relative;
+  border:1px solid var(--border);
+}
+.nav-icon-btn:hover{
+  background:var(--cream-3);
+}
+.notif-dot{
+  position:absolute;
+  top:7px;
+  right:7px;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--rust);
+  border:1.5px solid var(--cream);
+}
+.nav-avatar{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:navy;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:var(--f-serif);
+  font-size:16px;
+  color:white;
+  cursor:pointer;
+  border:2px solid var(--border);
+  transition:var(--tr);
+}
+.nav-avatar:hover{
+  border-color:var(--forest);
+  transform:scale(1.05);
+}
+
+/* ── DASHBOARD ── */
+.dash-wrap{
+  padding-top:64px;
+  min-height:100vh;
+}
+.dash-content{
+  max-width:1280px;
+  margin:0 auto;
+  padding:2rem;
+}
+.page{
+  display:none;
+}
+.page.active{
+  display:block;
+  animation:fadeUp .3s ease;
+}
+
+/* ── SHARED ── */
+.sec-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  margin-bottom:1.5rem;
+  flex-wrap:wrap;
+  gap:1rem;
+}
+.sec-head h2{font-family:var(--f-serif);font-size:clamp(1.6rem,2.8vw,2.1rem);font-weight:600;color:var(--text)}
+.sec-head h2 em{font-style:italic;color:var(--forest)}
+.sec-head p{font-size:13.5px;color:var(--text-3);margin-top:3px}
+.sec-actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:50px;font-family:var(--f-body);font-size:13px;font-weight:700;cursor:pointer;transition:var(--tr);border:none}
+.btn-forest{background:var(--forest);color:white;box-shadow:0 3px 14px rgba(26,61,43,.28)}
+.btn-forest:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(26,61,43,.4)}
+.btn-ghost{background:white;color:var(--text-2);border:1.5px solid var(--border-2)}
+.btn-ghost:hover{border-color:var(--forest);color:var(--forest)}
+.btn-rust{background:var(--rust);color:white;box-shadow:0 3px 14px rgba(192,82,42,.3)}
+.btn-rust:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(192,82,42,.45)}
+.btn-gold{background:var(--gold);color:white;box-shadow:0 3px 14px rgba(201,150,63,.3)}
+.btn-gold:hover{transform:translateY(-2px)}
+.btn-sm{padding:8px 16px;font-size:12.5px}
+.btn-full{width:100%;justify-content:center}
+.card{background:white;border-radius:var(--r-lg);box-shadow:var(--sh);border:1px solid var(--border);overflow:hidden}
+.card-head{display:flex;justify-content:space-between;align-items:center;padding:1.2rem 1.5rem;border-bottom:1px solid var(--border)}
+.card-head h3{font-family:var(--f-serif);font-size:1.05rem;font-weight:600;color:var(--text)}
+.card-link{font-size:13px;color:var(--forest);font-weight:700;cursor:pointer}
+.card-link:hover{text-decoration:underline}
+.g2{display:grid;grid-template-columns:1.5fr 1fr;gap:1.5rem;margin-bottom:1.5rem}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:1.5rem}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-bottom:1.5rem}
+.mb{margin-bottom:1.5rem}
+.pill{display:inline-flex;align-items:center;gap:4px;padding:4px 11px;border-radius:50px;font-size:11.5px;font-weight:800;white-space:nowrap}
+.pill-active{background:rgba(26,61,43,.1);color:var(--forest)}
+.pill-done{background:rgba(45,96,69,.1);color:var(--forest-l)}
+.pill-pending{background:rgba(201,150,63,.12);color:var(--gold)}
+.pill-dispute{background:rgba(192,82,42,.1);color:var(--rust)}
+
+/* ── PROVIDERS GRID ── */
+.providers-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:1.25rem;
+  margin-bottom:1.5rem;
+}
+.prov-card{
+  background:white;
+  border-radius:var(--r-lg);
+  border:1px solid var(--border);
+  box-shadow:var(--sh);
+  transition:var(--tr);
+  cursor:pointer;
+  overflow:hidden;
+  position:relative;
+}
+.prov-card:hover{
+  transform:translateY(-4px);box-shadow:var(--sh-md);
+  border-color:var(--forest);
+}
+.prov-card-banner{
+  height:80px;
+  position:relative;
+}
+.pc-c1{
+  background:linear-gradient(135deg,#0534b6 0%,#02306d 60%,#011d58 100%);
+}
+.pc-c2{
+  background:linear-gradient(135deg,#011057 0%,#4398ec 100%);
+}
+.pc-c3{
+  background:linear-gradient(135deg,#030596 0%,#1c3be7e8 100%);
+}
+.pc-c4{
+  background:linear-gradient(135deg,#0463f1 0%,#0251e6 100%);
+}
+.pc-c5{
+  background:linear-gradient(135deg,#0603e4 0%,#066bf0 100%);
+}
+.pc-c6{
+  background:linear-gradient(135deg,#0562ec 0%,#0427ec 100%);
+}
+.prov-avatar-wrap{
+  position:absolute;
+  bottom:-20px;
+  left:1.25rem;
+}
+.prov-avatar{
+  width:56px;
+  height:56px;
+  border-radius:50%;
+  border:3px solid white;
+  overflow:hidden;
+  background:navy;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:var(--f-serif);
+  font-size:22px;
+  font-weight:600;
+  color:white;
+  position:relative;
+}
+.prov-verified{
+  position:absolute;
+  bottom:-2px;
+  right:-2px;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  background:blue;
+  border:2px solid white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:9px;
+  color:white;
+}
+.prov-card-body{
+  padding:1.75rem 1.25rem 1.25rem;
+}
+.prov-name{
+  font-family:var(--f-serif);
+  font-size:1.15rem;
+  font-weight:600;
+  color:var(--text);
+  margin-bottom:2px;
+}
+.prov-cat{font-size:12px;font-weight:700;color:var(--forest);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.6rem}
+.prov-bio{font-size:13px;color:var(--text-3);line-height:1.6;margin-bottom:.75rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.prov-tools{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:.75rem}
+.tool-tag{padding:3px 10px;border-radius:50px;font-size:11.5px;font-weight:600;background:rgba(26,61,43,.08);color:var(--forest);border:1px solid rgba(26,61,43,.15)}
+.prov-meta{display:flex;align-items:center;gap:1rem;margin-bottom:.75rem;flex-wrap:wrap}
+.prov-meta-item{display:flex;align-items:center;gap:5px;font-size:12.5px;color:var(--text-3);font-weight:600}
+.prov-rating{color:var(--gold);font-size:13px;font-weight:800}
+.prov-card-foot{display:flex;gap:8px;align-items:center;padding-top:1rem;border-top:1px solid var(--border)}
+.prov-rate{font-family:var(--f-serif);font-size:1.1rem;font-weight:600;color:var(--forest);flex:1}
+.prov-rate span{font-size:12px;font-family:var(--f-body);color:var(--text-4);font-weight:500}
+.badge-featured{position:absolute;top:10px;right:10px;background:var(--gold);color:white;padding:3px 10px;border-radius:50px;font-size:10.5px;font-weight:800;letter-spacing:.06em}
+.badge-top{position:absolute;top:10px;right:10px;background:var(--rust);color:white;padding:3px 10px;border-radius:50px;font-size:10.5px;font-weight:800}
+
+/* ── FILTER BAR ── */
+.filter-bar{display:flex;align-items:center;gap:10px;background:white;border:1px solid var(--border);border-radius:var(--r-lg);padding:14px 18px;margin-bottom:1.5rem;flex-wrap:wrap;box-shadow:var(--sh)}
+.search-field{display:flex;align-items:center;gap:9px;flex:1;min-width:200px;background:var(--cream-2);border:1.5px solid var(--border);border-radius:9px;padding:9px 14px;transition:var(--tr)}
+.search-field:focus-within{border-color:var(--forest);background:white}
+.search-field input{background:none;border:none;outline:none;font-size:14px;color:var(--text);font-family:var(--f-body);width:100%}
+.search-field input::placeholder{color:var(--text-4)}
+.filter-chip{padding:9px 16px;border-radius:9px;font-size:13px;font-weight:700;border:1.5px solid var(--border);background:var(--cream-2);color:var(--text-3);cursor:pointer;transition:var(--tr)}
+.filter-chip.active{background:var(--forest);color:white;border-color:var(--forest)}
+.filter-chip:hover:not(.active){border-color:var(--forest);color:var(--forest)}
+.filter-sel{padding:9px 14px;border:1.5px solid var(--border);border-radius:9px;font-size:13px;font-family:var(--f-body);color:var(--text-2);background:var(--cream-2);outline:none;cursor:pointer;appearance:none;transition:var(--tr);font-weight:600}
+.filter-sel:focus{border-color:var(--forest)}
+
+/* ── PROVIDER DETAIL ── */
+.prov-detail-banner{height:200px;border-radius:var(--r-xl);overflow:hidden;position:relative;margin-bottom:0}
+.prov-detail-header{background:white;border-radius:0 0 var(--r-xl) var(--r-xl);border:1px solid var(--border);border-top:none;padding:0 2rem 1.5rem;box-shadow:var(--sh);margin-bottom:1.5rem}
+.pdh-top{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem}
+.pdh-avatar-wrap{position:relative;margin-top:-40px}
+.pdh-avatar{width:80px;height:80px;border-radius:50%;border:4px solid white;background:linear-gradient(135deg,var(--forest),var(--gold));display:flex;align-items:center;justify-content:center;font-family:var(--f-serif);font-size:2rem;color:white;overflow:hidden}
+.pdh-info h2{font-family:var(--f-serif);font-size:1.6rem;font-weight:600;color:var(--text);margin-bottom:3px}
+.pdh-info .cat{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--forest)}
+.pdh-meta{display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:.75rem}
+.pdh-meta-item{font-size:13px;color:var(--text-3);font-weight:600;display:flex;align-items:center;gap:5px}
+.pdh-actions{display:flex;gap:10px;flex-wrap:wrap}
+.prov-detail-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:1.5rem}
+
+/* ── RATING ── */
+.rating-split{display:grid;grid-template-columns:auto 1fr}
+.rb-left{padding:1.75rem 1.5rem;border-right:1px solid var(--border);text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.rb-big{font-family:var(--f-serif);font-size:3.8rem;font-weight:600;color:var(--text);line-height:1}
+.rb-stars{font-size:1.2rem;letter-spacing:2px;color:var(--gold)}
+.rb-count{font-size:12px;color:var(--text-3);font-weight:600}
+.rb-bars{padding:1.4rem;display:flex;flex-direction:column;gap:9px;justify-content:center}
+.rb-row{display:flex;align-items:center;gap:9px}
+.rb-lbl{font-size:12px;color:var(--text-3);font-weight:700;width:20px;text-align:right}
+.rb-track{flex:1;height:8px;background:var(--cream-3);border-radius:4px;overflow:hidden}
+.rb-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-l));border-radius:4px;transition:width .8s ease}
+.rb-n{font-size:11.5px;color:var(--text-4);width:28px;text-align:right;font-weight:700}
+
+/* ── REVIEWS ── */
+.review-item{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);transition:var(--tr)}
+.review-item:last-child{border-bottom:none}
+.review-item:hover{background:var(--cream)}
+.rev-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.rev-user{display:flex;align-items:center;gap:10px}
+.rev-ava{width:38px;height:38px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--f-serif);font-size:15px;color:white;font-weight:600}
+.rev-name{font-size:13.5px;font-weight:700;color:var(--text)}
+.rev-svc{font-size:12px;color:var(--text-3)}
+.rev-stars{color:var(--gold);font-size:13px}
+.rev-date{font-size:11px;color:var(--text-4)}
+.rev-text{font-size:13.5px;color:var(--text-3);line-height:1.65;font-style:italic}
+
+/* ── HIRE CARD ── */
+.hire-card{background:white;border-radius:var(--r-lg);border:1px solid var(--border);box-shadow:var(--sh);position:sticky;top:80px;overflow:hidden}
+.hire-card-head{background:var(--forest);padding:1.25rem 1.5rem;font-family:var(--f-serif);font-size:1.15rem;font-weight:600;color:white}
+.hire-card-body{padding:1.5rem}
+.hire-price{font-family:var(--f-serif);font-size:2rem;font-weight:600;color:var(--forest);margin-bottom:.25rem}
+.hire-price span{font-size:14px;color:var(--text-3);font-family:var(--f-body);font-weight:500}
+.hire-breakdown{background:var(--cream-2);border-radius:var(--r);padding:1rem;margin-bottom:1.25rem}
+.hire-br-row{display:flex;justify-content:space-between;font-size:13px;color:var(--text-3);margin-bottom:6px;font-weight:500}
+.hire-br-row:last-child{margin-bottom:0;font-weight:800;color:var(--text);padding-top:8px;border-top:1px solid var(--border)}
+.hire-guarantee{display:flex;align-items:flex-start;gap:10px;background:rgba(26,61,43,.06);border-radius:var(--r);padding:12px 14px;margin-bottom:1.25rem}
+.hire-guarantee p{font-size:12.5px;color:var(--forest);font-weight:600;line-height:1.5}
+
+/* ── JOBS ── */
+.job-card{background:white;border-radius:var(--r-lg);border:1px solid var(--border);box-shadow:var(--sh);padding:1.5rem;transition:var(--tr);margin-bottom:1rem;display:flex;gap:1.25rem;align-items:flex-start}
+.job-card:hover{box-shadow:var(--sh-md);transform:translateY(-2px)}
+.job-card-icon{width:52px;height:52px;border-radius:13px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:24px}
+.job-card-body{flex:1;min-width:0}
+.job-title{font-family:var(--f-serif);font-size:1.1rem;font-weight:600;color:var(--text);margin-bottom:3px}
+.job-prov{font-size:13px;color:var(--text-3);margin-bottom:.6rem}
+.job-meta-row{display:flex;gap:1rem;flex-wrap:wrap}
+.job-meta-item{font-size:12.5px;color:var(--text-4);font-weight:600;display:flex;align-items:center;gap:5px}
+.job-amount{font-family:var(--f-serif);font-size:1.3rem;font-weight:600;color:var(--forest);flex-shrink:0}
+
+/* ── STAT CARDS ── */
+.stats-row{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);gap:1.25rem;
+  margin-bottom:1.75rem;
+}
+.stat-card{
+  background:white;
+  border-radius:var(--r-lg);
+  padding:1.4rem;box-shadow:var(--sh);
+  border:1px solid var(--border);
+  border-left:4px solid var(--forest);
+  transition:var(--tr);
+  cursor:default;
+}
+.stat-card:hover{
+  transform:translateY(-2px);
+  box-shadow:var(--sh-md);
+}
+.stat-card:nth-child(2){
+  border-left-color:var(--gold);
+}
+.stat-card:nth-child(3){border-left-color:var(--sky)}
+.stat-card:nth-child(4){border-left-color:var(--rust)}
+.sc-icon{font-size:1.6rem;margin-bottom:.75rem}
+.sc-label{font-size:11.5px;font-weight:700;color:var(--text-4);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.sc-value{font-family:var(--f-serif);font-size:1.8rem;font-weight:600;color:var(--text);line-height:1;margin-bottom:5px}
+.sc-delta{font-size:12px;font-weight:700;color:var(--forest)}
+
+/* ── WELCOME BANNER ── */
+.welcome-banner{
+  background:var(--forest);
+  border-radius:var(--r-xl);
+  padding:2rem 2.25rem;
+  position:relative;
+  overflow:hidden;
+  margin-bottom:1.75rem;
+}
+.welcome-banner::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:radial-gradient(ellipse 60% 70% at 80% 40%,rgba(201,150,63,.22) 0%,transparent 55%),radial-gradient(ellipse 40% 50% at 10% 80%,rgba(90,138,110,.18) 0%,transparent 50%);
+}
+.wb-inner{
+  position:relative;
+  z-index:2;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:1rem;
+}
+.wb-left h2{font-family:var(--f-serif);font-size:clamp(1.4rem,3vw,1.9rem);font-weight:600;color:white;margin-bottom:.3rem}
+.wb-left h2 em{font-style:italic;color:var(--gold-l)}
+.wb-left p{font-size:13.5px;color:rgba(255,255,255,.6)}
+.wb-actions{display:flex;gap:10px}
+.wb-btn{display:flex;align-items:center;gap:8px;padding:12px 22px;border-radius:50px;cursor:pointer;transition:var(--tr);font-family:var(--f-body);font-size:14px;font-weight:700;border:none}
+.wb-btn-primary{background:white;color:var(--forest);box-shadow:0 3px 16px rgba(0,0,0,.2)}
+.wb-btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,0,.3)}
+.wb-btn-ghost{background:rgba(255,255,255,.12);color:white;border:1.5px solid rgba(255,255,255,.25)}
+.wb-btn-ghost:hover{background:rgba(255,255,255,.2)}
+
+/* ── MODAL ── */
+.modal-overlay{display:none;position:fixed;inset:0;z-index:800;background:rgba(26,43,30,.65);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:1rem}
+.modal-overlay.open{display:flex}
+.modal-box{background:white;border-radius:var(--r-xl);width:100%;max-width:520px;box-shadow:var(--sh-lg);animation:moPop .32s cubic-bezier(.34,1.2,.64,1);overflow:hidden;max-height:90vh;overflow-y:auto}
+@keyframes moPop{from{transform:scale(.88);opacity:0}to{transform:scale(1);opacity:1}}
+.mo-head{display:flex;justify-content:space-between;align-items:center;padding:1.2rem 1.5rem;border-bottom:1px solid var(--border)}
+.mo-head h3{font-family:var(--f-serif);font-size:1.3rem;font-weight:600;color:var(--text)}
+.mo-close{width:32px;height:32px;border-radius:8px;background:var(--cream-2);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:var(--text-3);transition:var(--tr)}
+.mo-close:hover{background:var(--cream-3);color:var(--text)}
+.mo-body{padding:1.5rem}
+.mo-foot{padding:1rem 1.5rem;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end}
+.star-selector{display:flex;gap:6px;margin-bottom:1.25rem;font-size:2rem;cursor:pointer}
+.star-selector span{color:var(--border);transition:var(--tr);cursor:pointer;user-select:none}
+.star-selector span.lit{color:var(--gold)}
+
+/* ── TOAST ── */
+.toast-wrap{position:fixed;bottom:24px;right:24px;z-index:999;display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+.toast{background:var(--forest);color:white;padding:11px 18px;border-radius:50px;font-size:13px;font-weight:700;display:flex;align-items:center;gap:9px;box-shadow:var(--sh-lg);animation:toastIn .3s cubic-bezier(.34,1.2,.64,1);pointer-events:none;white-space:nowrap}
+.toast.warn{background:var(--gold)}
+.toast.err{background:var(--rust)}
+@keyframes toastIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1100px){.g4{
+  grid-template-columns:1fr 1fr}.prov-detail-grid{grid-template-columns:1fr}}
+@media(max-width:900px){.auth-split{grid-template-columns:1fr}.auth-left{display:none}.g2,.g3{grid-template-columns:1fr}.stats-row{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){.nav-links{display:none}}
+@media(max-width:600px){.providers-grid{grid-template-columns:1fr}.stats-row{grid-template-columns:1fr}.frow{grid-template-columns:1fr}.filter-bar{flex-direction:column;align-items:stretch}.wb-inner{flex-direction:column}}
+</style>
+</head>
+<body>
+
+
+  <!-- ═══════════════ REGISTER SCREEN ═══════════════ -->
+<div class="screen" id="scRegister">
+<div class="auth-split">
+  <div class="auth-left">
+    <div class="al-grid"></div>
+    <div class="al-content">
+      <div class="al-logo"><div class="al-logo-mark" style="background: navy;">N</div><div class="al-logo-name">Nkiri Synergies<span class="al-logo-sub">Create Your Account</span></div></div>
+      <div class="al-headline">Join <em>50,000+</em> clients finding great services.</div>
+      <p class="al-sub">Create a free account and instantly access Nigeria's largest network of verified service professionals. Your first hire is just minutes away.</p>
+      <div class="al-perks">
+        <div class="al-perk"><div class="al-perk-icon" style="background:rgba(201,150,63,.15)">⚡</div><div class="al-perk-text"><h4>Free to Join</h4><p>No subscription fees — only pay for services you hire</p></div></div>
+        <div class="al-perk"><div class="al-perk-icon" style="background:rgba(90,138,110,.2)">📋</div><div class="al-perk-text"><h4>Full Job Management</h4><p>Track, manage and communicate with providers in one place</p></div></div>
+        <div class="al-perk"><div class="al-perk-icon" style="background:rgba(192,82,42,.12)">🔁</div><div class="al-perk-text"><h4>Dispute Protection</h4><p>Raise complaints and reports if a job isn't done right</p></div></div>
+      </div>
+      <div class="al-stats">
+        <div class="al-stat"><div class="al-stat-n">₦0</div><div class="al-stat-l">Sign Up Fee</div></div>
+        <div class="al-stat"><div class="al-stat-n">8</div><div class="al-stat-l">Categories</div></div>
+        <div class="al-stat"><div class="al-stat-n">48h</div><div class="al-stat-l">Avg Hire Time</div></div>
+      </div>
+    </div>
+    <div class="al-bottom">
+      <div class="al-trust">
+        <div class="al-trust-avs"><span style="background:linear-gradient(135deg,#c9963f,#c0522a)">F</span><span style="background:linear-gradient(135deg,#2d6045,#5a8a6e)">K</span><span style="background:linear-gradient(135deg,#2a6896,#5a4080)">N</span></div>
+        <span class="al-trust-text">Rated <strong>4.9 ★</strong> by 12,000+ reviews</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="auth-right">
+    <div class="auth-form-shell">
+      <div class="auth-back" onclick="goScreen('scLogin')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+        Back to Sign In
+      </div>
+      <div class="step-track" id="rTrack">
+        <div class="sn curr" id="rsn1">1</div><div class="sb" id="rsb1"></div>
+        <div class="sn todo" id="rsn2">2</div><div class="sb" id="rsb2"></div>
+        <div class="sn todo" id="rsn3">3</div>
+      </div>
+      <div class="falert err" id="regAlert">⚠️ Please fix the highlighted fields.</div>
+
+      <!-- STEP 1 -->
+      <div class="spanel active" id="rS1">
+        <div class="form-head"><h2>Create your <em>account</em></h2><p>Step 1 of 3 — Your login credentials</p></div>
+        <div class="social-row">
+          <button class="social-btn" onclick="socialAuth('Google')"><svg width="16" height="16" viewBox="0 0 48 48"><path fill="#4285F4" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#34A853" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#EA4335" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.29-8.16 2.29-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>Google</button>
+          <button class="social-btn" onclick="socialAuth('Facebook')"><svg width="16" height="16" viewBox="0 0 48 48"><path fill="#1877F2" d="M48 24C48 10.74 37.26 0 24 0S0 10.74 0 24c0 11.98 8.77 21.91 20.25 23.71V30.94h-6.09V24h6.09v-5.29c0-6.01 3.58-9.33 9.06-9.33 2.63 0 5.37.47 5.37.47v5.9H31.6c-2.98 0-3.91 1.85-3.91 3.74V24h6.65l-1.06 6.94H27.7v16.77C39.23 45.91 48 35.98 48 24z"/></svg>Facebook</button>
+        </div>
+        <div class="or-divider">or register with email</div>
+        <div class="frow">
+          <div class="fg"><label class="fl">First Name <sup>*</sup></label><input class="fi" id="rFname" placeholder="e.g. Amara"><div class="ferr" id="rFnameErr">Required.</div></div>
+          <div class="fg"><label class="fl">Last Name <sup>*</sup></label><input class="fi" id="rLname" placeholder="e.g. Okafor"><div class="ferr" id="rLnameErr">Required.</div></div>
+        </div>
+        <div class="fg"><label class="fl">Email Address <sup>*</sup></label><input class="fi" id="rEmail" type="email" placeholder="you@example.com"><div class="ferr" id="rEmailErr">Enter a valid email.</div></div>
+        <div class="fg"><label class="fl">Phone Number <sup>*</sup></label><input class="fi" id="rPhone" type="tel" placeholder="+234 812 345 6789"><div class="ferr" id="rPhoneErr">Enter your phone number.</div></div>
+        <div class="fg"><label class="fl">Password <sup>*</sup></label><div class="pw-wrap"><input class="fi" id="rPw" type="password" placeholder="Create a strong password" oninput="checkPwStrength(this.value)"><span class="pw-eye" onclick="togglePw('rPw',this)">👁</span></div><div class="pw-bar"><div class="pw-fill" id="pwFill"></div></div><div class="pw-hint" id="pwHint" style="color:var(--text-4)">Enter a password</div><div class="ferr" id="rPwErr">Minimum 8 characters.</div></div>
+        <div class="fg"><label class="fl">Confirm Password <sup>*</sup></label><div class="pw-wrap"><input class="fi" id="rPw2" type="password" placeholder="Repeat your password"><span class="pw-eye" onclick="togglePw('rPw2',this)">👁</span></div><div class="ferr" id="rPw2Err">Passwords do not match.</div></div>
+        <button class="fsub" onclick="regGoStep(2)"><span>Continue → Step 2 of 3</span></button>
+        <p class="f-switch">Already registered? <a onclick="goScreen('scLogin')">Sign in</a></p>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="spanel" id="rS2">
+        <div class="form-head"><h2>About <em>you</em></h2><p>Step 2 of 3 — Help us match you better</p></div>
+        <div class="frow">
+          <div class="fg"><label class="fl">State <sup>*</sup></label><select class="fsel" id="rState"><option value="">Select state</option><option>Lagos</option><option>Abuja (FCT)</option><option>Rivers</option><option>Kano</option><option>Oyo</option><option>Anambra</option><option>Delta</option><option>Enugu</option><option>Other</option></select><div class="ferr" id="rStateErr">Required.</div></div>
+          <div class="fg"><label class="fl">City / LGA <sup>*</sup></label><input class="fi" id="rCity" placeholder="e.g. Lekki"><div class="ferr" id="rCityErr">Required.</div></div>
+        </div>
+        <div class="fg"><label class="fl">Account Type <sup>*</sup></label><select class="fsel" id="rAccType"><option value="">Select account type</option><option>Individual</option><option>Small Business / SME</option><option>Startup</option><option>Corporation</option><option>Government Agency</option></select><div class="ferr" id="rAccTypeErr">Required.</div></div>
+        <div class="fg"><label class="fl">Primary Services You Need</label><select class="fsel"><option value="">Select main service category</option><option>Cleaning Services</option><option>Logistics &amp; Delivery</option><option>App Development</option><option>E-commerce Solutions</option><option>Photography &amp; Video</option><option>Multiple Services</option></select></div>
+        <div class="fg"><label class="fl">How did you hear about us?</label><select class="fsel"><option>Social Media</option><option>Google Search</option><option>Friend / Referral</option><option>Other</option></select></div>
+        <div style="display:flex;gap:10px;margin-top:.75rem">
+          <button class="fsub-ghost" onclick="regGoStep(1)">← Back</button>
+          <button class="fsub" onclick="regGoStep(3)" style="flex:1"><span>Continue → Final Step</span></button>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="spanel" id="rS3">
+        <div class="form-head"><h2>Almost <em>done!</em></h2><p>Step 3 of 3 — Review &amp; complete your registration</p></div>
+        <div style="background:var(--cream-2);border-radius:var(--r-lg);padding:1.25rem;margin-bottom:1.25rem;border:1px solid var(--border)">
+          <div style="font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--text-4);margin-bottom:.75rem">Account Summary</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem">
+            <div><div style="font-size:11px;color:var(--text-4);font-weight:700">FULL NAME</div><div style="font-size:13.5px;font-weight:700;color:var(--text)" id="sumName">—</div></div>
+            <div><div style="font-size:11px;color:var(--text-4);font-weight:700">EMAIL</div><div style="font-size:13.5px;font-weight:700;color:var(--text)" id="sumEmail">—</div></div>
+            <div><div style="font-size:11px;color:var(--text-4);font-weight:700">LOCATION</div><div style="font-size:13.5px;font-weight:700;color:var(--text)" id="sumLocation">—</div></div>
+            <div><div style="font-size:11px;color:var(--text-4);font-weight:700">ACCOUNT TYPE</div><div style="font-size:13.5px;font-weight:700;color:var(--text)" id="sumAccType">—</div></div>
+          </div>
+        </div>
+        <div class="fg" style="margin-bottom:.75rem"><label class="fcheck"><input type="checkbox" id="rAgree"> I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label></div>
+        <div class="fg"><label class="fcheck"><input type="checkbox"> Send me platform updates and new provider alerts</label></div>
+        <div style="display:flex;gap:10px;margin-top:1.25rem">
+          <button class="fsub-ghost" onclick="regGoStep(2)" >← Back</button>
+          <button class="fsub" id="regFinalBtn" onclick="doRegister()" ><span>🎉 Create My Account</span></button>
+        </div>
+        <p class="f-switch">Already registered? <a onclick="goScreen('scLogin')" style="color: skyblue;">Sign in</a></p>
+      </div>
+
+      <!-- SUCCESS -->
+      <div class="auth-success" id="regSuccess">
+        <div class="success-ring">🎊</div>
+        <h2>You're In!</h2>
+        <p>Welcome to Nkiri Synergies! Your account is ready. Sign in now to start finding amazing service providers.</p>
+        <p style="margin-top:.5rem">Confirmation sent to <strong id="regSuccessEmail"></strong></p>
+        <button class="fsub" style="max-width:280px; margin:1.5rem auto 0;" onclick="goScreen('scLogin')"><span>Proceed to Sign In →</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════ LOGIN SCREEN ═══════════════ -->
+<div class="screen flex-screen show" id="scLogin">
+<div class="auth-split">
+  <div class="auth-left">
+    <div class="al-grid"></div>
+    <div class="al-content">
+      <div class="al-logo">
+        <div class="al-logo-mark" style="background: navy;">N</div>
+        <div class="al-logo-name">Nkiri Synergies<span class="al-logo-sub" style="color: white;">Service Seeker Portal</span></div>
+      </div>
+      <div class="al-headline">Find the <em>Right Professional.</em> Get It Done.</div>
+      <p class="al-sub">Browse 10,000+ verified service providers across Nigeria. Compare, hire, pay, and review — all in one platform built for Africa.</p>
+      <div class="al-perks">
+        <div class="al-perk"><div class="al-perk-icon" style="background:rgba(201,150,63,.15)">🔍</div><div class="al-perk-text"><h4>Smart Provider Matching</h4><p>Find the right professional for your exact needs instantly</p></div></div>
+        <div class="al-perk"><div class="al-perk-icon" style="background:rgba(90,138,110,.2)">🛡️</div><div class="al-perk-text"><h4>Verified &amp; Insured Providers</h4><p>Every provider is background-checked and vetted by our team</p></div></div>
+        <div class="al-perk"><div class="al-perk-icon" style="background:rgba(42,104,150,.15)">💳</div><div class="al-perk-text"><h4>Secure Payments</h4><p>Paystack &amp; Flutterwave — pay only when satisfied</p></div></div>
+        <div class="al-perk"><div class="al-perk-icon" style="background:rgba(192,82,42,.12)">⭐</div><div class="al-perk-text"><h4>Transparent Reviews</h4><p>Real reviews from real clients — full trust, zero guesswork</p></div></div>
+      </div>
+      <div class="al-stats">
+        <div class="al-stat"><div class="al-stat-n">10K+</div><div class="al-stat-l">Providers</div></div>
+        <div class="al-stat"><div class="al-stat-n">50K+</div><div class="al-stat-l">Seekers</div></div>
+        <div class="al-stat"><div class="al-stat-n">4.9★</div><div class="al-stat-l">Rating</div></div>
+      </div>
+    </div>
+    <div class="al-bottom">
+      <div class="al-trust">
+        <div class="al-trust-avs">
+          <span style="background:linear-gradient(135deg,#c9963f,#c0522a)">A</span>
+          <span style="background:linear-gradient(135deg,#2d6045,#5a8a6e)">C</span>
+          <span style="background:linear-gradient(135deg,#2a6896,#5a4080)">F</span>
+        </div>
+        <span class="al-trust-text">Joined by <strong>50,000+</strong> satisfied clients</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="auth-right">
+    <div class="auth-form-shell">
+      <div class="auth-back" onclick="window.location.href='index.html'">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+        Back to Main Site
+      </div>
+      <div class="form-head"><h2>Welcome <em>back.</em></h2><p>Sign in to find and manage your service providers</p></div>
+      <div class="falert err" id="loginAlert">⚠️ <span id="loginAlertMsg">Invalid email or password.</span></div>
+      <div class="falert ok" id="loginOkAlert" style="display:none">✅ Signed in! Loading your dashboard…</div>
+      <div class="social-row">
+        <button class="social-btn" onclick="socialAuth('Google')">
+          <svg width="17" height="17" viewBox="0 0 48 48"><path fill="#4285F4" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#34A853" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#EA4335" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.29-8.16 2.29-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+          Google
+        </button>
+        <button class="social-btn" onclick="socialAuth('Facebook')">
+          <svg width="17" height="17" viewBox="0 0 48 48"><path fill="#1877F2" d="M48 24C48 10.74 37.26 0 24 0S0 10.74 0 24c0 11.98 8.77 21.91 20.25 23.71V30.94h-6.09V24h6.09v-5.29c0-6.01 3.58-9.33 9.06-9.33 2.63 0 5.37.47 5.37.47v5.9H31.6c-2.98 0-3.91 1.85-3.91 3.74V24h6.65l-1.06 6.94H27.7v16.77C39.23 45.91 48 35.98 48 24z"/></svg>
+          Facebook
+        </button>
+      </div>
+      <div class="or-divider">or sign in with email</div>
+      <div id="loginFormInner">
+        <div class="fg"><label class="fl">Email Address <sup>*</sup></label><input class="fi" id="lEmail" type="email" placeholder="you@example.com" onkeydown="if(event.key==='Enter')doLogin()"><div class="ferr" id="lEmailErr">Enter a valid email.</div></div>
+        <div class="fg"><label class="fl">Password <sup>*</sup></label><div class="pw-wrap"><input class="fi" id="lPw" type="password" placeholder="Your password" onkeydown="if(event.key==='Enter')doLogin()"><span class="pw-eye" onclick="togglePw('lPw',this)">👁</span></div><div class="ferr" id="lPwErr">Password required.</div></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem">
+          <label class="fcheck"><input type="checkbox"> Remember me</label>
+          <span style="font-size:13px;color: rgb(6, 10, 241);font-weight:700;cursor:pointer" onclick="showForgot()">Forgot password?</span>
+        </div>
+        <button class="fsub" id="loginBtn" onclick="doLogin()"><span>Sign In →</span></button>
+        <p class="f-switch">New here? <a onclick="goScreen('scRegister')">Create a free account</a></p>
+        <div style="margin-top:1.25rem;padding:1rem;background:var(--cream-2);border-radius:var(--r);border:1px solid var(--border);font-size:12.5px;color:var(--text-3)">
+          <strong style="color: rgb(6, 10, 241);">Demo credentials:</strong><br>
+          Email: <strong>seeker@nkirisynergies.com</strong><br>
+          Password: <strong>Seeker@123</strong>
+        </div>
+      </div>
+      <div id="forgotInner" style="display:none">
+        <div class="form-head" style="margin-bottom:1.25rem"><h2 style="font-size:1.5rem">Reset <em>Password</em></h2><p>Enter your email and we'll send a reset link.</p></div>
+        <div class="fg"><label class="fl">Email Address</label><input class="fi" id="forgotEmail" type="email" placeholder="you@example.com"></div>
+        <button class="fsub" onclick="sendReset()"><span>📧 Send Reset Link</span></button>
+        <div class="falert ok" id="resetOkAlert" style="margin-top:1rem">✅ Reset link sent to your inbox!</div>
+        <p class="f-switch"><a onclick="hideForgot()">← Back to Sign In</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════ MAIN APP ═══════════════ -->
+<div class="screen" id="scApp">
+  <nav class="navbar">
+    <div class="nav-logo" onclick="navTo('home')">
+      <div class="nav-logo-mark">N</div>
+      <span class="nav-logo-name">Nkiri Synergies</span>
+    </div>
+    <div class="nav-links">
+      <div class="nl active" onclick="navTo('home')">Home</div>
+      <div class="nl" onclick="navTo('browse')">Browse Providers</div>
+      <div class="nl" onclick="navTo('jobs')">My Jobs</div>
+      <div class="nl" onclick="navTo('messages')">Messages</div>
+      <div class="nl" onclick="navTo('account')">Account</div>
+    </div>
+    <div class="nav-right">
+      <div class="nav-icon-btn" title="Notifications">🔔<div class="notif-dot"></div></div>
+      <div class="nav-icon-btn" title="Messages" onclick="navTo('messages')">💬</div>
+      <div class="nav-avatar" onclick="navTo('account')" id="navAvatar">A</div>
+    </div>
+  </nav>
+
+  <div class="dash-wrap">
+  <div class="dash-content">
+
+    <!-- HOME PAGE -->
+    <div class="page active" id="pg-home">
+      <div class="welcome-banner" style="background-color: navy;">
+        <div class="wb-inner">
+          <div class="wb-left">
+            <h2 id="wbGreeting">Good morning, <em>Amara</em> 👋</h2>
+            <p>You have 2 active jobs and 3 new provider recommendations for you today.</p>
+          </div>
+          <div class="wb-actions">
+            <button class="wb-btn wb-btn-primary" onclick="navTo('browse')">🔍 Find a Provider</button>
+            <button class="wb-btn wb-btn-ghost" onclick="navTo('jobs')">📋 My Jobs</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card"><div class="sc-icon">💼</div><div class="sc-label">Total Jobs</div><div class="sc-value">7</div><div class="sc-delta">↑ 2 this month</div></div>
+        <div class="stat-card"><div class="sc-icon">💳</div><div class="sc-label">Total Spent</div><div class="sc-value">₦183K</div><div class="sc-delta">↑ ₦38K this month</div></div>
+        <div class="stat-card"><div class="sc-icon">⭐</div><div class="sc-label">Reviews Given</div><div class="sc-value">5</div><div class="sc-delta">Average: 4.8★</div></div>
+        <div class="stat-card"><div class="sc-icon">❤️</div><div class="sc-label">Saved Providers</div><div class="sc-value">4</div><div class="sc-delta" style="cursor:pointer" onclick="navTo('browse')" >View favourites</div></div>
+      </div>
+
+      <div class="g2">
+        <div class="card mb">
+          <div class="card-head"><h3>Recent Jobs</h3><span class="card-link" onclick="navTo('jobs')" style="color: navy;">View all →</span></div>
+          <div style="padding:.5rem 0">
+            <div style="display:flex;align-items:center;gap:12px;padding:1rem 1.5rem;border-bottom:1px solid var(--border);cursor:pointer" onclick="navTo('jobs')">
+              <div style="width:44px;height:44px;border-radius:11px;background:rgba(26,61,43,.1);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">🧹</div>
+              <div style="flex:1"><div style="font-weight:700;font-size:13.5px;color:var(--text)">Office Deep Clean</div><div style="font-size:12px;color:var(--text-3)">Amara Okafor · May 26, 2025</div></div>
+              <div style="text-align:right"><div style="font-family:var(--f-serif);font-size:1.1rem;color:var(--forest)">₦20,000</div><span class="pill pill-done">✓ Done</span></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;padding:1rem 1.5rem;border-bottom:1px solid var(--border);cursor:pointer" onclick="navTo('jobs')">
+              <div style="width:44px;height:44px;border-radius:11px;background:rgba(42,104,150,.1);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">💻</div>
+              <div style="flex:1"><div style="font-weight:700;font-size:13.5px;color:var(--text)">E-commerce Store Setup</div><div style="font-size:12px;color:var(--text-3)">Tunde Dev · May 20, 2025</div></div>
+              <div style="text-align:right"><div style="font-family:var(--f-serif);font-size:1.1rem;color:var(--forest)">₦45,000</div><span class="pill pill-active">⏳ Active</span></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;padding:1rem 1.5rem;cursor:pointer" onclick="navTo('jobs')">
+              <div style="width:44px;height:44px;border-radius:11px;background:rgba(201,150,63,.12);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">🚚</div>
+              <div style="flex:1"><div style="font-weight:700;font-size:13.5px;color:var(--text)">Logistics Run — Ikeja to V.I.</div><div style="font-size:12px;color:var(--text-3)">Kunle Adeyemi · May 18, 2025</div></div>
+              <div style="text-align:right"><div style="font-family:var(--f-serif);font-size:1.1rem;color:var(--forest)">₦8,500</div><span class="pill pill-done">✓ Done</span></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card mb">
+            <div class="card-head"><h3>Recommended Providers</h3><span class="card-link" onclick="navTo('browse')" style="color: navy;">Browse all →</span></div>
+            <div style="padding:.5rem 0">
+              <div onclick="openProviderDetail(0)" style="display:flex;align-items:center;gap:12px;padding:.9rem 1.5rem;cursor:pointer;transition:var(--tr);border-bottom:1px solid var(--border)" onmouseover="this.style.background='var(--cream)'" onmouseout="this.style.background=''">
+                <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#c9963f,#c0522a);display:flex;align-items:center;justify-content:center;font-family:var(--f-serif);font-size:18px;color:white;flex-shrink:0;border:2px solid var(--border)">A</div>
+                <div style="flex:1"><div style="font-weight:700;font-size:13.5px;color:var(--text)">Amara Okafor</div><div style="font-size:12px;color:var(--text-3)">Cleaning · Lekki, Lagos</div></div>
+                <div style="text-align:right"><div style="font-size:13px;color:var(--gold);font-weight:800">★ 4.9</div><div style="font-size:11px;color:var(--text-4)">47 jobs</div></div>
+              </div>
+              <div onclick="openProviderDetail(2)" style="display:flex;align-items:center;gap:12px;padding:.9rem 1.5rem;cursor:pointer;transition:var(--tr);border-bottom:1px solid var(--border)" onmouseover="this.style.background='var(--cream)'" onmouseout="this.style.background=''">
+                <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#8b5cf6);display:flex;align-items:center;justify-content:center;font-family:var(--f-serif);font-size:18px;color:white;flex-shrink:0;border:2px solid var(--border)">T</div>
+                <div style="flex:1"><div style="font-weight:700;font-size:13.5px;color:var(--text)">Tunde Adeleke Dev</div><div style="font-size:12px;color:var(--text-3)">App Dev · Yaba, Lagos</div></div>
+                <div style="text-align:right"><div style="font-size:13px;color:var(--gold);font-weight:800">★ 4.8</div><div style="font-size:11px;color:var(--text-4)">33 jobs</div></div>
+              </div>
+              <div onclick="openProviderDetail(1)" style="display:flex;align-items:center;gap:12px;padding:.9rem 1.5rem;cursor:pointer;transition:var(--tr)" onmouseover="this.style.background='var(--cream)'" onmouseout="this.style.background=''">
+                <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#0d9488,#22c55e);display:flex;align-items:center;justify-content:center;font-family:var(--f-serif);font-size:18px;color:white;flex-shrink:0;border:2px solid var(--border)">K</div>
+                <div style="flex:1"><div style="font-weight:700;font-size:13.5px;color:var(--text)">Kunle Adeyemi</div><div style="font-size:12px;color:var(--text-3)">Logistics · Abuja</div></div>
+                <div style="text-align:right"><div style="font-size:13px;color:var(--gold);font-weight:800">★ 4.8</div><div style="font-size:11px;color:var(--text-4)">39 jobs</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head"><h3>Quick Actions</h3></div>
+            <div style="padding:1rem;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              <button class="btn btn-forest btn-sm btn-full" onclick="navTo('browse')" style="background: navy;">🔍 Find Provider</button>
+              <button class="btn btn-ghost btn-sm btn-full" onclick="openModal('reviewModal')">⭐ Leave Review</button>
+              <button class="btn btn-ghost btn-sm btn-full" onclick="openModal('complaintModal')">⚠️ File Complaint</button>
+              <button class="btn btn-ghost btn-sm btn-full" onclick="openModal('reportModal')">🚩 Report Provider</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BROWSE PAGE -->
+    <div class="page" id="pg-browse">
+      <div class="sec-head">
+        <div><h2 style="color:blue;">Browse <em style="color: blue;">Providers</em></h2><p id="resultCount">312 verified professionals across Nigeria</p></div>
+      </div>
+      <div class="filter-bar">
+        <div class="search-field" style="flex:1;min-width:220px">
+          <span style="color:var(--text-4);font-size:16px">🔍</span>
+          <input placeholder="Search by name, skill, or keyword…" id="searchInput" oninput="filterProviders()">
+        </div>
+        <select class="filter-sel" id="catFilter" onchange="filterProviders()">
+          <option value="">All Categories</option>
+          <option>Cleaning Services</option><option>Logistics &amp; Delivery</option>
+          <option>App Development</option><option>E-commerce</option>
+          <option>Photography &amp; Video</option><option>Security Services</option>
+        </select>
+        <select class="filter-sel" id="locFilter" onchange="filterProviders()">
+          <option value="">All Locations</option>
+          <option>Lagos</option><option>Abuja</option>
+          <option>Port Harcourt</option><option>Kano</option><option>Enugu</option>
+        </select>
+        <select class="filter-sel" id="sortFilter" onchange="filterProviders()">
+          <option value="rating">Top Rated</option>
+          <option value="jobs">Most Jobs</option>
+          <option value="price">Lowest Price</option>
+        </select>
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:1.5rem;flex-wrap:wrap">
+        <span class="filter-chip active" onclick="toggleChip(this,'')"style="background:navy">All</span>
+        <span class="filter-chip" onclick="toggleChip(this,'Cleaning Services')">🧹 Cleaning</span>
+        <span class="filter-chip" onclick="toggleChip(this,'Logistics')">🚚 Logistics</span>
+        <span class="filter-chip" onclick="toggleChip(this,'App Development')">💻 App Dev</span>
+        <span class="filter-chip" onclick="toggleChip(this,'E-commerce')">🛒 E-commerce</span>
+        <span class="filter-chip" onclick="toggleChip(this,'Photography')">📸 Photography</span>
+      </div>
+      <div class="providers-grid" id="providersGrid"></div>
+    </div>
+
+    <!-- PROVIDER DETAIL PAGE -->
+    <div class="page" id="pg-provdetail">
+      <div class="auth-back" onclick="navTo('browse')" style="margin-bottom:1.5rem;display:inline-flex;cursor:pointer">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+        Back to Browse
+      </div>
+      <div class="prov-detail-banner pc-c1" id="detailBanner"></div>
+      <div class="prov-detail-header">
+        <div class="pdh-top">
+          <div style="display:flex;align-items:flex-end;gap:1.25rem;flex-wrap:wrap">
+            <div class="pdh-avatar-wrap">
+              <div class="pdh-avatar" id="detailAvatar" style="background: navy;">A</div>
+            </div>
+            <div class="pdh-info" style="padding-top:.75rem">
+              <div class="cat" id="detailCat">Cleaning Services</div>
+              <h2 id="detailName">Amara Okafor</h2>
+              <div class="pdh-meta">
+                <span class="pdh-meta-item">📍 <span id="detailLoc">Lekki, Lagos</span></span>
+                <span class="pdh-meta-item">⭐ <span id="detailRating">4.9</span> (<span id="detailRatingCount">38</span> reviews)</span>
+                <span class="pdh-meta-item">💼 <span id="detailJobs">47</span> jobs done</span>
+                <span class="pdh-meta-item">✅ Verified</span>
+              </div>
+            </div>
+          </div>
+          <div class="pdh-actions">
+            <button class="btn btn-ghost btn-sm" onclick="toast('Saved to favourites!','')">❤️ Save</button>
+            <button class="btn btn-ghost btn-sm" onclick="openModal('reportModal')">🚩 Report</button>
+            <button class="btn btn-forest" onclick="scrollToHire()" style="background: navy;">Hire Now →</button>
+          </div>
+        </div>
+      </div>
+      <div class="prov-detail-grid">
+        <div>
+          <div class="card mb">
+            <div class="card-head"><h3>About This Provider</h3></div>
+            <div style="padding:1.5rem">
+              <p style="font-size:14px;color:var(--text-2);line-height:1.8;margin-bottom:1.25rem" id="detailBio"></p>
+              <div style="margin-bottom:1.25rem">
+                <div style="font-size:11.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--text-4);margin-bottom:8px">Tools &amp; Skills</div>
+                <div class="prov-tools" id="detailTools"></div>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem">
+                <div style="background:var(--cream-2);border-radius:var(--r);padding:1rem;text-align:center;border:1px solid var(--border)"><div style="font-family:var(--f-serif);font-size:1.5rem;color:var(--forest)" id="detailJobsStat">47</div><div style="font-size:11px;color:var(--text-4);font-weight:700">Jobs Done</div></div>
+                <div style="background:var(--cream-2);border-radius:var(--r);padding:1rem;text-align:center;border:1px solid var(--border)"><div style="font-family:var(--f-serif);font-size:1.5rem;color:var(--gold)" id="detailRatingDisplay">4.9★</div><div style="font-size:11px;color:var(--text-4);font-weight:700">Avg Rating</div></div>
+                <div style="background:var(--cream-2);border-radius:var(--r);padding:1rem;text-align:center;border:1px solid var(--border)"><div style="font-family:var(--f-serif);font-size:1.5rem;color:var(--sky)">2h</div><div style="font-size:11px;color:var(--text-4);font-weight:700">Response</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="card mb">
+            <div class="card-head"><h3>Ratings &amp; Reviews</h3></div>
+            <div class="rating-split">
+              <div class="rb-left"><div class="rb-big" id="detailRatingBig">4.9</div><div class="rb-stars">★★★★★</div><div class="rb-count" id="detailRevCount">38 reviews</div></div>
+              <div class="rb-bars">
+                <div class="rb-row"><span class="rb-lbl">5</span><div class="rb-track"><div class="rb-fill" style="width:84%"></div></div><span class="rb-n">32</span></div>
+                <div class="rb-row"><span class="rb-lbl">4</span><div class="rb-track"><div class="rb-fill" style="width:12%"></div></div><span class="rb-n">4</span></div>
+                <div class="rb-row"><span class="rb-lbl">3</span><div class="rb-track"><div class="rb-fill" style="width:5%"></div></div><span class="rb-n">2</span></div>
+                <div class="rb-row"><span class="rb-lbl">2</span><div class="rb-track"><div class="rb-fill" style="width:0%"></div></div><span class="rb-n">0</span></div>
+                <div class="rb-row"><span class="rb-lbl">1</span><div class="rb-track"><div class="rb-fill" style="width:0%"></div></div><span class="rb-n">0</span></div>
+              </div>
+            </div>
+            <div id="detailReviews"></div>
+          </div>
+        </div>
+        <div>
+          <div class="hire-card" id="hireCard">
+            <div class="hire-card-head" style="background: navy;">📋 Book This Provider</div>
+            <div class="hire-card-body">
+              <div class="hire-price" id="hirePrice">₦5,000 <span>/ hour</span></div>
+              <div style="font-size:12.5px;color:var(--text-3);margin-bottom:1.25rem">Starting rate · Final price agreed with provider</div>
+              <div class="fg"><label class="fl">Service Type <sup>*</sup></label><select class="fsel" id="hireService"><option value="">Select service</option><option>Deep Cleaning</option><option>Regular Cleaning</option><option>Office Cleaning</option><option>Move-in/out Cleaning</option><option>Carpet Cleaning</option></select></div>
+              <div class="fg"><label class="fl">Preferred Date <sup>*</sup></label><input class="fi" type="date" id="hireDate"></div>
+              <div class="fg"><label class="fl">Preferred Time</label><input class="fi" type="time" id="hireTime"></div>
+              <div class="fg"><label class="fl">Job Location / Address <sup>*</sup></label><input class="fi" id="hireLocation" placeholder="Full address where service is needed"></div>
+              <div class="fg"><label class="fl">Budget Estimate (₦)</label><input class="fi" type="number" id="hireBudget" placeholder="e.g. 20000" oninput="updateHireBreakdown()"></div>
+              <div class="fg"><label class="fl">Notes to Provider</label><textarea class="fta" id="hireNotes" placeholder="Describe what you need, special requirements, access instructions…" style="min-height:70px"></textarea></div>
+              <div class="hire-breakdown">
+                <div class="hire-br-row"><span>Estimated service</span><span id="hireEst">₦20,000</span></div>
+                <div class="hire-br-row"><span>Platform fee (2.5%)</span><span id="hireFee">₦500</span></div>
+                <div class="hire-br-row"><span>Total estimate</span><span id="hireTotal">₦20,500</span></div>
+              </div>
+              <div class="hire-guarantee"><span style="font-size:1.2rem">🛡️</span><p>Nkiri Satisfaction Guarantee — if the job isn't done right, we'll make it right or refund you.</p></div>
+              <button class="fsub btn-full" onclick="sendHireRequest()"><span>📩 Send Hire Request</span></button>
+              <div style="display:flex;gap:8px;margin-top:10px">
+                <button class="fsub-ghost btn-full" onclick="toast('Opening message…','')">💬 Message First</button>
+              </div>
+            </div>
+          </div>
+          <div class="card" style="margin-top:1.25rem;padding:1.25rem">
+            <div style="font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--text-4);margin-bottom:1rem">Safety &amp; Trust</div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text-2)"><span style="color:var(--forest);font-size:16px">✅</span> Background checked &amp; NIN verified</div>
+              <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text-2)"><span style="color:var(--forest);font-size:16px">✅</span> Liability insurance confirmed</div>
+              <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text-2)"><span style="color:var(--forest);font-size:16px">✅</span> Secure payments via Paystack/Flutterwave</div>
+              <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text-2)"><span style="color:var(--forest);font-size:16px">✅</span> Money held in escrow until job is complete</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MY JOBS PAGE -->
+    <div class="page" id="pg-jobs">
+      <div class="sec-head">
+        <div><h2>My <em>Jobs</em></h2><p>All your service bookings in one place</p></div>
+        <div class="sec-actions">
+          <select class="filter-sel" onchange="filterJobs(this.value)">
+            <option value="all">All Jobs</option><option value="active">In Progress</option>
+            <option value="done">Completed</option><option value="pending">Pending</option>
+          </select>
+          <button class="btn btn-forest btn-sm" onclick="navTo('browse')">+ Hire Provider</button>
+        </div>
+      </div>
+      <div id="jobsList">
+        <div class="job-card" data-status="done">
+          <div class="job-card-icon" style="background:rgba(26,61,43,.1)">🧹</div>
+          <div class="job-card-body">
+            <div class="job-title">Office Deep Clean</div>
+            <div class="job-prov">Provider: <strong>Amara Okafor</strong> · May 26, 2025 · Lekki, Lagos</div>
+            <div class="job-meta-row"><span class="job-meta-item">⏱ 4 hours</span><span class="job-meta-item pill pill-done">✓ Complete</span></div>
+          </div>
+          <div style="text-align:right;flex-shrink:0">
+            <div class="job-amount">₦20,000</div>
+            <div style="display:flex;flex-direction:column;gap:6px;margin-top:8px">
+              <button class="btn btn-gold btn-sm" onclick="openReviewModal('Amara Okafor','Office Deep Clean')">⭐ Review</button>
+              <button class="btn btn-ghost btn-sm" onclick="openModal('complaintModal')">⚠️ Complain</button>
+            </div>
+          </div>
+        </div>
+        <div class="job-card" data-status="active">
+          <div class="job-card-icon" style="background:rgba(42,104,150,.1)">💻</div>
+          <div class="job-card-body">
+            <div class="job-title">E-commerce Store Setup</div>
+            <div class="job-prov">Provider: <strong>Tunde Adeleke Dev</strong> · Started May 20, 2025 · Remote</div>
+            <div class="job-meta-row"><span class="job-meta-item">📅 Est. June 5</span><span class="job-meta-item pill pill-active">⏳ In Progress</span></div>
+          </div>
+          <div style="text-align:right;flex-shrink:0">
+            <div class="job-amount">₦45,000</div>
+            <div style="display:flex;flex-direction:column;gap:6px;margin-top:8px">
+              <button class="btn btn-ghost btn-sm" onclick="navTo('messages')">💬 Message</button>
+              <button class="btn btn-rust btn-sm" onclick="openModal('disputeModal')">🚨 Dispute</button>
+            </div>
+          </div>
+        </div>
+        <div class="job-card" data-status="done">
+          <div class="job-card-icon" style="background:rgba(201,150,63,.12)">🚚</div>
+          <div class="job-card-body">
+            <div class="job-title">Logistics — Ikeja to Victoria Island</div>
+            <div class="job-prov">Provider: <strong>Kunle Adeyemi</strong> · May 18, 2025</div>
+            <div class="job-meta-row"><span class="job-meta-item">📍 Ikeja → V.I., Lagos</span><span class="job-meta-item pill pill-done">✓ Complete</span></div>
+          </div>
+          <div style="text-align:right;flex-shrink:0">
+            <div class="job-amount">₦8,500</div>
+            <div style="display:flex;flex-direction:column;gap:6px;margin-top:8px">
+              <button class="btn btn-gold btn-sm" onclick="openReviewModal('Kunle Adeyemi','Logistics Run')">⭐ Review</button>
+              <button class="btn btn-ghost btn-sm" onclick="openModal('reportModal')">🚩 Report</button>
+            </div>
+          </div>
+        </div>
+        <div class="job-card" data-status="pending">
+          <div class="job-card-icon" style="background:rgba(201,150,63,.12)">📸</div>
+          <div class="job-card-body">
+            <div class="job-title">Product Photography — 20 Items</div>
+            <div class="job-prov">Provider: <strong>Grace Obi</strong> · Request sent May 15, 2025</div>
+            <div class="job-meta-row"><span class="job-meta-item">📍 Port Harcourt</span><span class="job-meta-item pill pill-pending">⏱ Awaiting Acceptance</span></div>
+          </div>
+          <div style="text-align:right;flex-shrink:0">
+            <div class="job-amount">₦15,000</div>
+            <div style="display:flex;flex-direction:column;gap:6px;margin-top:8px">
+              <button class="btn btn-ghost btn-sm" onclick="toast('Request cancelled','warn')">✕ Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MESSAGES PAGE -->
+    <div class="page" id="pg-messages">
+      <div class="sec-head"><div><h2>Your <em>Messages</em></h2><p>Communicate directly with your service providers</p></div></div>
+      <div class="g2" style="height:520px">
+        <div class="card" style="height:100%;overflow:hidden;display:flex;flex-direction:column">
+          <div class="card-head"><h3>Conversations</h3></div>
+          <div style="flex:1;overflow-y:auto">
+            <div onclick="selectConvo(0,'Amara Okafor')" style="display:flex;align-items:center;gap:12px;padding:1rem 1.25rem;cursor:pointer;border-bottom:1px solid var(--border);background:rgba(26,61,43,.04);transition:var(--tr)">
+              <div style="width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#c9963f,#c0522a);display:flex;align-items:center;justify-content:center;font-family:var(--f-serif);font-size:18px;color:white;flex-shrink:0;border:2px solid var(--forest)">A</div>
+              <div style="flex:1;min-width:0"><div style="font-weight:700;font-size:13.5px;color:var(--text)">Amara Okafor</div><div style="font-size:12.5px;color:var(--text-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Sure, I can come by Thursday morning...</div></div>
+              <div style="font-size:11px;color:var(--text-4);flex-shrink:0">2 min</div>
+            </div>
+            <div onclick="selectConvo(1,'Tunde Adeleke Dev')" style="display:flex;align-items:center;gap:12px;padding:1rem 1.25rem;cursor:pointer;border-bottom:1px solid var(--border);transition:var(--tr)" onmouseover="this.style.background='var(--cream-2)'" onmouseout="this.style.background=''">
+              <div style="width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#8b5cf6);display:flex;align-items:center;justify-content:center;font-family:var(--f-serif);font-size:18px;color:white;flex-shrink:0">T</div>
+              <div style="flex:1;min-width:0"><div style="font-weight:700;font-size:13.5px;color:var(--text)">Tunde Adeleke Dev</div><div style="font-size:12.5px;color:var(--text-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Homepage is 80% done, check the preview link...</div></div>
+              <div style="font-size:11px;color:var(--text-4);flex-shrink:0">1 hr</div>
+            </div>
+            <div onclick="selectConvo(2,'Kunle Adeyemi')" style="display:flex;align-items:center;gap:12px;padding:1rem 1.25rem;cursor:pointer;transition:var(--tr)" onmouseover="this.style.background='var(--cream-2)'" onmouseout="this.style.background=''">
+              <div style="width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#0d9488,#22c55e);display:flex;align-items:center;justify-content:center;font-family:var(--f-serif);font-size:18px;color:white;flex-shrink:0">K</div>
+              <div style="flex:1;min-width:0"><div style="font-weight:700;font-size:13.5px;color:var(--text)">Kunle Adeyemi</div><div style="font-size:12.5px;color:var(--text-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Package delivered. Thank you!</div></div>
+              <div style="font-size:11px;color:var(--text-4);flex-shrink:0">2 days</div>
+            </div>
+          </div>
+        </div>
+        <div class="card" style="height:100%;overflow:hidden;display:flex;flex-direction:column">
+          <div class="card-head"><h3 id="msgHeader">Amara Okafor</h3><span class="card-link" onclick="navTo('browse')">View Profile</span></div>
+          <div style="flex:1;overflow-y:auto;padding:1.25rem;display:flex;flex-direction:column;gap:10px" id="msgBody">
+            <div style="display:flex;justify-content:flex-start">
+              <div style="background:var(--cream-2);border-radius:0 12px 12px 12px;padding:10px 14px;max-width:75%;border:1px solid var(--border)">
+                <div style="font-size:13.5px;color:var(--text-2)">Hello! I saw your cleaning request. I can come Thursday at 9am. Does that work?</div>
+                <div style="font-size:11px;color:var(--text-4);margin-top:4px">Amara · 10:32 AM</div>
+              </div>
+            </div>
+            <div style="display:flex;justify-content:flex-end">
+              <div style="background:var(--forest);border-radius:12px 0 12px 12px;padding:10px 14px;max-width:75%">
+                <div style="font-size:13.5px;color:white">Yes, Thursday 9am is perfect! My office is at 14 Admiralty Way, Lekki Phase 1.</div>
+                <div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:4px">You · 10:45 AM</div>
+              </div>
+            </div>
+            <div style="display:flex;justify-content:flex-start">
+              <div style="background:var(--cream-2);border-radius:0 12px 12px 12px;padding:10px 14px;max-width:75%;border:1px solid var(--border)">
+                <div style="font-size:13.5px;color:var(--text-2)">Sure, I can come by Thursday morning. See you then! 👍</div>
+                <div style="font-size:11px;color:var(--text-4);margin-top:4px">Amara · 2 min ago</div>
+              </div>
+            </div>
+          </div>
+          <div style="padding:1rem;border-top:1px solid var(--border);display:flex;gap:8px">
+            <input class="fi" id="msgInput" placeholder="Type a message…" style="flex:1;border-radius:50px;padding:10px 16px" onkeydown="if(event.key==='Enter')sendMessage()">
+            <button class="btn btn-forest btn-sm" onclick="sendMessage()">Send →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACCOUNT PAGE -->
+    <div class="page" id="pg-account">
+      <div class="sec-head">
+        <div><h2>My <em>Account</em></h2><p>Manage your profile and preferences</p></div>
+        <div class="sec-actions">
+          <button class="btn btn-rust btn-sm" onclick="doLogout()">🚪 Log Out</button>
+          <button class="btn btn-forest btn-sm" onclick="saveAccount()">Save Changes</button>
+        </div>
+      </div>
+      <div class="g2">
+        <div>
+          <div class="card mb">
+            <div class="card-head"><h3>Profile Information</h3></div>
+            <div style="padding:1.5rem">
+              <div style="display:flex;align-items:center;gap:1.25rem;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
+                <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--forest),var(--gold));display:flex;align-items:center;justify-content:center;font-family:var(--f-serif);font-size:2.2rem;color:white;border:3px solid var(--border);overflow:hidden" id="acctAvatar">A</div>
+                <div>
+                  <label class="btn btn-ghost btn-sm" style="cursor:pointer">📷 Change Photo<input type="file" accept="image/*" style="display:none" onchange="changePhoto(event)"></label>
+                  <p style="font-size:12px;color:var(--text-4);margin-top:6px">JPG, PNG · Max 5MB</p>
+                </div>
+              </div>
+              <div class="frow"><div class="fg"><label class="fl">First Name</label><input class="fi" id="acFname" value="Amara"></div><div class="fg"><label class="fl">Last Name</label><input class="fi" id="acLname" value="Okafor"></div></div>
+              <div class="fg"><label class="fl">Email Address</label><input class="fi" type="email" value="amara@example.com"></div>
+              <div class="fg"><label class="fl">Phone Number</label><input class="fi" type="tel" value="+234 812 345 6789"></div>
+              <div class="frow"><div class="fg"><label class="fl">State</label><select class="fsel"><option>Lagos</option><option>Abuja</option><option>Rivers</option></select></div><div class="fg"><label class="fl">City</label><input class="fi" value="Lekki"></div></div>
+              <div class="fg"><label class="fl">Account Type</label><input class="fi" value="Individual" readonly style="background:var(--cream-2)"></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head"><h3>Security</h3></div>
+            <div style="padding:1.5rem">
+              <div class="fg"><label class="fl">Current Password</label><input class="fi" type="password" placeholder="Enter current password"></div>
+              <div class="fg"><label class="fl">New Password</label><input class="fi" type="password" placeholder="New password"></div>
+              <div class="fg"><label class="fl">Confirm New Password</label><input class="fi" type="password" placeholder="Repeat new password"></div>
+              <button class="btn btn-forest btn-sm" onclick="toast('Password updated successfully!','')">Update Password</button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card mb">
+            <div class="card-head"><h3>Notification Preferences</h3></div>
+            <div style="padding:1.5rem">
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)"><div><div style="font-size:13.5px;font-weight:700;color:var(--text)">Job Status Updates</div><div style="font-size:12px;color:var(--text-3)">Updates on your active jobs</div></div><label style="position:relative;width:42px;height:23px;flex-shrink:0;cursor:pointer"><input type="checkbox" checked style="opacity:0;position:absolute"><div style="position:absolute;inset:0;background:var(--forest);border-radius:50px;transition:var(--tr)"><div style="position:absolute;width:17px;height:17px;border-radius:50%;background:white;top:3px;left:22px;transition:var(--tr);box-shadow:0 1px 4px rgba(0,0,0,.2)"></div></div></label></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)"><div><div style="font-size:13.5px;font-weight:700;color:var(--text)">New Provider Matches</div><div style="font-size:12px;color:var(--text-3)">Providers matching your requests</div></div><label style="position:relative;width:42px;height:23px;flex-shrink:0;cursor:pointer"><input type="checkbox" checked style="opacity:0;position:absolute"><div style="position:absolute;inset:0;background:var(--forest);border-radius:50px;transition:var(--tr)"><div style="position:absolute;width:17px;height:17px;border-radius:50%;background:white;top:3px;left:22px;transition:var(--tr);box-shadow:0 1px 4px rgba(0,0,0,.2)"></div></div></label></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0"><div><div style="font-size:13.5px;font-weight:700;color:var(--text)">Marketing Emails</div><div style="font-size:12px;color:var(--text-3)">Offers and platform updates</div></div><label style="position:relative;width:42px;height:23px;flex-shrink:0;cursor:pointer"><input type="checkbox" style="opacity:0;position:absolute"><div style="position:absolute;inset:0;background:var(--border);border-radius:50px;transition:var(--tr)"><div style="position:absolute;width:17px;height:17px;border-radius:50%;background:white;top:3px;left:3px;transition:var(--tr);box-shadow:0 1px 4px rgba(0,0,0,.2)"></div></div></label></div>
+            </div>
+          </div>
+          <div class="card" style="border:1.5px solid rgba(192,82,42,.2)">
+            <div class="card-head" style="background:rgba(192,82,42,.04)"><h3 style="color:var(--rust)">⚠️ Danger Zone</h3></div>
+            <div style="padding:1.5rem">
+              <p style="font-size:13px;color:var(--text-3);margin-bottom:1.25rem">These actions are permanent. Please proceed carefully.</p>
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:1rem;background:var(--cream-2);border-radius:var(--r);border:1px solid var(--border);flex-wrap:wrap;gap:.75rem"><div><div style="font-size:13.5px;font-weight:700;color:var(--text)">Deactivate Account</div><div style="font-size:12px;color:var(--text-3)">Temporarily hide your profile</div></div><button class="btn btn-ghost btn-sm" onclick="toast('Account deactivation requested','warn')">Deactivate</button></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:1rem;background:var(--cream-2);border-radius:var(--r);border:1px solid var(--border);flex-wrap:wrap;gap:.75rem"><div><div style="font-size:13.5px;font-weight:700;color:var(--text)">Delete Account</div><div style="font-size:12px;color:var(--text-3)">Permanently delete all your data</div></div><button class="btn btn-rust btn-sm" onclick="if(confirm('Delete account permanently? This cannot be undone.'))doLogout()">Delete</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- ═══════════════ MODALS ═══════════════ 
+
+<!-- Review Modal -->
+<div class="modal-overlay" id="reviewModal">
+  <div class="modal-box">
+    <div class="mo-head"><h3>⭐ Leave a Review</h3><div class="mo-close" onclick="closeModal('reviewModal')">✕</div></div>
+    <div class="mo-body">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)">
+        <div style="width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--forest),var(--gold));display:flex;align-items:center;justify-content:center;font-family:var(--f-serif);font-size:20px;color:white;flex-shrink:0" id="revModalAva">A</div>
+        <div><div style="font-size:15px;font-weight:700;color:var(--text)" id="revModalProv">Provider</div><div style="font-size:12.5px;color:var(--text-3)" id="revModalJob">Job</div></div>
+      </div>
+      <div style="margin-bottom:1.25rem">
+        <div style="font-size:13px;font-weight:700;color:var(--text-2);margin-bottom:.5rem">Overall Rating <sup style="color:var(--rust)">*</sup></div>
+        <div class="star-selector" id="starSelector">
+          <span onclick="setRating(1)" onmouseover="hoverRating(1)" onmouseout="unhoverRating()">★</span>
+          <span onclick="setRating(2)" onmouseover="hoverRating(2)" onmouseout="unhoverRating()">★</span>
+          <span onclick="setRating(3)" onmouseover="hoverRating(3)" onmouseout="unhoverRating()">★</span>
+          <span onclick="setRating(4)" onmouseover="hoverRating(4)" onmouseout="unhoverRating()">★</span>
+          <span onclick="setRating(5)" onmouseover="hoverRating(5)" onmouseout="unhoverRating()">★</span>
+        </div>
+        <div style="font-size:12px;color:var(--text-4);font-weight:600;margin-top:4px" id="ratingLabel">Tap a star to rate</div>
+      </div>
+      <div class="fg"><label class="fl">Job Quality</label><select class="fsel"><option>⭐⭐⭐⭐⭐ Excellent</option><option>⭐⭐⭐⭐ Good</option><option>⭐⭐⭐ Average</option><option>⭐⭐ Below Average</option><option>⭐ Poor</option></select></div>
+      <div class="fg"><label class="fl">Punctuality</label><select class="fsel"><option>⭐⭐⭐⭐⭐ Always on time</option><option>⭐⭐⭐⭐ Mostly on time</option><option>⭐⭐⭐ A bit late</option><option>⭐⭐ Very late</option></select></div>
+      <div class="fg"><label class="fl">Communication</label><select class="fsel"><option>⭐⭐⭐⭐⭐ Excellent</option><option>⭐⭐⭐⭐ Good</option><option>⭐⭐⭐ Average</option></select></div>
+      <div class="fg"><label class="fl">Written Review <sup style="color:var(--rust)">*</sup></label><textarea class="fta" id="revText" placeholder="Tell others what you thought of this provider's work, professionalism, and communication…" style="min-height:110px"></textarea></div>
+      <div class="fg"><label class="fcheck"><input type="checkbox" id="revAnon"> Post review anonymously</label></div>
+    </div>
+    <div class="mo-foot">
+      <button class="btn btn-ghost" onclick="closeModal('reviewModal')">Cancel</button>
+      <button class="btn btn-gold" onclick="submitReview()">⭐ Submit Review</button>
+    </div>
+  </div>
+</div>
+
+<!-- Complaint Modal -->
+<div class="modal-overlay" id="complaintModal">
+  <div class="modal-box">
+    <div class="mo-head"><h3>⚠️ File a Complaint</h3><div class="mo-close" onclick="closeModal('complaintModal')">✕</div></div>
+    <div class="mo-body">
+      <div style="background:rgba(201,150,63,.08);border:1px solid rgba(201,150,63,.25);border-radius:var(--r);padding:1rem;margin-bottom:1.25rem"><p style="font-size:13px;color:#b45309;font-weight:600">ℹ️ A complaint will be reviewed by our support team within 24 hours. The provider will be notified and given a chance to respond.</p></div>
+      <div class="fg"><label class="fl">Related Job <sup style="color:var(--rust)">*</sup></label><select class="fsel"><option>Select a job…</option><option>Office Deep Clean — May 26</option><option>E-commerce Store Setup — May 20</option><option>Logistics Run — May 18</option></select></div>
+      <div class="fg"><label class="fl">Complaint Type <sup style="color:var(--rust)">*</sup></label><select class="fsel"><option value="">Select complaint type</option><option>Job not completed as agreed</option><option>Poor quality of work</option><option>Provider was late or no-show</option><option>Unprofessional behaviour</option><option>Damaged property</option><option>Requested additional payment</option><option>Other</option></select></div>
+      <div class="fg"><label class="fl">Describe the Issue <sup style="color:var(--rust)">*</sup></label><textarea class="fta" placeholder="Provide specific details about what went wrong, including dates, times, and any evidence…" style="min-height:120px"></textarea></div>
+      <div class="fg"><label class="fl">Desired Resolution</label><select class="fsel"><option>Full Refund</option><option>Partial Refund</option><option>Provider to redo the job</option><option>Formal apology</option><option>Platform investigation only</option></select></div>
+      <div class="fg"><label class="fl">Supporting Evidence (optional)</label><div style="border:2px dashed var(--border-2);border-radius:var(--r);padding:1.25rem;text-align:center;cursor:pointer;transition:var(--tr)" onclick="document.getElementById('complaintFile').click()" onmouseover="this.style.borderColor='var(--forest)'" onmouseout="this.style.borderColor='var(--border-2)'"><input type="file" id="complaintFile" style="display:none" accept="image/*,.pdf"><div style="font-size:1.5rem;margin-bottom:.4rem">📎</div><div style="font-size:13px;color:var(--text-3);font-weight:600">Click to upload photos, screenshots or documents</div><div style="font-size:12px;color:var(--text-4);margin-top:3px">Max 10MB</div></div></div>
+    </div>
+    <div class="mo-foot">
+      <button class="btn btn-ghost" onclick="closeModal('complaintModal')">Cancel</button>
+      <button class="btn btn-rust" onclick="submitComplaint()">⚠️ Submit Complaint</button>
+    </div>
+  </div>
+</div>
+
+<!-- Report Modal -->
+<div class="modal-overlay" id="reportModal">
+  <div class="modal-box">
+    <div class="mo-head"><h3>🚩 Report a Provider</h3><div class="mo-close" onclick="closeModal('reportModal')">✕</div></div>
+    <div class="mo-body">
+      <div style="background:rgba(192,82,42,.07);border:1px solid rgba(192,82,42,.2);border-radius:var(--r);padding:1rem;margin-bottom:1.25rem"><p style="font-size:13px;color:var(--rust);font-weight:600">⚠️ Reports of serious violations are treated with urgency. Providers can be suspended following investigation.</p></div>
+      <div class="fg"><label class="fl">Provider Name</label><input class="fi" id="reportProvName" placeholder="Provider's full name"></div>
+      <div class="fg"><label class="fl">Reason for Report <sup style="color:var(--rust)">*</sup></label><select class="fsel" id="reportReason"><option value="">Select reason</option><option>Fraud or scam attempt</option><option>Harassment or threats</option><option>Fake profile / identity fraud</option><option>Inappropriate behaviour</option><option>Requesting payment outside the platform</option><option>Physical safety concern</option><option>Other serious violation</option></select></div>
+      <div class="fg"><label class="fl">Detailed Description <sup style="color:var(--rust)">*</sup></label><textarea class="fta" id="reportDesc" placeholder="Describe the incident in detail. Include dates, times, and how the provider violated platform policies…" style="min-height:130px"></textarea></div>
+      <div class="fg"><label class="fl">Your Contact Phone (for follow-up)</label><input class="fi" type="tel" placeholder="+234 812 345 6789"></div>
+      <div class="fg"><label class="fcheck"><input type="checkbox"> I confirm this report is accurate and made in good faith.</label></div>
+    </div>
+    <div class="mo-foot">
+      <button class="btn btn-ghost" onclick="closeModal('reportModal')">Cancel</button>
+      <button class="btn btn-rust" onclick="submitReport()">🚩 Submit Report</button>
+    </div>
+  </div>
+</div>
+
+<!-- Dispute Modal -->
+<div class="modal-overlay" id="disputeModal">
+  <div class="modal-box">
+    <div class="mo-head"><h3>🚨 Raise a Dispute</h3><div class="mo-close" onclick="closeModal('disputeModal')">✕</div></div>
+    <div class="mo-body">
+      <div style="background:rgba(192,82,42,.07);border:1px solid rgba(192,82,42,.2);border-radius:var(--r);padding:1rem;margin-bottom:1.25rem"><p style="font-size:13px;color:var(--rust);font-weight:700">Payment will be held in escrow while our team investigates. The provider will be notified immediately.</p></div>
+      <div class="fg"><label class="fl">Job in Dispute <sup style="color:var(--rust)">*</sup></label><select class="fsel"><option>E-commerce Store Setup — Tunde Dev — ₦45,000</option><option>Product Photography — Grace Obi — ₦15,000</option></select></div>
+      <div class="fg"><label class="fl">Dispute Reason <sup style="color:var(--rust)">*</sup></label><select class="fsel"><option value="">Select reason</option><option>Work not delivered</option><option>Work does not match brief</option><option>Provider stopped responding</option><option>Quality significantly below standard</option><option>Missed deadline by more than 3 days</option><option>Other</option></select></div>
+      <div class="fg"><label class="fl">Full Description <sup style="color:var(--rust)">*</sup></label><textarea class="fta" placeholder="Explain what was agreed, what was delivered, and why you are raising this dispute…" style="min-height:110px"></textarea></div>
+      <div class="fg"><label class="fl">Resolution Sought</label><select class="fsel"><option>Full refund</option><option>Partial refund</option><option>Provider to complete outstanding work</option><option>Platform mediation</option></select></div>
+    </div>
+    <div class="mo-foot">
+      <button class="btn btn-ghost" onclick="closeModal('disputeModal')">Cancel</button>
+      <button class="btn btn-rust" onclick="submitDispute()">🚨 Raise Dispute</button>
+    </div>
+  </div>
+</div>
+
+<!-- Hire Confirm Modal -->
+<div class="modal-overlay" id="hireConfirmModal">
+  <div class="modal-box" style="max-width:420px;text-align:center">
+    <div class="mo-body" style="padding:2.5rem 2rem">
+      <div style="font-size:3.5rem;margin-bottom:1rem">🎉</div>
+      <h3 style="font-family:var(--f-serif);font-size:1.8rem;color:var(--forest);margin-bottom:.5rem">Request Sent!</h3>
+      <p style="font-size:13.5px;color:var(--text-3);margin-bottom:1.5rem">Your hire request has been sent to <strong id="hireConfirmName">the provider</strong>. You'll receive a notification when they accept.</p>
+      <div style="background:var(--cream-2);border-radius:var(--r);padding:1rem;margin-bottom:1.5rem;border:1px solid var(--border);text-align:left">
+        <div style="font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--text-4);margin-bottom:.5rem">What happens next?</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="font-size:13px;color:var(--text-2)">✅ Provider reviews your request (usually within 2 hours)</div>
+          <div style="font-size:13px;color:var(--text-2)">✅ You confirm details and agree on final price</div>
+          <div style="font-size:13px;color:var(--text-2)">✅ Payment processed securely via Paystack/Flutterwave</div>
+          <div style="font-size:13px;color:var(--text-2)">✅ Job begins at your agreed date &amp; time</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost btn-full" onclick="closeModal('hireConfirmModal')">Close</button>
+        <button class="btn btn-forest btn-full" onclick="closeModal('hireConfirmModal');navTo('jobs')">View My Jobs →</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="toast-wrap" id="toastWrap"></div>
+
+
+
+
+
+
+
+<script>
+/* ═══════════ DATA ═══════════ */
+const PROVIDERS = [
+  { id:0, name:'Amara Okafor', cat:'Cleaning Services', loc:'Lekki, Lagos', rating:4.9, ratingCount:38, jobs:47, rate:5000, rateLabel:'/ hour', bio:"Professional cleaning specialist with 7+ years delivering immaculate results for homes, offices, and commercial spaces across Lagos. My team is fully trained, background-checked, and uses eco-friendly products. Client satisfaction is my top priority.", tools:['Deep Cleaning','Office Cleaning','Move-in/out','Carpet Cleaning','Window Cleaning','Eco Products'], initials:'A', banner:'pc-c1', featured:true, reviews:[{name:'Fatima Bello',role:'Office Manager',ava:'F',color:'#c9963f',stars:5,date:'May 26',text:"Absolutely spotless! Professional, punctual, and thorough. Highly recommended!"},{name:'Ngozi Eze',role:'Homeowner',ava:'N',color:'#5a4080',stars:5,date:'May 10',text:"Outstanding service every single time. I've been a repeat client for 6 months."}] },
+
+  { id:1, name:'Kunle Adeyemi', cat:'Logistics & Delivery', loc:'Wuse, Abuja', rating:4.8, ratingCount:41, jobs:39, rate:3500, rateLabel:'/ run', bio:"Reliable, fast, and fully tracked deliveries across Abuja and surrounding areas. I run a fleet of 3 vehicles handling everything from documents to bulk goods. Same-day delivery available. All shipments are insured.", tools:['Same-day Delivery','Cold Chain','Document Courier','Bulk Goods','Insured Shipments','Real-time Tracking'], initials:'K', banner:'pc-c5', featured:false, reviews:[{name:'Chidi Nwosu',role:'SME Owner',ava:'C',color:'#3b82f6',stars:5,date:'May 18',text:"Delivered my items safely and right on time. Great communication!"},{name:'Tunde Adeleke',role:'Retailer',ava:'T',color:'#0d9488',stars:4,date:'Apr 30',text:"Good service overall. Package arrived intact."}] },
+
+  { id:2, name:'Tunde Adeleke Dev', cat:'App Development', loc:'Yaba, Lagos', rating:4.8, ratingCount:27, jobs:33, rate:25000, rateLabel:'/ project', bio:"Full-stack developer specialising in React Native, Node.js, and e-commerce platforms. I've launched 30+ production apps across fintech, logistics, and retail. Transparent pricing, agile delivery, and clean code.", tools:['React Native','Node.js','Shopify','Flutter','REST APIs','Firebase','MongoDB','WooCommerce'], initials:'T', banner:'pc-c2', top:true, reviews:[{name:'Sunrise Boutique',role:'E-commerce Brand',ava:'S',color:'#c9963f',stars:5,date:'May 20',text:"Built my entire Shopify store beautifully and ahead of schedule. Will work with again!"}] },
+
+  { id:3, name:'Grace Obi', cat:'Photography & Video', loc:'GRA, Port Harcourt', rating:4.8, ratingCount:22, jobs:22, rate:15000, rateLabel:'/ session', bio:"Creative photographer and videographer with 5 years specialising in product photography, event coverage, and brand content. Fully edited, high-resolution files delivered within 48 hours.", tools:['Product Photography','Event Coverage','Brand Content','Drone Footage','Video Editing','Adobe Lightroom'], initials:'G', banner:'pc-c3', featured:true, reviews:[{name:"Mama's Kitchen NG",role:'Food Business',ava:'M',color:'#c0522a',stars:5,date:'May 12',text:"Grace captured our food products so beautifully. Sales went up 40%!"}] },
+
+
+  { id:4, name:'Ibrahim Sule', cat:'Security Services', loc:'Kano', rating:4.6, ratingCount:18, jobs:28, rate:8000, rateLabel:'/ day', bio:"Licensed security professional providing event security, residential guard services, and CCTV installation. All personnel are trained and licensed.", tools:['Event Security','Residential Guard','CCTV Installation','Access Control','Emergency Response'], initials:'I', banner:'pc-c6', reviews:[{name:'TechHub NG',role:'Event Organiser',ava:'T',color:'#2a6896',stars:4,date:'Apr 15',text:"Professional team, managed our 300-person event without incident."}] },
+
+  { id:5, name:'Adaeze Mba', cat:'E-commerce Solutions', loc:'Enugu', rating:4.7, ratingCount:15, jobs:19, rate:20000, rateLabel:'/ store', bio:"E-commerce consultant helping businesses launch and scale their online presence. Specialise in Jumia/Konga seller accounts, Shopify setup, and Instagram/Facebook shops.", tools:['Jumia Seller','Konga Store','Shopify','Instagram Shopping','Facebook Ads','Inventory Management'], initials:'A', banner:'pc-c4', reviews:[{name:'Nkiru Fashions',role:'Fashion Brand',ava:'N',color:'#8b5cf6',stars:5,date:'Apr 25',text:"Set up my entire online store in one week. My sales doubled in month one!"}] }
+];
+
+
+let selectedRating = 0;
+let seekerRegistry = JSON.parse(localStorage.getItem('nkiri_seekers') || '[]');
+let hiredProviders = JSON.parse(localStorage.getItem('nkiri_hiredProviders') || '[]');
+
+/* ═══════════ SCREEN ROUTER ═══════════ */
+function goScreen(id) {
+  document.querySelectorAll('.screen, .flex-screen').forEach(s => {
+    s.classList.remove('show');
+    s.style.display = 'none';
+  });
+  const el = document.getElementById(id);
+  if (!el) return;
+  const isFlex = el.classList.contains('flex-screen');
+  el.style.display = isFlex ? 'flex' : 'block';
+  el.classList.add('show');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ═══════════ NAV ═══════════ */
+function navTo(key) {
+  const map = { home:'pg-home', browse:'pg-browse', jobs:'pg-jobs', messages:'pg-messages', account:'pg-account', provdetail:'pg-provdetail', myproviders:'pg-myproviders' };
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById(map[key]);
+  if (target) target.classList.add('active');
+  document.querySelectorAll('.nl').forEach(l => l.classList.remove('active'));
+  const nl = document.querySelector(`.nl[onclick*="'${key}'"]`);
+  if (nl) nl.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (key === 'browse') renderProviders(PROVIDERS);
+  if (key === 'myproviders') renderMyProviders();
+}
+
+/* ═══════════ PW ═══════════ */
+function togglePw(id, el) {
+  const inp = document.getElementById(id);
+  if (!inp) return;
+  const show = inp.type === 'password';
+  inp.type = show ? 'text' : 'password';
+  el.textContent = show ? '🙈' : '👁';
+}
+function checkPwStrength(val) {
+  const fill = document.getElementById('pwFill');
+  const hint = document.getElementById('pwHint');
+  if (!fill) return;
+  let score = 0;
+  if (val.length >= 8) score++;
+  if (/[A-Z]/.test(val)) score++;
+  if (/[0-9]/.test(val)) score++;
+  if (/[^A-Za-z0-9]/.test(val)) score++;
+  const lvls = [{w:'20%',c:'#c0522a',t:'Very weak'},{w:'40%',c:'#c9963f',t:'Weak'},{w:'65%',c:'#2a6896',t:'Fair'},{w:'85%',c:'#2d6045',t:'Strong'},{w:'100%',c:'#1a3d2b',t:'Very strong 🔒'}];
+  const l = val.length ? lvls[score] : lvls[0];
+  fill.style.width = val.length ? l.w : '0'; fill.style.background = l.c;
+  hint.textContent = val.length ? l.t : 'Enter a password'; hint.style.color = val.length ? l.c : 'var(--text-4)';
+}
+
+/* ═══════════ SOCIAL ═══════════ */
+function socialAuth(p) { toast(`${p} sign-in — connect OAuth credentials in production.`, 'warn'); }
+
+/* ═══════════ LOGIN ═══════════ */
+function doLogin() {
+  hideAlert('loginAlert');
+  const email = document.getElementById('lEmail');
+  const pw    = document.getElementById('lPw');
+  let ok = true;
+  const eOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim());
+  document.getElementById('lEmailErr').style.display = eOk ? 'none' : 'block'; email.classList.toggle('err', !eOk); if (!eOk) ok = false;
+  const pOk = pw.value.length >= 1;
+  document.getElementById('lPwErr').style.display = pOk ? 'none' : 'block'; pw.classList.toggle('err', !pOk); if (!pOk) ok = false;
+  if (!ok) return;
+  const btn = document.getElementById('loginBtn');
+  btn.disabled = true; btn.innerHTML = '<span><div class="spin"></div> Signing in…</span>';
+  setTimeout(() => {
+    seekerRegistry = JSON.parse(localStorage.getItem('nkiri_seekers') || '[]');
+    const seeker = seekerRegistry.find(s => s.email.toLowerCase() === email.value.trim().toLowerCase() && s.pw === pw.value);
+    btn.disabled = false; btn.innerHTML = '<span>Sign In →</span>';
+    if (!seeker) { showAlert('loginAlert', 'Invalid email or password. Check your credentials or register.'); return; }
+    const ok2 = document.getElementById('loginOkAlert');
+    ok2.style.display = 'flex';
+    setTimeout(() => { loadDashboard(seeker); }, 1400);
+  }, 1600);
+}
+
+/* ═══════════ REGISTER ═══════════ */
+function regGoStep(to) {
+  hideAlert('regAlert');
+  if (to === 2) {
+    const rules = [
+      ['rFname','rFnameErr',v=>v.length>0],['rLname','rLnameErr',v=>v.length>0],
+      ['rEmail','rEmailErr',v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)],
+      ['rPhone','rPhoneErr',v=>v.replace(/\s/g,'').length>=7],
+      ['rPw','rPwErr',v=>v.length>=8],
+      ['rPw2','rPw2Err',v=>v===document.getElementById('rPw').value]
+    ];
+    let ok = true;
+    rules.forEach(([id,errId,test]) => { const el=document.getElementById(id),err=document.getElementById(errId),pass=test(el.value.trim()); el.classList.toggle('err',!pass); err.style.display=pass?'none':'block'; if(!pass) ok=false; });
+    if (!ok) { showAlert('regAlert'); return; }
+  }
+  if (to === 3) {
+    const stOk=document.getElementById('rState').value, cOk=document.getElementById('rCity').value.trim(), aOk=document.getElementById('rAccType').value;
+    document.getElementById('rStateErr').style.display=stOk?'none':'block';
+    document.getElementById('rCityErr').style.display=cOk?'none':'block';
+    document.getElementById('rAccTypeErr').style.display=aOk?'none':'block';
+    if (!stOk||!cOk||!aOk) { showAlert('regAlert'); return; }
+    document.getElementById('sumName').textContent=`${document.getElementById('rFname').value} ${document.getElementById('rLname').value}`;
+    document.getElementById('sumEmail').textContent=document.getElementById('rEmail').value;
+    document.getElementById('sumLocation').textContent=`${document.getElementById('rCity').value}, ${document.getElementById('rState').value}`;
+    document.getElementById('sumAccType').textContent=document.getElementById('rAccType').value;
+  }
+  for (let i=1;i<=3;i++) {
+    const n=document.getElementById('rsn'+i),b=document.getElementById('rsb'+i);
+    if(i<to){n.className='sn done';n.textContent='✓';}
+    if(i===to){n.className='sn curr';n.textContent=i;}
+    if(i>to){n.className='sn todo';n.textContent=i;}
+    if(b) b.className='sb'+(i<to?' done':'');
+  }
+  ['rS1','rS2','rS3'].forEach(id=>{ const p=document.getElementById(id); if(p) p.classList.remove('active'); });
+  const panel = document.getElementById('rS'+to); if(panel) panel.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function doRegister() {
+  if (!document.getElementById('rAgree').checked) { toast('Please agree to the Terms of Service','err'); return; }
+  const btn = document.getElementById('regFinalBtn');
+  btn.disabled = true; btn.innerHTML = '<span><div class="spin"></div> Creating account…</span>';
+  const email=document.getElementById('rEmail').value.trim(), pw=document.getElementById('rPw').value;
+  const fname=document.getElementById('rFname').value.trim(), lname=document.getElementById('rLname').value.trim();
+  seekerRegistry = JSON.parse(localStorage.getItem('nkiri_seekers') || '[]');
+  if (!seekerRegistry.find(s=>s.email.toLowerCase()===email.toLowerCase())) {
+    seekerRegistry.push({email,pw,name:fname+' '+lname,fname,lname});
+    localStorage.setItem('nkiri_seekers',JSON.stringify(seekerRegistry));
+  }
+  setTimeout(() => {
+    btn.disabled=false; btn.innerHTML='<span>🎉 Create My Account</span>';
+    ['rS1','rS2','rS3'].forEach(id=>{ const p=document.getElementById(id); if(p) p.classList.remove('active'); });
+    document.getElementById('rTrack').style.display='none';
+    document.getElementById('regSuccessEmail').textContent=email;
+    document.getElementById('regSuccess').classList.add('show');
+  }, 2000);
+}
+function showForgot() { document.getElementById('loginFormInner').style.display='none'; document.getElementById('forgotInner').style.display='block'; }
+function hideForgot() { document.getElementById('loginFormInner').style.display='block'; document.getElementById('forgotInner').style.display='none'; }
+function sendReset() {
+  const e=document.getElementById('forgotEmail').value.trim();
+  if(!e){ toast('Enter your email address','err'); return; }
+  document.getElementById('resetOkAlert').classList.add('show');
+}
+
+/* ═══════════ LOAD DASHBOARD ═══════════ */
+function loadDashboard(seeker) {
+  const fname = seeker ? seeker.fname || seeker.name.split(' ')[0] : 'there';
+  const initials = fname[0].toUpperCase();
+  const h = new Date().getHours();
+  const greet = h<12?'Good morning':h<17?'Good afternoon':'Good evening';
+  document.getElementById('wbGreeting').innerHTML = `${greet}, <em>${fname}</em> 👋`;
+  ['navAvatar','acctAvatar'].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=initials; });
+  const fn=document.getElementById('acFname'),ln=document.getElementById('acLname');
+  if(fn) fn.value=seeker.fname||fname; if(ln) ln.value=seeker.lname||'';
+  goScreen('scApp'); navTo('home'); renderProviders(PROVIDERS);
+}
+function doLogout() {
+  goScreen('scLogin');
+  document.getElementById('loginFormInner').style.display='block';
+  const oa=document.getElementById('loginOkAlert'); if(oa) oa.style.display='none';
+  document.getElementById('lEmail').value=''; document.getElementById('lPw').value='';
+}
+
+/* ═══════════ PROVIDERS ═══════════ */
+function renderProviders(list) {
+  const grid = document.getElementById('providersGrid');
+  if (!grid) return;
+  if (!list.length) { grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-3)"><div style="font-size:2.5rem;margin-bottom:.75rem">🔍</div><div style="font-size:16px;font-weight:700;color:var(--text)">No providers found</div><div style="font-size:13px;margin-top:.4rem">Try adjusting your filters</div></div>'; return; }
+  document.getElementById('resultCount').textContent = `Showing ${list.length} of 312 providers`;
+  grid.innerHTML = list.map(p => `
+    <div class="prov-card" onclick="openProviderDetail(${p.id})">
+      <div class="prov-card-banner ${p.banner}">
+        <div class="prov-avatar-wrap">
+          <div class="prov-avatar">${p.initials}<div class="prov-verified" title="Verified">✓</div></div>
+        </div>
+        ${p.featured?'<span class="badge-featured">⭐ Featured</span>':''}
+        ${p.top?'<span class="badge-top">🏆 Top Rated</span>':''}
+      </div>
+      <div class="prov-card-body">
+        <div class="prov-cat">${p.cat}</div>
+        <div class="prov-name">${p.name}</div>
+        <div class="prov-bio">${p.bio}</div>
+        <div class="prov-tools">${p.tools.slice(0,4).map(t=>`<span class="tool-tag">${t}</span>`).join('')}${p.tools.length>4?`<span class="tool-tag">+${p.tools.length-4}</span>`:''}</div>
+        <div class="prov-meta">
+          <span class="prov-meta-item"><span class="prov-rating">★ ${p.rating}</span> (${p.ratingCount})</span>
+          <span class="prov-meta-item">💼 ${p.jobs} jobs</span>
+          <span class="prov-meta-item">📍 ${p.loc}</span>
+        </div>
+        <div class="prov-card-foot">
+          <div class="prov-rate">₦${p.rate.toLocaleString()} <span>${p.rateLabel}</span></div>
+          <button class="btn btn-forest btn-sm" onclick="event.stopPropagation();openProviderDetail(${p.id})">View →</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+function filterProviders() {
+  const q=(document.getElementById('searchInput')?.value||'').toLowerCase();
+  const cat=document.getElementById('catFilter')?.value||'';
+  const loc=document.getElementById('locFilter')?.value||'';
+  const sort=document.getElementById('sortFilter')?.value||'rating';
+  let list=PROVIDERS.filter(p=>{
+    const mQ=!q||p.name.toLowerCase().includes(q)||p.bio.toLowerCase().includes(q)||p.tools.some(t=>t.toLowerCase().includes(q))||p.cat.toLowerCase().includes(q);
+    const mC=!cat||p.cat.toLowerCase().includes(cat.toLowerCase());
+    const mL=!loc||p.loc.includes(loc);
+    return mQ&&mC&&mL;
+  });
+  if(sort==='rating') list=[...list].sort((a,b)=>b.rating-a.rating);
+  else if(sort==='jobs') list=[...list].sort((a,b)=>b.jobs-a.jobs);
+  else if(sort==='price') list=[...list].sort((a,b)=>a.rate-b.rate);
+  renderProviders(list);
+}
+function toggleChip(chip, cat) {
+  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+  chip.classList.add('active');
+  const cf=document.getElementById('catFilter'); if(cf) cf.value=cat;
+  filterProviders();
+}
+
+/* ═══════════ PROVIDER DETAIL ═══════════ */
+function openProviderDetail(id) {
+  const p = PROVIDERS.find(x=>x.id===id); if(!p) return;
+  document.getElementById('detailBanner').className=`prov-detail-banner ${p.banner}`;
+  document.getElementById('detailAvatar').textContent=p.initials;
+  document.getElementById('detailName').textContent=p.name;
+  document.getElementById('detailCat').textContent=p.cat;
+  document.getElementById('detailLoc').textContent=p.loc;
+  document.getElementById('detailRating').textContent=p.rating;
+  document.getElementById('detailRatingCount').textContent=p.ratingCount;
+  document.getElementById('detailJobs').textContent=p.jobs;
+  document.getElementById('detailBio').textContent=p.bio;
+  document.getElementById('detailJobsStat').textContent=p.jobs;
+  document.getElementById('detailRatingDisplay').textContent=p.rating+'★';
+  document.getElementById('detailRatingBig').textContent=p.rating;
+  document.getElementById('detailRevCount').textContent=p.ratingCount+' reviews';
+  document.getElementById('hirePrice').innerHTML=`₦${p.rate.toLocaleString()} <span>${p.rateLabel}</span>`;
+  document.getElementById('hireConfirmName').textContent=p.name;
+  const svcOpt=document.getElementById('hireService');
+  if(svcOpt){ svcOpt.innerHTML='<option value="">Select service</option>'+p.tools.map(t=>`<option>${t}</option>`).join(''); }
+  document.getElementById('detailTools').innerHTML=p.tools.map(t=>`<span class="tool-tag">${t}</span>`).join('');
+  document.getElementById('detailReviews').innerHTML=p.reviews.map(r=>`
+    <div class="review-item">
+      <div class="rev-head">
+        <div class="rev-user"><div class="rev-ava" style="background:${r.color}">${r.ava}</div><div><div class="rev-name">${r.name}</div><div class="rev-svc">${r.role}</div></div></div>
+        <div style="text-align:right"><div class="rev-stars">${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</div><div class="rev-date">${r.date}</div></div>
+      </div>
+      <p class="rev-text">"${r.text}"</p>
+      <div class="rev-helpful" onclick="toast('Thanks for the feedback!','')">👍 Helpful</div>
+    </div>`).join('');
+  navTo('provdetail');
+}
+function scrollToHire() {
+  const hc=document.getElementById('hireCard'); if(hc) hc.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function updateHireBreakdown() {
+  const budget=parseFloat(document.getElementById('hireBudget')?.value)||20000;
+  const fee=Math.round(budget*0.025);
+  const total=budget+fee;
+  document.getElementById('hireEst').textContent='₦'+budget.toLocaleString();
+  document.getElementById('hireFee').textContent='₦'+fee.toLocaleString();
+  document.getElementById('hireTotal').textContent='₦'+total.toLocaleString();
+}
+function sendHireRequest() {
+  const svc=document.getElementById('hireService')?.value;
+  const date=document.getElementById('hireDate')?.value;
+  const loc=document.getElementById('hireLocation')?.value.trim();
+  if(!svc){toast('Please select a service type','err');return;}
+  if(!date){toast('Please select a preferred date','err');return;}
+  if(!loc){toast('Please enter a job location','err');return;}
+  // Save hired provider
+  const name=document.getElementById('detailName')?.textContent||'Provider';
+  const cat=document.getElementById('detailCat')?.textContent||'';
+  const rating=document.getElementById('detailRating')?.textContent||'4.9';
+  const loc2=document.getElementById('detailLoc')?.textContent||'';
+  const amount=document.getElementById('hireTotal')?.textContent||'₦20,500';
+  const entry={ name, cat, rating, loc:loc2, date, svc, loc:loc, amount, status:'Pending', hired:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) };
+  hiredProviders.unshift(entry);
+  localStorage.setItem('nkiri_hiredProviders',JSON.stringify(hiredProviders));
+  openModal('hireConfirmModal');
+}
+
+/* ═══════════ MY PROVIDERS (hired) ═══════════ */
+function renderMyProviders() {
+  hiredProviders = JSON.parse(localStorage.getItem('nkiri_hiredProviders') || '[]');
+  // Merge with static demo data
+  const staticHired = [
+    {name:'Amara Okafor',cat:'Cleaning Services',rating:'4.9',loc:'Lekki, Lagos',date:'2025-05-26',svc:'Office Deep Cleaning',amount:'₦20,000',status:'Complete',hired:'26 May 2025'},
+    {name:'Tunde Adeleke Dev',cat:'App Development',rating:'4.8',loc:'Yaba, Lagos',date:'2025-05-20',svc:'E-commerce Store Setup',amount:'₦45,000',status:'Active',hired:'20 May 2025'},
+    {name:'Kunle Adeyemi',cat:'Logistics & Delivery',rating:'4.8',loc:'Abuja',date:'2025-05-18',svc:'Logistics Run',amount:'₦8,500',status:'Complete',hired:'18 May 2025'},
+    {name:'Grace Obi',cat:'Photography & Video',rating:'4.8',loc:'Port Harcourt',date:'2025-05-15',svc:'Product Photography',amount:'₦15,000',status:'Pending',hired:'15 May 2025'}
+  ];
+  const combined = [...hiredProviders, ...staticHired];
+  const container = document.getElementById('mpList');
+  if (!container) return;
+  const totalSpent = combined.filter(h=>h.status==='Complete').reduce((s,h)=>{
+    const n=parseFloat((h.amount||'0').replace(/[₦,]/g,''))||0; return s+n;
+  }, 0);
+  const active = combined.filter(h=>h.status==='Active').length;
+  const complete = combined.filter(h=>h.status==='Complete').length;
+  const stats = document.getElementById('mpStats');
+  if (stats) {
+    stats.innerHTML = `
+      <div class="stat-card" style="margin:0"><div class="sc-icon">👥</div><div class="sc-label">Providers Hired</div><div class="sc-value">${combined.length}</div><div class="sc-delta">All time</div></div>
+      <div class="stat-card" style="margin:0;border-left-color:var(--gold)"><div class="sc-icon">✅</div><div class="sc-label">Jobs Complete</div><div class="sc-value">${complete}</div><div class="sc-delta" style="color:var(--gold)">Successfully delivered</div></div>
+      <div class="stat-card" style="margin:0;border-left-color:var(--sky)"><div class="sc-icon">⏳</div><div class="sc-label">Active Jobs</div><div class="sc-value">${active}</div><div class="sc-delta" style="color:var(--sky)">Currently in progress</div></div>
+      <div class="stat-card" style="margin:0;border-left-color:var(--rust)"><div class="sc-icon">💳</div><div class="sc-label">Total Spent</div><div class="sc-value">₦${totalSpent.toLocaleString()}</div><div class="sc-delta" style="color:var(--rust)">Across all jobs</div></div>`;
+  }
+  container.innerHTML = combined.map((h, i) => {
+    const statusClass = h.status==='Complete'?'pill-done':h.status==='Active'?'pill-active':'pill-pending';
+    const initials = (h.name||'P')[0].toUpperCase();
+    const colors = ['linear-gradient(135deg,#c9963f,#c0522a)','linear-gradient(135deg,#3b82f6,#8b5cf6)','linear-gradient(135deg,#0d9488,#22c55e)','linear-gradient(135deg,#ec4899,#8b5cf6)','linear-gradient(135deg,#2a6896,#5a4080)','linear-gradient(135deg,#d97706,#ef4444)'];
+    const bg = colors[i % colors.length];
+    return `
+    <div style="background:white;border-radius:var(--r-lg);border:1px solid var(--border);box-shadow:var(--sh);padding:1.5rem;display:flex;gap:1.25rem;align-items:flex-start;margin-bottom:1rem;transition:var(--tr)" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='var(--sh-md)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--sh)'">
+      <div style="width:52px;height:52px;border-radius:50%;background:${bg};display:flex;align-items:center;justify-content:center;font-family:var(--f-serif);font-size:20px;color:white;flex-shrink:0;border:2px solid var(--border)">${initials}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-family:var(--f-serif);font-size:1.1rem;font-weight:600;color:var(--text);margin-bottom:2px">${h.name}</div>
+        <div style="font-size:12px;font-weight:700;color:var(--forest);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.5rem">${h.cat}</div>
+        <div style="font-size:13px;color:var(--text-3);margin-bottom:.6rem"><strong>Job:</strong> ${h.svc||'Service'}</div>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap">
+          <span style="font-size:12.5px;color:var(--text-4);font-weight:600">📅 ${h.hired}</span>
+          <span style="font-size:12.5px;color:var(--text-4);font-weight:600">📍 ${h.loc||'Nigeria'}</span>
+          <span style="font-size:12.5px;color:var(--gold);font-weight:700">★ ${h.rating||'4.9'}</span>
+        </div>
+      </div>
+      <div style="text-align:right;flex-shrink:0">
+        <div style="font-family:var(--f-serif);font-size:1.25rem;font-weight:600;color:var(--forest);margin-bottom:6px">${h.amount||'₦0'}</div>
+        <span class="pill ${statusClass}" style="margin-bottom:8px;display:inline-flex">${h.status==='Complete'?'✓ Complete':h.status==='Active'?'⏳ Active':'⏱ Pending'}</span>
+        <div style="display:flex;flex-direction:column;gap:6px;margin-top:8px">
+          ${h.status==='Complete'?`<button class="btn btn-gold btn-sm" onclick="openReviewModal('${h.name}','${h.svc||'Service'}')">⭐ Review</button>`:''}
+          ${h.status==='Active'?`<button class="btn btn-ghost btn-sm" onclick="openModal('disputeModal')">🚨 Dispute</button>`:''}
+          <button class="btn btn-ghost btn-sm" onclick="openModal('reportModal')">🚩 Report</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ═══════════ JOBS ═══════════ */
+function filterJobs(status) {
+  document.querySelectorAll('#jobsList .job-card').forEach(c => {
+    c.style.display = (status==='all'||c.dataset.status===status) ? '' : 'none';
+  });
+}
+
+/* ═══════════ MESSAGES ═══════════ */
+function selectConvo(i, name) {
+  document.getElementById('msgHeader').textContent = name;
+}
+function sendMessage() {
+  const inp = document.getElementById('msgInput'); if (!inp.value.trim()) return;
+  const body = document.getElementById('msgBody');
+  const now = new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  body.innerHTML += `<div style="display:flex;justify-content:flex-end"><div style="background:var(--forest);border-radius:12px 0 12px 12px;padding:10px 14px;max-width:75%"><div style="font-size:13.5px;color:white">${escHtml(inp.value.trim())}</div><div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:4px">You · ${now}</div></div></div>`;
+  inp.value = ''; body.scrollTop = body.scrollHeight;
+  setTimeout(() => {
+    body.innerHTML += `<div style="display:flex;justify-content:flex-start"><div style="background:var(--cream-2);border-radius:0 12px 12px 12px;padding:10px 14px;max-width:75%;border:1px solid var(--border)"><div style="font-size:13.5px;color:var(--text-2)">Got it! I'll take care of that 👍</div><div style="font-size:11px;color:var(--text-4);margin-top:4px">Provider · just now</div></div></div>`;
+    body.scrollTop = body.scrollHeight;
+  }, 1000);
+}
+
+/* ═══════════ REVIEW ═══════════ */
+function openReviewModal(prov, job) {
+  document.getElementById('revModalProv').textContent = prov;
+  document.getElementById('revModalJob').textContent = job;
+  document.getElementById('revModalAva').textContent = prov[0];
+  selectedRating = 0;
+  document.querySelectorAll('#starSelector span').forEach(s => s.classList.remove('lit'));
+  document.getElementById('ratingLabel').textContent = 'Tap a star to rate';
+  document.getElementById('revText').value = '';
+  openModal('reviewModal');
+}
+function setRating(n) {
+  selectedRating = n;
+  document.querySelectorAll('#starSelector span').forEach((s,i) => s.classList.toggle('lit', i < n));
+  const labels = ['','Poor','Below average','Good','Very good','Excellent!'];
+  document.getElementById('ratingLabel').textContent = `${n}/5 — ${labels[n]}`;
+}
+function hoverRating(n) { document.querySelectorAll('#starSelector span').forEach((s,i) => s.classList.toggle('lit', i < n)); }
+function unhoverRating() { document.querySelectorAll('#starSelector span').forEach((s,i) => s.classList.toggle('lit', i < selectedRating)); }
+function submitReview() {
+  if (!selectedRating) { toast('Please select a star rating','err'); return; }
+  if (document.getElementById('revText').value.trim().length < 10) { toast('Please write at least 10 characters','err'); return; }
+  closeModal('reviewModal');
+  toast('⭐ Review submitted! Thank you for your feedback.','');
+}
+
+/* ═══════════ ACTIONS ═══════════ */
+function submitComplaint() { closeModal('complaintModal'); toast('⚠️ Complaint filed. Our team will review within 24 hours.','warn'); }
+function submitReport() {
+  const reason=document.getElementById('reportReason').value;
+  const desc=document.getElementById('reportDesc').value.trim();
+  if(!reason){toast('Select a reason for your report','err');return;}
+  if(desc.length<20){toast('Please provide more detail (min 20 characters)','err');return;}
+  closeModal('reportModal'); toast('🚩 Report submitted. Our safety team will investigate.','warn');
+}
+function submitDispute() { closeModal('disputeModal'); toast('🚨 Dispute raised. Payment held. Our team has been notified.','err'); }
+function saveAccount() { toast('Profile updated successfully!',''); }
+function changePhoto(e) {
+  const file=e.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    ['acctAvatar','navAvatar'].forEach(id=>{ const el=document.getElementById(id); if(el){el.style.backgroundImage=`url(${ev.target.result})`;el.style.backgroundSize='cover';el.textContent='';} });
+    toast('Profile photo updated!','');
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ═══════════ MODALS ═══════════ */
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.modal-overlay').forEach(m => m.addEventListener('click', e => { if(e.target===m) m.classList.remove('open'); }));
+});
+
+/* ═══════════ TOAST ═══════════ */
+function toast(msg, type) {
+  const wrap = document.getElementById('toastWrap');
+  const el = document.createElement('div');
+  el.className = 'toast'+(type==='warn'?' warn':type==='err'?' err':'');
+  el.innerHTML = `<span>${type==='warn'?'⚠️':type==='err'?'❌':'ℹ️'}</span> ${msg}`;
+  wrap.appendChild(el);
+  setTimeout(() => { el.style.transition='all .3s ease';el.style.opacity='0';el.style.transform='translateX(20px)';setTimeout(()=>el.remove(),300); }, 3200);
+}
+
+/* ═══════════ ALERTS ═══════════ */
+function showAlert(id, msg) {
+  const el=document.getElementById(id); if(!el) return;
+  if(msg){ const s=el.querySelector('span'); if(s) s.textContent=msg; }
+  el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),5000);
+}
+function hideAlert(id) { const el=document.getElementById(id); if(el) el.classList.remove('show'); }
+function escHtml(str) { const d=document.createElement('div');d.textContent=str;return d.innerHTML; }
+
+/* ═══════════ INIT ═══════════ */
+document.addEventListener('DOMContentLoaded', () => {
+  seekerRegistry = JSON.parse(localStorage.getItem('nkiri_seekers') || '[]');
+  if (!seekerRegistry.find(s => s.email === 'seeker@nkirisynergies.com')) {
+    seekerRegistry.push({ email:'seeker@nkirisynergies.com', pw:'Seeker@123', name:'Amara Okafor', fname:'Amara', lname:'Okafor' });
+    localStorage.setItem('nkiri_seekers', JSON.stringify(seekerRegistry));
+  }
+  renderProviders(PROVIDERS);
+});
+</script>
+</body>
+</html>
+
+</body>
+</html>

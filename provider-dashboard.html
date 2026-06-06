@@ -12,14 +12,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 
 <style>
+/* ─────────────────────────────────────────────
+   TOKENS
+───────────────────────────────────────────── */
 :root {
   --ink:      #0b1120;
   --ink-2:    #1e293b;
-  --teal:     #0d9488;
+ --teal: #0B1A4C
+  /* --teal:     #0d9488; */
   --teal-l:   #14b8a6;
   --teal-glow:rgba(13,148,136,.35);
-  --green:    #16a34a;
-  --amber:    #d97706;
+  --light-blue: #BCD2E5;
+  /* --green:    #16a34a; */
+  --amber:    #1D6BBB;
   --red:      #dc2626;
   --slate:    #475569;
   --mist:     #f1f5f9;
@@ -59,12 +64,82 @@ input, select, textarea { font-family: var(--f-body); }
 .screen { display: none; min-height: 100vh; }
 .screen.active { display: flex; }
 
+/* top bar */
+ /* .top-bar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px 20px; */
+    /* position:relative; */
+/* }  */
+
+/* .logo{
+    width:200px;
+    height:auto;
+    cursor:pointer;
+}
+
+.tb-links{
+    display:flex;
+    align-items:center;
+    /* gap:20px; */
+/* } */ 
+
+/* .menu-toggle{
+    display:none;
+    font-size:28px;
+    cursor:pointer;
+    font-weight:bold;
+}  */
+
+/* Mobile Styles */
+@media (max-width:768px){
+
+    .logo{
+        width:140px;
+    }
+
+    .menu-toggle{
+        display:block;
+    }
+
+    .tb-links{
+        display:none;
+        position:absolute;
+        top:100%;
+        left:0;
+        width:100%;
+        background:#fff;
+        flex-direction:column;
+        align-items:flex-start;
+        padding:20px;
+        gap:15px;
+        box-shadow:0 5px 20px rgba(0,0,0,.1);
+        z-index:999;
+    }
+
+    .tb-links.show{
+        display:flex;
+    }
+
+    .tb-link{
+        width:100%;
+        padding:10px 0;
+    }
+
+    .tb-cta{
+        width:100%;
+        margin-top:10px;
+    }
+}
+
 /* ─────────────────────────────────────────────
    SHARED LAYOUT — SPLIT PANEL
 ───────────────────────────────────────────── */
 .split {
-  display: grid;
-  grid-template-columns: 1fr 1.05fr;
+  display: flex;
+  flex-direction:column;
+  /* grid-template-columns: 1fr 1.05fr; */
   min-height: 100vh;
   width: 100%;
 }
@@ -402,7 +477,7 @@ input, select, textarea { font-family: var(--f-body); }
   border: 1px solid; display: none;
 }
 .f-alert.err { background: rgba(220,38,38,.06); color: #b91c1c; border-color: rgba(220,38,38,.2); }
-.f-alert.ok  { background: rgba(13,148,136,.07); color: #0f766e; border-color: rgba(13,148,136,.25); }
+.f-alert.ok  { background: rgba(13,148,136,.07); color: #1D6BBB; border-color: rgba(13,148,136,.25); }
 .f-alert.show { display: flex; }
 
 /* ─────────────────────────────────────────────
@@ -494,9 +569,9 @@ input, select, textarea { font-family: var(--f-body); }
   background: linear-gradient(135deg, var(--teal), var(--green));
   font-family: var(--f-display); font-size: 13px; font-weight: 600; color: white;
   transition: var(--tr); cursor: pointer;
-  box-shadow: 0 2px 12px rgba(13,148,136,.35);
+  box-shadow: 0 2px 12px rgba(10, 57, 189, 0.35);
 }
-.tb-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 18px rgba(13,148,136,.5); }
+.tb-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 18px rgba(8, 4, 238, 0.5); }
 
 /* ─────────────────────────────────────────────
    LOADING SPINNER (form submit)
@@ -683,7 +758,8 @@ input, select, textarea { font-family: var(--f-body); }
 #screen-dashboard {
   display: none;
   min-height: 100vh;
-  background: #f0f4f8;
+    background: navy;
+  /* background: white; */
   flex-direction: column;
 }
 #screen-dashboard.active { display: block; }
@@ -754,7 +830,8 @@ input, select, textarea { font-family: var(--f-body); }
 /* ── SIDEBAR ── */
 .dash-sidebar {
   width: 256px;
-  background: var(--ink);
+   background: rgb(1, 9, 27);
+  /* background: var(--ink); */
   position: fixed; left: 0; top: 64px; bottom: 0;
   display: flex; flex-direction: column;
   overflow-y: auto; overflow-x: hidden;
@@ -828,7 +905,7 @@ input, select, textarea { font-family: var(--f-body); }
   transition: opacity .2s ease;
 }
 .dash-sidebar.collapsed .sb-chip { opacity: 0; }
-.chip-green { background: rgba(22,163,74,.2); color: #86efac; }
+.chip-green { background: rgba(22,163,74,.2); color: #0428f3; }
 .chip-amber { background: rgba(217,119,6,.2); color: #fcd34d; }
 .chip-red   { background: rgba(220,38,38,.2); color: #fca5a5; }
 
@@ -917,7 +994,7 @@ input, select, textarea { font-family: var(--f-body); }
 
 /* ── WALLET CARD ── */
 .wallet-card {
-  background: linear-gradient(135deg, #0b1120 0%, #0d3a2e 50%, #0b2a1a 100%);
+  background: linear-gradient(135deg, #01081b 0%, #0c035e 50%, #266bc5 100%);
   border-radius: var(--r-xl); padding: 2rem;
   position: relative; overflow: hidden; margin-bottom: 1.75rem;
   box-shadow: 0 12px 40px rgba(11,17,32,.25);
@@ -1107,65 +1184,7 @@ input, select, textarea { font-family: var(--f-body); }
 .modal-footer { padding: 1rem 1.5rem; border-top: 1px solid var(--border); display: flex; gap: 10px; justify-content: flex-end; }
 
 /* ── RESPONSIVE ── */
-
-@media (max-width: 900px) {
-
-  /* Sidebar starts hidden */
-  .dash-sidebar {
-    position: fixed;
-    left: 0;
-    top: 64px;
-    bottom: 0;
-    width: 256px !important;
-
-    transform: translateX(-105%);
-    transition: transform .3s ease;
-    z-index: 1000;
-
-    box-shadow: 10px 0 30px rgba(0,0,0,.25);
-  }
-
-.sidebar-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.4);
-  opacity: 0;
-  pointer-events: none;
-  transition: .3s ease;
-  z-index: 999;
-}
-
-.sidebar-overlay.show {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-  /* When opened */
-  .dash-sidebar.mobile-open {
-    transform: translateX(0);
-  }
-
-  /* Prevent content shift issues */
-  .dash-main {
-    margin-left: 0 !important;
-  }
-
-  /* Optional overlay effect (recommended) */
-  .dash-sidebar::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.35);
-    opacity: 0;
-    pointer-events: none;
-    transition: .3s;
-  }
-
-  .dash-sidebar.mobile-open::before {
-    opacity: 1;
-  }
-}
- @media (max-width: 1100px) {
+@media (max-width: 1100px) {
   .dash-stats { grid-template-columns: repeat(2,1fr); }
   .dash-grid-2 { grid-template-columns: 1fr; }
 }
@@ -1182,7 +1201,7 @@ input, select, textarea { font-family: var(--f-body); }
   .wallet-row { flex-direction: column; }
   .wallet-actions { width: 100%; }
   .wallet-btn { flex: 1; justify-content: center; }
-} 
+}
 </style>
 
 </head>
@@ -1206,9 +1225,9 @@ input, select, textarea { font-family: var(--f-body); }
 
         <div class="dash-topbar-right">
 
-            <div class="dash-notif-btn">
-                <i class="fas fa-bell"></i>
-                <span class="notif-dot"></span>
+            <div class="dash-notif-btn" style="color: red;">
+                <i class="fas fa-bell" style="color: white; background-color: red;"></i>
+                <span class="notif-dot" style="color: white;"></span>
             </div>
 
             <div class="dash-topbar-profile">
@@ -1251,7 +1270,7 @@ input, select, textarea { font-family: var(--f-body); }
                         John Doe
                     </div>
 
-                    <div class="sb-badge">
+                    <div class="sb-badge" style="color: white;">
                         Verified Provider
                     </div>
                 </div>
@@ -1351,7 +1370,7 @@ input, select, textarea { font-family: var(--f-body); }
 
                 <div>
                     <h1>Dashboard Overview</h1>
-                    <p>
+                    <p style="color: white;">
                         Welcome back. Here's a summary of your account.
                     </p>
                 </div>
